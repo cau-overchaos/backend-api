@@ -2,6 +2,7 @@ package algogather.api.domain.user;
 
 import algogather.api.domain.BaseTimeEntity;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
