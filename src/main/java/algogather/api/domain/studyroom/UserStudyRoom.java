@@ -19,8 +19,8 @@ public class UserStudyRoom extends BaseTimeEntity {
     private Long id;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "user_study_room_manager")
-    private String manager;
+    @Column(name = "user_study_room_role")
+    private StudyRoomRole role;
 
     @JoinColumn(name = "user_id")
     @ManyToOne(fetch = FetchType.LAZY)
