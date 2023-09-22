@@ -16,4 +16,12 @@ public class ProblemTag extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @JoinColumn(name = "problem_id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Problem problem;
+
+    @JoinColumn(name = "tag_id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Tag tag;
 }

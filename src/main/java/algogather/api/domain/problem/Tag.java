@@ -16,4 +16,11 @@ public class Tag extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(name = "tag_name")
+    private String name;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "tag_provider")
+    private ProblemProvider provider;
 }

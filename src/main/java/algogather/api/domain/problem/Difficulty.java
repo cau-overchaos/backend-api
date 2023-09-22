@@ -16,4 +16,7 @@ public class Difficulty extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(name = "difficulty_name")
+    private String name;
 }
