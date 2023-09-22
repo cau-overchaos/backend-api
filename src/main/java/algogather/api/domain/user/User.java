@@ -37,4 +37,15 @@ public class User extends BaseTimeEntity {
     @Enumerated(EnumType.STRING)
     @Column(name = "user_role")
     private UserRole role;
+
+    @Builder
+    public User(Long id, String userId, String password, String name, String profile_image, String judge_account, UserRole role) {
+        this.id = id;
+        this.userId = userId;
+        this.password = password;
+        this.name = name;
+        this.profile_image = profile_image;
+        this.judge_account = judge_account;
+        this.role = role;
+    }
 }

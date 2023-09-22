@@ -1,0 +1,34 @@
+package algogather.api.service.auth;
+import algogather.api.config.dto.auth.SignUpForm;
+import algogather.api.domain.user.User;
+import algogather.api.domain.user.UserRepository;
+import algogather.api.domain.user.UserRole;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
+
+@Service
+@RequiredArgsConstructor
+public class AuthService {
+    private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
+    public void registerUser(SignUpForm signUpForm) {
+        if(userRepository.existsByUserId(signUpForm.getUserId())) {
+            //TODO 공통 응답  만들기
+            throw new RuntimeException("아이디가 이미 존재합니다.");
+        }
+
+        User createdUser = User.builder()
+                .userId(signUpForm.getUserId())
+                .password(passwordEncoder.encode(signUpForm.getPassword()))
+                .name(signUpForm.getName())
+                .profile_image(signUpForm.getProfile_image())
+                .judge_account(signUpForm.getJudge_account())
+                .role(UserRole.USER)
+                .build();
+
+        userRepository.save(createdUser);
+    }
+}
