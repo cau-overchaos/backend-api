@@ -1,6 +1,7 @@
 package algogather.api.domain.programminglanguage;
 
 import algogather.api.domain.BaseTimeEntity;
+import algogather.api.domain.problem.Problem;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,4 +17,7 @@ public class ProgrammingLanguage extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(name = "programming_language_name")
+    private String name;
 }
