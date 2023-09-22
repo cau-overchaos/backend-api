@@ -1,6 +1,7 @@
 package algogather.api.domain.feedback;
 
 import algogather.api.domain.BaseTimeEntity;
+import algogather.api.domain.user.User;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,4 +17,12 @@ public class Feedback extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @JoinColumn(name = "feedback_baord_id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    private FeedbackBoard feedbackBoard;
+
+    @JoinColumn(name = "user_id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    private User user;
 }
