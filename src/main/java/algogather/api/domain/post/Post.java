@@ -1,6 +1,7 @@
 package algogather.api.domain.post;
 
 import algogather.api.domain.BaseTimeEntity;
+import algogather.api.domain.user.User;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -17,7 +18,17 @@ public class Post extends BaseTimeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "post_title")
     private String title;
 
+    @Column(name = "post_content")
     private String content;
+
+    @JoinColumn(name = "user_id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    private User user;
+
+    @JoinColumn(name = "board_id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Board board;
 }
