@@ -8,10 +8,4 @@ import lombok.NoArgsConstructor;
 public class LoginForm {
     private String userId;
     private String password;
-
-    @Builder
-    public LoginForm(String userId, String password) {
-        this.userId = userId;
-        this.password = password;
-    }
 }

@@ -17,7 +17,7 @@ public class SecurityConfig {
                 .httpBasic().disable()
                 .formLogin().disable()
                 .csrf().disable()
-                .authorizeHttpRequests().antMatchers("/h2-console/**", "/signup/**").permitAll()
+                .authorizeHttpRequests().antMatchers("/h2-console/**", "/signup/**", "/login/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .headers().frameOptions().disable();

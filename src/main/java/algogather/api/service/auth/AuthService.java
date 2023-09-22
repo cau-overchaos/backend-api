@@ -1,4 +1,5 @@
 package algogather.api.service.auth;
+import algogather.api.config.dto.auth.LoginForm;
 import algogather.api.config.dto.auth.SignUpForm;
 import algogather.api.domain.user.User;
 import algogather.api.domain.user.UserRepository;
@@ -6,14 +7,20 @@ import algogather.api.domain.user.UserRole;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
 public class AuthService {
+    private final AuthenticationManager authenticationManager;
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+
     public void registerUser(SignUpForm signUpForm) {
         if(userRepository.existsByUserId(signUpForm.getUserId())) {
             //TODO 공통 응답  만들기
@@ -30,5 +37,10 @@ public class AuthService {
                 .build();
 
         userRepository.save(createdUser);
+    }
+
+    public void login(LoginForm loginForm) {
+        Authentication authenticate = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginForm.getUserId(), loginForm.getPassword()));
+        SecurityContextHolder.getContext().setAuthentication(authenticate);
     }
 }
