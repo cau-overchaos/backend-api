@@ -17,5 +17,16 @@ public class StudyRoom extends BaseTimeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "study_room_title")
+    private String title;
 
+    @Column(name = "study_room_description")
+    private String description;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "study_room_visibility")
+    private StudyRoomVisibility studyRoomVisibility;
+
+    @Column(name = "study_roome_max_user_cnt")
+    private Integer maxUserCnt;
 }
