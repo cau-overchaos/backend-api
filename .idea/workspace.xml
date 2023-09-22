@@ -27,6 +27,14 @@
       </state>
     </system>
   </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="package-info" />
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
@@ -38,7 +46,6 @@
 }]]></component>
   <component name="ProjectId" id="2VjTzMNJbn3dDNCJtDtkwPRJ6tz" />
   <component name="ProjectViewState">
-    <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent"><![CDATA[{
@@ -76,7 +83,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1695348752071</updated>
-      <workItem from="1695348753164" duration="788000" />
+      <workItem from="1695348753164" duration="3497000" />
     </task>
     <servers />
   </component>
