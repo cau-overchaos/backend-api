@@ -5,6 +5,7 @@ import lombok.Getter;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 @Getter
 public class SignUpForm {
@@ -12,6 +13,7 @@ public class SignUpForm {
     private String userId;
 
     @NotEmpty(message = "비밀번호를 입력해주세요.")
+    @Size(min = 8, message = "비밀번호는 8자 이상이어야 합니다.")
     private String password;
 
     @NotEmpty(message = "이름을 입력해주세요.")
