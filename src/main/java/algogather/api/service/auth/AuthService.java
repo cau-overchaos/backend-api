@@ -29,8 +29,8 @@ public class AuthService {
                 .userId(signUpForm.getUserId())
                 .password(passwordEncoder.encode(signUpForm.getPassword()))
                 .name(signUpForm.getName())
-                .profile_image(signUpForm.getProfile_image())
-                .judge_account(signUpForm.getJudge_account())
+                .profile_image(signUpForm.getProfileImage())
+                .judge_account(signUpForm.getJudgeAccount())
                 .role(UserRole.USER)
                 .build();
 

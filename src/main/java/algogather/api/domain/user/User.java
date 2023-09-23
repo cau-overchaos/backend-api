@@ -1,19 +1,18 @@
 package algogather.api.domain.user;
 
 import algogather.api.domain.BaseTimeEntity;
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 
 @Getter
+@Setter
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @EntityListeners(AuditingEntityListener.class)
 @Table(name = "users")
+@ToString
 public class User extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,17 +24,17 @@ public class User extends BaseTimeEntity {
     @Column(name = "user_password", nullable = false)
     private String password;
 
-    @Column(name = "user_name")
+    @Column(name = "user_name", nullable = false)
     private String name;
 
     @Column(name = "user_profile_image")
-    private String profile_image;
+    private String profileImage;
 
     @Column(name = "user_judge_account", nullable = false)
-    private String judge_account;
+    private String judgeAccount;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "user_role")
+    @Column(name = "user_role", nullable = false)
     private UserRole role;
 
     @Builder
@@ -44,8 +43,8 @@ public class User extends BaseTimeEntity {
         this.userId = userId;
         this.password = password;
         this.name = name;
-        this.profile_image = profile_image;
-        this.judge_account = judge_account;
+        this.profileImage = profile_image;
+        this.judgeAccount = judge_account;
         this.role = role;
     }
 }
