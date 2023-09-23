@@ -17,19 +17,19 @@ import java.rmi.server.ExportException;
 public class AuthExceptionHandler {
     @ExceptionHandler(UserNotFoundException.class)
     public ResponseEntity<ApiResponse<?>> handleUserNotFoundException(UserNotFoundException exception) {
-        log.error("UserNotFoundException = {}", exception.getMessage());
+        log.debug("UserNotFoundException = {}", exception.getMessage());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ApiResponse.createError(exception.getMessage()));
     }
 
     @ExceptionHandler(BadCredentialsException.class)
     public ResponseEntity<ApiResponse<?>> handleBadCredentialsException(BadCredentialsException exception) {
-        log.error("BadCredentialsException = {}", exception.getMessage());
+        log.debug("BadCredentialsException = {}", exception.getMessage());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ApiResponse.createError(exception.getMessage()));
     }
 
     @ExceptionHandler(AlreadyExistingUserException.class)
     public ResponseEntity<ApiResponse<?>> handleAlreadyExistingUserException(AlreadyExistingUserException exception) {
-        log.error("AlreadyExistingUserException = {}", exception.getMessage());
+        log.debug("AlreadyExistingUserException = {}", exception.getMessage());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ApiResponse.createError(exception.getMessage()));
     }
 }

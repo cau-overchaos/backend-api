@@ -19,14 +19,14 @@ public class CommonExceptionHandler {
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ApiResponse<?>> handleValidationException(HttpServletRequest request, BindingResult bindingResult) {
-        log.error("request.getRequestURI() = {}, ", request.getRequestURI());
-        log.error("bindingResult = {}", bindingResult);
+        log.debug("request.getRequestURI() = {}, ", request.getRequestURI());
+        log.debug("bindingResult = {}", bindingResult);
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ApiResponse.createFail(bindingResult));
     }
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ApiResponse<?>> handleException(Exception exception) {
-        log.error("Exception = {}", exception.getMessage());
+        log.debug("Exception = {}", exception.getMessage());
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(ApiResponse.createError(exception.getMessage()));
     }
 }

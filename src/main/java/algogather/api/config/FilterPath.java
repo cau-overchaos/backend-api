@@ -1,7 +1,8 @@
 package algogather.api.config;
 
 public class FilterPath {
-    public static final String[] whiteList = {"/h2-console/**", "/signup/**", "/login", "/logout", "/swagger-ui/**", "/docs/**"};
+    public static final String[] deploymentWhiteList = {"/signup/**", "/login", "/logout"};
+    public static final String[] developmentWhiteList = {"/h2-console/**"};
 
     /**
      * localhost:8080/swagger-ui.html로 API 명세서 접근 가능

@@ -21,8 +21,8 @@ public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint 
 
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException, ServletException {
-        log.error("request.getRequestURI = {}", request.getRequestURI());
-        log.error("AccessDeniedException = {}", authException.getMessage());
+        log.debug("request.getRequestURI = {}", request.getRequestURI());
+        log.debug("AccessDeniedException = {}", authException.getMessage());
 
         response.setStatus(HttpStatus.FORBIDDEN.value());
         response.setContentType("application/json; charset=utf-8");

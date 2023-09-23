@@ -19,8 +19,6 @@ public class StudyRoomService {
      */
     public void checkStudyRoomMember(UserAdapter userAdapter) {
         User user = userAdapter.getUser();
-        log.info("{}", user);
         userStudyRoomRepository.findById(user.getId()).orElseThrow(() -> new NotStudyRoomMemberException());
-        log.info("!!!!!");
     }
 }

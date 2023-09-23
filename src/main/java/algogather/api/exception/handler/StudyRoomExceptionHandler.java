@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 public class StudyRoomExceptionHandler {
     @ExceptionHandler(NotStudyRoomMemberException.class)
     public ResponseEntity<ApiResponse<?>> handleException(NotStudyRoomMemberException exception) {
-        log.error("NotStudyRoomMemberException = {}", exception.getMessage());
+        log.debug("NotStudyRoomMemberException = {}", exception.getMessage());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ApiResponse.createError(exception.getMessage()));
     }
 }

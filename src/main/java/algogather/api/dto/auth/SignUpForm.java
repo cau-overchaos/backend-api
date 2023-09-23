@@ -13,7 +13,7 @@ import javax.validation.constraints.Size;
 public class SignUpForm {
     @Schema(description = "아이디")
     @NotEmpty(message = "아이디를 입력해주세요.")
-    @Pattern(regexp = "^[a-z0-9]*$", message = "알파벳 소문자(a~z), 숫자(0~9)만 입력 가능합니다.")
+    @Pattern(regexp = "^[a-z0-9._]*$", message = "알파벳 소문자(a~z), 숫자(0~9), 기호 '_' 만 입력 가능합니다.")
     @Size(min = 4, message = "아이디는 4자 이상이어야 합니다.")
     private String userId;
 
