@@ -25,7 +25,7 @@ public class CommonExceptionHandler {
     }
 
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<ApiResponse<?>> handleException(ExportException exception) {
+    public ResponseEntity<ApiResponse<?>> handleException(Exception exception) {
         log.error("Exception = {}", exception.getMessage());
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(ApiResponse.createError(exception.getMessage()));
     }

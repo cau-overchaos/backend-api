@@ -1,4 +1,4 @@
-package algogather.api.config.security;
+package algogather.api.config.security.custom;
 
 import algogather.api.domain.user.User;
 import algogather.api.domain.user.UserAdapter;
