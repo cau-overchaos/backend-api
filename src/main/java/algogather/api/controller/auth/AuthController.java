@@ -1,6 +1,5 @@
 package algogather.api.controller.auth;
 
-import algogather.api.domain.user.UserRepository;
 import algogather.api.dto.api.ApiResponse;
 import algogather.api.dto.auth.LoginForm;
 import algogather.api.dto.auth.SignUpForm;
@@ -19,7 +18,6 @@ import org.springframework.web.bind.annotation.RestController;
 public class AuthController {
 
     private final AuthService authService;
-    private final UserRepository userRepository;
     @PostMapping("/login")
     public ResponseEntity<ApiResponse<?>> login(@RequestBody LoginForm loginForm) {
         authService.login(loginForm);
@@ -29,7 +27,7 @@ public class AuthController {
     @PostMapping("/signup")
     public ResponseEntity<ApiResponse<?>> registerUser(@RequestBody SignUpForm signUpForm) {
 
-       authService.registerUser(signUpForm);
+        authService.registerUser(signUpForm);
 
         return ResponseEntity.status(HttpStatus.OK).body(ApiResponse.sucess("성공적으로 회원가입 되었습니다!"));
     }
