@@ -1,5 +1,6 @@
 package algogather.api.dto.api;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,8 +19,11 @@ public class ApiResponse<T> {
     private static final String FAIL_STATUS = "fail";
     private static final String ERROR_STATUS = "error";
 
+    @Schema(description = "상태")
     private String status;
+    @Schema(description = "데이터")
     private T data;
+    @Schema(description = "메시지")
     private String message;
 
     public static <T> ApiResponse<T> createSuccess(T data) {

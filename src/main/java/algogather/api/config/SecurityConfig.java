@@ -11,6 +11,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
+import static algogather.api.config.FilterPath.swaggerPath;
 import static algogather.api.config.FilterPath.whiteList;
 
 @Configuration
@@ -24,7 +25,9 @@ public class SecurityConfig {
                 .httpBasic().disable()
                 .formLogin().disable()
                 .csrf().disable()
-                .authorizeHttpRequests().antMatchers(whiteList).permitAll()
+                .authorizeHttpRequests()
+                .antMatchers(whiteList).permitAll()
+                .antMatchers(swaggerPath).permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .headers().frameOptions().disable();

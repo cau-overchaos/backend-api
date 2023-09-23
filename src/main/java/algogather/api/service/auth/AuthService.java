@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
+//@Api(value = "인증", tags = "인증관련 API")
 public class AuthService {
     private final AuthenticationManager authenticationManager;
     private final UserRepository userRepository;
