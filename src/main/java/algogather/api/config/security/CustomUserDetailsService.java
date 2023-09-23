@@ -3,6 +3,7 @@ package algogather.api.config.security;
 import algogather.api.domain.user.User;
 import algogather.api.domain.user.UserAdapter;
 import algogather.api.domain.user.UserRepository;
+import algogather.api.exception.UserNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -18,7 +19,7 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String userId) throws UsernameNotFoundException {
-        User user = userRepository.findByUserId(userId).orElseThrow(() -> new RuntimeException("해당 아이디의 유저를 찾을 수 없습니다."));
+        User user = userRepository.findByUserId(userId).orElseThrow(() -> new UserNotFoundException());
 
         return new UserAdapter(user); // @AuthenticationPrincipal 시에 UserAdapter를 반환해준다.
     }
