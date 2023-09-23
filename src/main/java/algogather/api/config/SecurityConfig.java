@@ -32,6 +32,13 @@ public class SecurityConfig {
         http.exceptionHandling()
                 .authenticationEntryPoint(customAuthenticationEntryPoint);
 
+
+        http
+                .logout() // 로그아웃 기능 작동함
+                .logoutUrl("/logout") // 로그아웃 처리 URL, default: /logout, 원칙적으로 post 방식만 지원
+                .logoutSuccessUrl("/") // 로그아웃 성공 후 이동페이지
+                .deleteCookies("JSESSIONID"); // 로그아웃 후 쿠키 삭제
+
         return http.build();
     }
 
