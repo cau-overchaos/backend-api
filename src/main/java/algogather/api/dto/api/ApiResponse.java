@@ -48,7 +48,7 @@ public class ApiResponse<T> {
                 errors.put(error.getObjectName(), error.getDefaultMessage());
             }
         }
-        return new ApiResponse<>(FAIL_STATUS, errors, null);
+        return new ApiResponse<>(FAIL_STATUS, errors, "검증에 실패하였습니다. data 필드를 참고해주세요");
     }
 
     /**

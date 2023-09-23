@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
+
 @RestController
 @RequiredArgsConstructor
 @Slf4j
@@ -25,7 +27,7 @@ public class AuthController {
     }
 
     @PostMapping("/signup")
-    public ResponseEntity<ApiResponse<?>> registerUser(@RequestBody SignUpForm signUpForm) {
+    public ResponseEntity<ApiResponse<?>> registerUser(@Valid @RequestBody SignUpForm signUpForm) {
 
         authService.registerUser(signUpForm);
 
