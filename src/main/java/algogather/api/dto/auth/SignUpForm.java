@@ -5,11 +5,14 @@ import lombok.Getter;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 @Getter
 public class SignUpForm {
     @NotEmpty(message = "아이디를 입력해주세요.")
+    @Pattern(regexp = "^[a-z0-9]*$", message = "알파벳 소문자(a~z), 숫자(0~9)만 입력 가능합니다.")
+    @Size(min = 4, message = "아이디는 4자 이상이어야 합니다.")
     private String userId;
 
     @NotEmpty(message = "비밀번호를 입력해주세요.")
