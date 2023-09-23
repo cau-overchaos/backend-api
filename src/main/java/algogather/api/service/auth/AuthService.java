@@ -1,6 +1,6 @@
 package algogather.api.service.auth;
-import algogather.api.config.dto.auth.LoginForm;
-import algogather.api.config.dto.auth.SignUpForm;
+import algogather.api.dto.auth.LoginForm;
+import algogather.api.dto.auth.SignUpForm;
 import algogather.api.domain.user.User;
 import algogather.api.domain.user.UserRepository;
 import algogather.api.domain.user.UserRole;

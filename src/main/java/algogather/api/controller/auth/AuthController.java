@@ -1,8 +1,8 @@
 package algogather.api.controller.auth;
 
-import algogather.api.config.dto.auth.LoginForm;
-import algogather.api.config.dto.auth.SignUpForm;
 import algogather.api.domain.user.UserRepository;
+import algogather.api.dto.auth.LoginForm;
+import algogather.api.dto.auth.SignUpForm;
 import algogather.api.service.auth.AuthService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

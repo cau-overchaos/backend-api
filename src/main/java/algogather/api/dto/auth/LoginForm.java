@@ -1,4 +1,4 @@
-package algogather.api.config.dto.auth;
+package algogather.api.dto.auth;
 
 import lombok.Getter;
 
