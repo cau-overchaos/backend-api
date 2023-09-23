@@ -5,8 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="0866e7c9-1716-4c82-9b1a-208a9e997fd1" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/algogather/api/dto/api/ApiResponse.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/algogather/api/controller/auth/AuthController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/algogather/api/controller/auth/AuthController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/algogather/api/dto/api/ApiResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/algogather/api/dto/api/ApiResponse.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -104,7 +104,7 @@
       <updated>1695348752071</updated>
       <workItem from="1695348753164" duration="3497000" />
       <workItem from="1695439429718" duration="130000" />
-      <workItem from="1695439583720" duration="309000" />
+      <workItem from="1695439583720" duration="508000" />
     </task>
     <servers />
   </component>

@@ -30,6 +30,10 @@ public class ApiResponse<T> {
         return new ApiResponse<>(SUCCESS_STATUS, null, null);
     }
 
+    public static ApiResponse<?> sucess(String message) {
+        return new ApiResponse<>(SUCCESS_STATUS, null, message);
+    }
+
     /**
      * Validator에 의해 유효하지 않은 데이터로 인해 API 호출이 거부될 때 반환
      */
