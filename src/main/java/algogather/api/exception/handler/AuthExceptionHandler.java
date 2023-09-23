@@ -1,6 +1,7 @@
 package algogather.api.exception.handler;
 
 import algogather.api.dto.api.ApiResponse;
+import algogather.api.exception.AlreadyExistingUserException;
 import algogather.api.exception.UserNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -26,9 +27,9 @@ public class AuthExceptionHandler {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ApiResponse.createError(exception.getMessage()));
     }
 
-    @ExceptionHandler(Exception.class)
-    public ResponseEntity<ApiResponse<?>> handleException(ExportException exception) {
-        log.error("Exception = {}", exception.getMessage());
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(ApiResponse.createError(exception.getMessage()));
+    @ExceptionHandler(AlreadyExistingUserException.class)
+    public ResponseEntity<ApiResponse<?>> handleAlreadyExistingUserException(AlreadyExistingUserException exception) {
+        log.error("AlreadyExistingUserException = {}", exception.getMessage());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ApiResponse.createError(exception.getMessage()));
     }
 }

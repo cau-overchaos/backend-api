@@ -4,6 +4,7 @@ import algogather.api.dto.auth.SignUpForm;
 import algogather.api.domain.user.User;
 import algogather.api.domain.user.UserRepository;
 import algogather.api.domain.user.UserRole;
+import algogather.api.exception.AlreadyExistingUserException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -21,8 +22,7 @@ public class AuthService {
 
     public void registerUser(SignUpForm signUpForm) {
         if(userRepository.existsByUserId(signUpForm.getUserId())) {
-            //TODO 공통 응답  만들기
-            throw new RuntimeException("아이디가 이미 존재합니다.");
+            throw new AlreadyExistingUserException();
         }
 
         User createdUser = User.builder()
