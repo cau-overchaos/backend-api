@@ -14,3 +14,11 @@ spring:
       ddl-auto: create
     generate-ddl: true
     show-sql: true
+
+server:
+  servlet:
+    session:
+      timeout: 1800 # 1800초 (30분)
+      cookie:
+        max-age: 1800 # 1800초 (30분)
+        http-only: true
