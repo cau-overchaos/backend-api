@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta http-equiv="x-ua-compatible" content="IE=edge"/>
+<title>Test results - AuthControllerTest</title>
+<link href="../css/base-style.css" rel="stylesheet" type="text/css"/>
+<link href="../css/style.css" rel="stylesheet" type="text/css"/>
+<script src="../js/report.js" type="text/javascript"></script>
+</head>
+<body>
+<div id="content">
+<h1>AuthControllerTest</h1>
+<div class="breadcrumbs">
+<a href="../index.html">all</a> &gt; 
+<a href="../packages/algogather.api.controller.auth.html">algogather.api.controller.auth</a> &gt; AuthControllerTest</div>
+<div id="summary">
+<table>
+<tr>
+<td>
+<div class="summaryGroup">
+<table>
+<tr>
+<td>
+<div class="infoBox" id="tests">
+<div class="counter">4</div>
+<p>tests</p>
+</div>
+</td>
+<td>
+<div class="infoBox" id="failures">
+<div class="counter">0</div>
+<p>failures</p>
+</div>
+</td>
+<td>
+<div class="infoBox" id="ignored">
+<div class="counter">0</div>
+<p>ignored</p>
+</div>
+</td>
+<td>
+<div class="infoBox" id="duration">
+<div class="counter">0.606s</div>
+<p>duration</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</td>
+<td>
+<div class="infoBox success" id="successRate">
+<div class="percent">100%</div>
+<p>successful</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div id="tabs">
+<ul class="tabLinks">
+<li>
+<a href="#tab0">Tests</a>
+</li>
+<li>
+<a href="#tab1">Standard output</a>
+</li>
+</ul>
+<div id="tab0" class="tab">
+<h2>Tests</h2>
+<table>
+<thead>
+<tr>
+<th>Test</th>
+<th>Method name</th>
+<th>Duration</th>
+<th>Result</th>
+</tr>
+</thead>
+<tr>
+<td class="success">로그인 실패</td>
+<td class="success">login_fail_test()</td>
+<td class="success">0.005s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">로그인 성공</td>
+<td class="success">login_success_test()</td>
+<td class="success">0.234s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">회원가입을 할때 유저가 이미 존재하면 실패한다</td>
+<td class="success">signup_fail_alreadyExistingUser_test()</td>
+<td class="success">0.086s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">회원가입을 하면 유저가 생성된다.</td>
+<td class="success">signup_success_test()</td>
+<td class="success">0.281s</td>
+<td class="success">passed</td>
+</tr>
+</table>
+</div>
+<div id="tab1" class="tab">
+<h2>Standard output</h2>
+<span class="code">
+<pre>21:37:01.529 [Test worker] DEBUG org.springframework.test.context.BootstrapUtils - Instantiating CacheAwareContextLoaderDelegate from class [org.springframework.test.context.cache.DefaultCacheAwareContextLoaderDelegate]
+21:37:01.533 [Test worker] DEBUG org.springframework.test.context.BootstrapUtils - Instantiating BootstrapContext using constructor [public org.springframework.test.context.support.DefaultBootstrapContext(java.lang.Class,org.springframework.test.context.CacheAwareContextLoaderDelegate)]
+21:37:01.546 [Test worker] DEBUG org.springframework.test.context.BootstrapUtils - Instantiating TestContextBootstrapper for test class [algogather.api.controller.auth.AuthControllerTest] from class [org.springframework.boot.test.context.SpringBootTestContextBootstrapper]
+21:37:01.550 [Test worker] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper - Neither @ContextConfiguration nor @ContextHierarchy found for test class [algogather.api.controller.auth.AuthControllerTest], using SpringBootContextLoader
+21:37:01.551 [Test worker] DEBUG org.springframework.test.context.support.AbstractContextLoader - Did not detect default resource location for test class [algogather.api.controller.auth.AuthControllerTest]: class path resource [algogather/api/controller/auth/AuthControllerTest-context.xml] does not exist
+21:37:01.551 [Test worker] DEBUG org.springframework.test.context.support.AbstractContextLoader - Did not detect default resource location for test class [algogather.api.controller.auth.AuthControllerTest]: class path resource [algogather/api/controller/auth/AuthControllerTestContext.groovy] does not exist
+21:37:01.551 [Test worker] INFO org.springframework.test.context.support.AbstractContextLoader - Could not detect default resource locations for test class [algogather.api.controller.auth.AuthControllerTest]: no resource found for suffixes {-context.xml, Context.groovy}.
+21:37:01.551 [Test worker] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [algogather.api.controller.auth.AuthControllerTest]: AuthControllerTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+21:37:01.570 [Test worker] DEBUG org.springframework.test.context.support.ActiveProfilesUtils - Could not find an 'annotation declaring class' for annotation type [org.springframework.test.context.ActiveProfiles] and class [algogather.api.controller.auth.AuthControllerTest]
+21:37:01.601 [Test worker] DEBUG org.springframework.context.annotation.ClassPathScanningCandidateComponentProvider - Identified candidate component class: file [/Users/songhabin/Desktop/ALGOGATHER/repo/backend-api/build/classes/java/main/algogather/api/ApiApplication.class]
+21:37:01.602 [Test worker] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper - Found @SpringBootConfiguration algogather.api.ApiApplication for test class algogather.api.controller.auth.AuthControllerTest
+21:37:01.629 [Test worker] DEBUG org.springframework.boot.test.context.SpringBootTestContextBootstrapper - @TestExecutionListeners is not present for class [algogather.api.controller.auth.AuthControllerTest]: using defaults.
+21:37:01.630 [Test worker] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper - Loaded default TestExecutionListener class names from location [META-INF/spring.factories]: [org.springframework.security.test.context.support.WithSecurityContextTestExecutionListener, org.springframework.security.test.context.support.ReactorContextTestExecutionListener, org.springframework.boot.test.autoconfigure.restdocs.RestDocsTestExecutionListener, org.springframework.boot.test.autoconfigure.web.client.MockRestServiceServerResetTestExecutionListener, org.springframework.boot.test.autoconfigure.web.servlet.MockMvcPrintOnlyOnFailureTestExecutionListener, org.springframework.boot.test.autoconfigure.web.servlet.WebDriverTestExecutionListener, org.springframework.boot.test.autoconfigure.webservices.client.MockWebServiceServerTestExecutionListener, org.springframework.boot.test.mock.mockito.MockitoTestExecutionListener, org.springframework.boot.test.mock.mockito.ResetMocksTestExecutionListener, org.springframework.test.context.web.ServletTestExecutionListener, org.springframework.test.context.support.DirtiesContextBeforeModesTestExecutionListener, org.springframework.test.context.event.ApplicationEventsTestExecutionListener, org.springframework.test.context.support.DependencyInjectionTestExecutionListener, org.springframework.test.context.support.DirtiesContextTestExecutionListener, org.springframework.test.context.transaction.TransactionalTestExecutionListener, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener, org.springframework.test.context.event.EventPublishingTestExecutionListener]
+21:37:01.637 [Test worker] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper - Using TestExecutionListeners: [org.springframework.test.context.web.ServletTestExecutionListener@55795845, org.springframework.test.context.support.DirtiesContextBeforeModesTestExecutionListener@3d08f3f5, org.springframework.test.context.event.ApplicationEventsTestExecutionListener@119f1f2a, org.springframework.boot.test.mock.mockito.MockitoTestExecutionListener@1a1da881, org.springframework.boot.test.autoconfigure.SpringBootDependencyInjectionTestExecutionListener@5b970f7, org.springframework.test.context.support.DirtiesContextTestExecutionListener@7fd4acee, org.springframework.test.context.transaction.TransactionalTestExecutionListener@165b8a71, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener@6175619b, org.springframework.security.test.context.support.WithSecurityContextTestExecutionListener@2f058b8a, org.springframework.test.context.event.EventPublishingTestExecutionListener@756cf158, org.springframework.security.test.context.support.ReactorContextTestExecutionListener@3f2ef586, org.springframework.boot.test.autoconfigure.restdocs.RestDocsTestExecutionListener@751d3241, org.springframework.boot.test.autoconfigure.web.client.MockRestServiceServerResetTestExecutionListener@76c7beb3, org.springframework.boot.test.autoconfigure.web.servlet.MockMvcPrintOnlyOnFailureTestExecutionListener@64337702, org.springframework.boot.test.autoconfigure.web.servlet.WebDriverTestExecutionListener@2cf92cc7, org.springframework.boot.test.autoconfigure.webservices.client.MockWebServiceServerTestExecutionListener@30ea8c23, org.springframework.boot.test.mock.mockito.ResetMocksTestExecutionListener@7b139eab]
+21:37:01.638 [Test worker] DEBUG org.springframework.test.context.support.AbstractDirtiesContextTestExecutionListener - Before test class: context [DefaultTestContext@4a9f80d3 testClass = AuthControllerTest, testInstance = [null], testMethod = [null], testException = [null], mergedContextConfiguration = [WebMergedContextConfiguration@35beb15e testClass = AuthControllerTest, locations = '{}', classes = '{class algogather.api.ApiApplication}', contextInitializerClasses = '[]', activeProfiles = '{}', propertySourceLocations = '{}', propertySourceProperties = '{org.springframework.boot.test.context.SpringBootTestContextBootstrapper=true}', contextCustomizers = set[org.springframework.boot.test.autoconfigure.actuate.metrics.MetricsExportContextCustomizerFactory$DisableMetricExportContextCustomizer@4f0100a7, org.springframework.boot.test.autoconfigure.properties.PropertyMappingContextCustomizer@4b3fa0b3, org.springframework.boot.test.autoconfigure.web.servlet.WebDriverContextCustomizerFactory$Customizer@c94fd30, [ImportsContextCustomizer@41fe9859 key = [org.springframework.boot.test.autoconfigure.web.servlet.MockMvcAutoConfiguration, org.springframework.boot.test.autoconfigure.web.servlet.MockMvcWebClientAutoConfiguration, org.springframework.boot.test.autoconfigure.web.servlet.MockMvcWebDriverAutoConfiguration, org.springframework.boot.autoconfigure.security.oauth2.client.servlet.OAuth2ClientAutoConfiguration, org.springframework.boot.autoconfigure.security.oauth2.resource.servlet.OAuth2ResourceServerAutoConfiguration, org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration, org.springframework.boot.autoconfigure.security.servlet.SecurityFilterAutoConfiguration, org.springframework.boot.autoconfigure.security.servlet.UserDetailsServiceAutoConfiguration, org.springframework.boot.test.autoconfigure.web.servlet.MockMvcSecurityConfiguration, org.springframework.boot.test.autoconfigure.web.reactive.WebTestClientAutoConfiguration]], org.springframework.boot.test.context.filter.ExcludeFilterContextCustomizer@177bea38, org.springframework.boot.test.json.DuplicateJsonObjectContextCustomizerFactory$DuplicateJsonObjectContextCustomizer@8ad6665, org.springframework.boot.test.mock.mockito.MockitoContextCustomizer@0, org.springframework.boot.test.web.client.TestRestTemplateContextCustomizer@535779e4, org.springframework.boot.test.context.SpringBootTestArgs@1, org.springframework.boot.test.context.SpringBootTestWebEnvironment@60015ef5], resourceBasePath = 'src/main/webapp', contextLoader = 'org.springframework.boot.test.context.SpringBootContextLoader', parent = [null]], attributes = map['org.springframework.test.context.web.ServletTestExecutionListener.activateListener' -&gt; true]], class annotated with @DirtiesContext [false] with mode [null].
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+ :: Spring Boot ::               (v2.7.16)
+
+2023-09-24 21:37:01.767  INFO 29062 --- [    Test worker] a.a.controller.auth.AuthControllerTest   : Starting AuthControllerTest using Java 19.0.2 on songhabin-ui-MacBookPro.local with PID 29062 (started by songhabin in /Users/songhabin/Desktop/ALGOGATHER/repo/backend-api)
+2023-09-24 21:37:01.767  INFO 29062 --- [    Test worker] a.a.controller.auth.AuthControllerTest   : The following 1 profile is active: &quot;dev&quot;
+2023-09-24 21:37:02.031  INFO 29062 --- [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2023-09-24 21:37:02.050  INFO 29062 --- [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 16 ms. Found 2 JPA repository interfaces.
+2023-09-24 21:37:02.251  INFO 29062 --- [    Test worker] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2023-09-24 21:37:02.271  INFO 29062 --- [    Test worker] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 5.6.15.Final
+2023-09-24 21:37:02.324  INFO 29062 --- [    Test worker] o.hibernate.annotations.common.Version   : HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+2023-09-24 21:37:02.358  INFO 29062 --- [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2023-09-24 21:37:02.428  INFO 29062 --- [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2023-09-24 21:37:02.440  INFO 29062 --- [    Test worker] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.H2Dialect
+Hibernate: drop table if exists assignment_problem CASCADE 
+Hibernate: drop table if exists assignment_solve CASCADE 
+Hibernate: drop table if exists board CASCADE 
+Hibernate: drop table if exists chat_message CASCADE 
+Hibernate: drop table if exists difficulty CASCADE 
+Hibernate: drop table if exists feedback CASCADE 
+Hibernate: drop table if exists feedback_board CASCADE 
+Hibernate: drop table if exists post CASCADE 
+Hibernate: drop table if exists problem CASCADE 
+Hibernate: drop table if exists problem_tag CASCADE 
+Hibernate: drop table if exists programming_language CASCADE 
+Hibernate: drop table if exists source_code CASCADE 
+Hibernate: drop table if exists study_room CASCADE 
+Hibernate: drop table if exists study_room_programming_language CASCADE 
+Hibernate: drop table if exists tag CASCADE 
+Hibernate: drop table if exists users CASCADE 
+Hibernate: drop table if exists user_study_room CASCADE 
+Hibernate: create table assignment_problem (id bigint generated by default as identity, created_at timestamp not null, updated_at timestamp not null, assigment_problem_due_date timestamp, assignment_problem_start_date timestamp, problem_id bigint, study_room_id bigint, primary key (id))
+Hibernate: create table assignment_solve (id bigint generated by default as identity, created_at timestamp not null, updated_at timestamp not null, study_room_id bigint, user_id bigint, primary key (id))
+Hibernate: create table board (id bigint generated by default as identity, created_at timestamp not null, updated_at timestamp not null, board_name varchar(255), primary key (id))
+Hibernate: create table chat_message (id bigint generated by default as identity, created_at timestamp not null, updated_at timestamp not null, chat_message_content varchar(255), study_room_id bigint, user_id bigint, primary key (id))
+Hibernate: create table difficulty (id bigint generated by default as identity, created_at timestamp not null, updated_at timestamp not null, difficulty_name varchar(255), primary key (id))
+Hibernate: create table feedback (id bigint generated by default as identity, created_at timestamp not null, updated_at timestamp not null, feedback_baord_id bigint, user_id bigint, primary key (id))
+Hibernate: create table feedback_board (id bigint generated by default as identity, created_at timestamp not null, updated_at timestamp not null, feedback_board_line integer not null, source_code_id bigint, primary key (id))
+Hibernate: create table post (id bigint generated by default as identity, created_at timestamp not null, updated_at timestamp not null, post_content varchar(255), post_title varchar(255), board_id bigint, user_id bigint, primary key (id))
+Hibernate: create table problem (id bigint generated by default as identity, created_at timestamp not null, updated_at timestamp not null, problem_id integer, problem_provider varchar(255), difficulty_id bigint, primary key (id))
+Hibernate: create table problem_tag (id bigint generated by default as identity, created_at timestamp not null, updated_at timestamp not null, problem_id bigint, tag_id bigint, primary key (id))
+Hibernate: create table programming_language (id bigint generated by default as identity, created_at timestamp not null, updated_at timestamp not null, programming_language_name varchar(255), primary key (id))
+Hibernate: create table source_code (id bigint generated by default as identity, created_at timestamp not null, updated_at timestamp not null, source_code_text varchar(255), source_code_title varchar(255), problem_id bigint, programming_language_id bigint, primary key (id))
+Hibernate: create table study_room (id bigint generated by default as identity, created_at timestamp not null, updated_at timestamp not null, study_room_description varchar(255), study_roome_max_user_cnt integer, study_room_visibility varchar(255), study_room_title varchar(255), primary key (id))
+Hibernate: create table study_room_programming_language (id bigint generated by default as identity, created_at timestamp not null, updated_at timestamp not null, programming_language_id bigint, study_room_id bigint, primary key (id))
+Hibernate: create table tag (id bigint generated by default as identity, created_at timestamp not null, updated_at timestamp not null, tag_name varchar(255), tag_provider varchar(255), primary key (id))
+Hibernate: create table users (id bigint generated by default as identity, created_at timestamp not null, updated_at timestamp not null, user_judge_account varchar(255) not null, user_name varchar(255) not null, user_password varchar(255) not null, user_profile_image varchar(255), user_role varchar(255) not null, user_id varchar(255) not null, primary key (id))
+Hibernate: create table user_study_room (id bigint generated by default as identity, created_at timestamp not null, updated_at timestamp not null, user_study_room_role varchar(255), study_room_id bigint, user_id bigint, primary key (id))
+Hibernate: alter table users add constraint UK_6efs5vmce86ymf5q7lmvn2uuf unique (user_id)
+Hibernate: alter table assignment_problem add constraint FKrtdrw9f6rvwc960rreo8rop3b foreign key (problem_id) references problem
+Hibernate: alter table assignment_problem add constraint FK1sw4rfsg2ulx3jcd5sk2ifrqg foreign key (study_room_id) references study_room
+Hibernate: alter table assignment_solve add constraint FKletee00p38sa2tb74is8k55t0 foreign key (study_room_id) references study_room
+Hibernate: alter table assignment_solve add constraint FKl7fg5ir61esjt795a7j5e9gjo foreign key (user_id) references users
+Hibernate: alter table chat_message add constraint FKsabtw5ad20w3nj670jfxa0jmn foreign key (study_room_id) references study_room
+Hibernate: alter table chat_message add constraint FKd3oo2bhroe16913kh5pwtgk3h foreign key (user_id) references users
+Hibernate: alter table feedback add constraint FKs945subdnniq6mkjiw63llikl foreign key (feedback_baord_id) references feedback_board
+Hibernate: alter table feedback add constraint FKpwwmhguqianghvi1wohmtsm8l foreign key (user_id) references users
+Hibernate: alter table feedback_board add constraint FKrytpf4eyj8uv05ll15exyx1vk foreign key (source_code_id) references source_code
+Hibernate: alter table post add constraint FK2t7katxxymxif93a9osshl0ns foreign key (board_id) references board
+Hibernate: alter table post add constraint FK7ky67sgi7k0ayf22652f7763r foreign key (user_id) references users
+Hibernate: alter table problem add constraint FK60t8wqqqt5w0pr514e010cw0u foreign key (difficulty_id) references difficulty
+Hibernate: alter table problem_tag add constraint FKsbd0j3yjggts3lk19llwm0lwq foreign key (problem_id) references problem
+Hibernate: alter table problem_tag add constraint FKbme6cvwwregomxxbj1vb7f3nu foreign key (tag_id) references tag
+Hibernate: alter table source_code add constraint FKoui0h2kksu1f5sgehn3a8l9j4 foreign key (problem_id) references problem
+Hibernate: alter table source_code add constraint FKqk510u1hcdeogaix3yrkvqusc foreign key (programming_language_id) references programming_language
+Hibernate: alter table study_room_programming_language add constraint FKp2iag0qalp6ioa2lvie7lor2k foreign key (programming_language_id) references programming_language
+Hibernate: alter table study_room_programming_language add constraint FKge82p3hw8dmiru8548tcnjpty foreign key (study_room_id) references study_room
+Hibernate: alter table user_study_room add constraint FKgs0sho8d20l1svg5b9wtbkyri foreign key (study_room_id) references study_room
+Hibernate: alter table user_study_room add constraint FKnpx3x6gu021r8849j8t85dpsd foreign key (user_id) references users
+2023-09-24 21:37:02.757  INFO 29062 --- [    Test worker] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2023-09-24 21:37:02.761  INFO 29062 --- [    Test worker] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2023-09-24 21:37:02.960  INFO 29062 --- [    Test worker] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@2fbb098f, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@7866a7a6, org.springframework.security.web.context.SecurityContextPersistenceFilter@51a5a8ba, org.springframework.security.web.header.HeaderWriterFilter@ec70725, org.springframework.security.web.authentication.logout.LogoutFilter@20706e70, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@3ed87b6e, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@1e9f48d4, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@2262bc86, org.springframework.security.web.session.SessionManagementFilter@29ce33e9, org.springframework.security.web.access.ExceptionTranslationFilter@7a85454b, org.springframework.security.web.access.intercept.AuthorizationFilter@530d40b4]
+2023-09-24 21:37:03.066  WARN 29062 --- [    Test worker] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2023-09-24 21:37:03.153  INFO 29062 --- [    Test worker] o.s.b.a.h2.H2ConsoleAutoConfiguration    : H2 console available at '/h2-console'. Database available at 'jdbc:h2:mem:test'
+2023-09-24 21:37:03.603  INFO 29062 --- [    Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2023-09-24 21:37:03.603  INFO 29062 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2023-09-24 21:37:03.603  INFO 29062 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 0 ms
+2023-09-24 21:37:03.613  INFO 29062 --- [    Test worker] a.a.controller.auth.AuthControllerTest   : Started AuthControllerTest in 1.962 seconds (JVM running for 2.385)
+2023-09-24 21:37:03.628  INFO 29062 --- [    Test worker] o.s.t.c.transaction.TransactionContext   : Began transaction (1) for test context [DefaultTestContext@4a9f80d3 testClass = AuthControllerTest, testInstance = algogather.api.controller.auth.AuthControllerTest@9742012, testMethod = signup_success_test@AuthControllerTest, testException = [null], mergedContextConfiguration = [WebMergedContextConfiguration@35beb15e testClass = AuthControllerTest, locations = '{}', classes = '{class algogather.api.ApiApplication}', contextInitializerClasses = '[]', activeProfiles = '{}', propertySourceLocations = '{}', propertySourceProperties = '{org.springframework.boot.test.context.SpringBootTestContextBootstrapper=true}', contextCustomizers = set[org.springframework.boot.test.autoconfigure.actuate.metrics.MetricsExportContextCustomizerFactory$DisableMetricExportContextCustomizer@4f0100a7, org.springframework.boot.test.autoconfigure.properties.PropertyMappingContextCustomizer@4b3fa0b3, org.springframework.boot.test.autoconfigure.web.servlet.WebDriverContextCustomizerFactory$Customizer@c94fd30, [ImportsContextCustomizer@41fe9859 key = [org.springframework.boot.test.autoconfigure.web.servlet.MockMvcAutoConfiguration, org.springframework.boot.test.autoconfigure.web.servlet.MockMvcWebClientAutoConfiguration, org.springframework.boot.test.autoconfigure.web.servlet.MockMvcWebDriverAutoConfiguration, org.springframework.boot.autoconfigure.security.oauth2.client.servlet.OAuth2ClientAutoConfiguration, org.springframework.boot.autoconfigure.security.oauth2.resource.servlet.OAuth2ResourceServerAutoConfiguration, org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration, org.springframework.boot.autoconfigure.security.servlet.SecurityFilterAutoConfiguration, org.springframework.boot.autoconfigure.security.servlet.UserDetailsServiceAutoConfiguration, org.springframework.boot.test.autoconfigure.web.servlet.MockMvcSecurityConfiguration, org.springframework.boot.test.autoconfigure.web.reactive.WebTestClientAutoConfiguration]], org.springframework.boot.test.context.filter.ExcludeFilterContextCustomizer@177bea38, org.springframework.boot.test.json.DuplicateJsonObjectContextCustomizerFactory$DuplicateJsonObjectContextCustomizer@8ad6665, org.springframework.boot.test.mock.mockito.MockitoContextCustomizer@0, org.springframework.boot.test.web.client.TestRestTemplateContextCustomizer@535779e4, org.springframework.boot.test.context.SpringBootTestArgs@1, org.springframework.boot.test.context.SpringBootTestWebEnvironment@60015ef5], resourceBasePath = 'src/main/webapp', contextLoader = 'org.springframework.boot.test.context.SpringBootContextLoader', parent = [null]], attributes = map['org.springframework.test.context.web.ServletTestExecutionListener.activateListener' -&gt; true, 'org.springframework.test.context.web.ServletTestExecutionListener.populatedRequestContextHolder' -&gt; true, 'org.springframework.test.context.web.ServletTestExecutionListener.resetRequestContextHolder' -&gt; true, 'org.springframework.test.context.event.ApplicationEventsTestExecutionListener.recordApplicationEvents' -&gt; false]]; transaction manager [org.springframework.orm.jpa.JpaTransactionManager@240c626d]; rollback [true]
+Hibernate: select user0_.id as col_0_0_ from users user0_ where user0_.user_id=? limit ?
+Hibernate: insert into users (id, created_at, updated_at, user_judge_account, user_name, user_password, user_profile_image, user_role, user_id) values (default, ?, ?, ?, ?, ?, ?, ?, ?)
+
+MockHttpServletRequest:
+      HTTP Method = POST
+      Request URI = /signup
+       Parameters = {}
+          Headers = [Content-Type:&quot;application/json;charset=UTF-8&quot;, Accept:&quot;application/json&quot;, Content-Length:&quot;129&quot;]
+             Body = {&quot;userId&quot;:&quot;testid&quot;,&quot;password&quot;:&quot;testPassword&quot;,&quot;name&quot;:&quot;testUser&quot;,&quot;profileImage&quot;:&quot;testProfileImg&quot;,&quot;judgeAccount&quot;:&quot;testJudgeAccount&quot;}
+    Session Attrs = {}
+
+Handler:
+             Type = algogather.api.controller.auth.AuthController
+           Method = algogather.api.controller.auth.AuthController#registerUser(SignUpForm)
+
+Async:
+    Async started = false
+     Async result = null
+
+Resolved Exception:
+             Type = null
+
+ModelAndView:
+        View name = null
+             View = null
+            Model = null
+
+FlashMap:
+       Attributes = null
+
+MockHttpServletResponse:
+           Status = 200
+    Error message = null
+          Headers = [Content-Type:&quot;application/json&quot;, X-Content-Type-Options:&quot;nosniff&quot;, X-XSS-Protection:&quot;1; mode=block&quot;, Cache-Control:&quot;no-cache, no-store, max-age=0, must-revalidate&quot;, Pragma:&quot;no-cache&quot;, Expires:&quot;0&quot;]
+     Content type = application/json
+             Body = {&quot;status&quot;:&quot;success&quot;,&quot;data&quot;:null,&quot;message&quot;:&quot;성공적으로 회원가입 되었습니다!&quot;}
+    Forwarded URL = null
+   Redirected URL = null
+          Cookies = []
+2023-09-24 21:37:03.905  INFO 29062 --- [    Test worker] o.s.t.c.transaction.TransactionContext   : Rolled back transaction for test: [DefaultTestContext@4a9f80d3 testClass = AuthControllerTest, testInstance = algogather.api.controller.auth.AuthControllerTest@9742012, testMethod = signup_success_test@AuthControllerTest, testException = [null], mergedContextConfiguration = [WebMergedContextConfiguration@35beb15e testClass = AuthControllerTest, locations = '{}', classes = '{class algogather.api.ApiApplication}', contextInitializerClasses = '[]', activeProfiles = '{}', propertySourceLocations = '{}', propertySourceProperties = '{org.springframework.boot.test.context.SpringBootTestContextBootstrapper=true}', contextCustomizers = set[org.springframework.boot.test.autoconfigure.actuate.metrics.MetricsExportContextCustomizerFactory$DisableMetricExportContextCustomizer@4f0100a7, org.springframework.boot.test.autoconfigure.properties.PropertyMappingContextCustomizer@4b3fa0b3, org.springframework.boot.test.autoconfigure.web.servlet.WebDriverContextCustomizerFactory$Customizer@c94fd30, [ImportsContextCustomizer@41fe9859 key = [org.springframework.boot.test.autoconfigure.web.servlet.MockMvcAutoConfiguration, org.springframework.boot.test.autoconfigure.web.servlet.MockMvcWebClientAutoConfiguration, org.springframework.boot.test.autoconfigure.web.servlet.MockMvcWebDriverAutoConfiguration, org.springframework.boot.autoconfigure.security.oauth2.client.servlet.OAuth2ClientAutoConfiguration, org.springframework.boot.autoconfigure.security.oauth2.resource.servlet.OAuth2ResourceServerAutoConfiguration, org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration, org.springframework.boot.autoconfigure.security.servlet.SecurityFilterAutoConfiguration, org.springframework.boot.autoconfigure.security.servlet.UserDetailsServiceAutoConfiguration, org.springframework.boot.test.autoconfigure.web.servlet.MockMvcSecurityConfiguration, org.springframework.boot.test.autoconfigure.web.reactive.WebTestClientAutoConfiguration]], org.springframework.boot.test.context.filter.ExcludeFilterContextCustomizer@177bea38, org.springframework.boot.test.json.DuplicateJsonObjectContextCustomizerFactory$DuplicateJsonObjectContextCustomizer@8ad6665, org.springframework.boot.test.mock.mockito.MockitoContextCustomizer@0, org.springframework.boot.test.web.client.TestRestTemplateContextCustomizer@535779e4, org.springframework.boot.test.context.SpringBootTestArgs@1, org.springframework.boot.test.context.SpringBootTestWebEnvironment@60015ef5], resourceBasePath = 'src/main/webapp', contextLoader = 'org.springframework.boot.test.context.SpringBootContextLoader', parent = [null]], attributes = map['org.springframework.test.context.web.ServletTestExecutionListener.activateListener' -&gt; true, 'org.springframework.test.context.web.ServletTestExecutionListener.populatedRequestContextHolder' -&gt; true, 'org.springframework.test.context.web.ServletTestExecutionListener.resetRequestContextHolder' -&gt; true, 'org.springframework.test.context.event.ApplicationEventsTestExecutionListener.recordApplicationEvents' -&gt; false]]
+2023-09-24 21:37:03.908  INFO 29062 --- [    Test worker] o.s.t.c.transaction.TransactionContext   : Began transaction (1) for test context [DefaultTestContext@4a9f80d3 testClass = AuthControllerTest, testInstance = algogather.api.controller.auth.AuthControllerTest@11636d43, testMethod = login_success_test@AuthControllerTest, testException = [null], mergedContextConfiguration = [WebMergedContextConfiguration@35beb15e testClass = AuthControllerTest, locations = '{}', classes = '{class algogather.api.ApiApplication}', contextInitializerClasses = '[]', activeProfiles = '{}', propertySourceLocations = '{}', propertySourceProperties = '{org.springframework.boot.test.context.SpringBootTestContextBootstrapper=true}', contextCustomizers = set[org.springframework.boot.test.autoconfigure.actuate.metrics.MetricsExportContextCustomizerFactory$DisableMetricExportContextCustomizer@4f0100a7, org.springframework.boot.test.autoconfigure.properties.PropertyMappingContextCustomizer@4b3fa0b3, org.springframework.boot.test.autoconfigure.web.servlet.WebDriverContextCustomizerFactory$Customizer@c94fd30, [ImportsContextCustomizer@41fe9859 key = [org.springframework.boot.test.autoconfigure.web.servlet.MockMvcAutoConfiguration, org.springframework.boot.test.autoconfigure.web.servlet.MockMvcWebClientAutoConfiguration, org.springframework.boot.test.autoconfigure.web.servlet.MockMvcWebDriverAutoConfiguration, org.springframework.boot.autoconfigure.security.oauth2.client.servlet.OAuth2ClientAutoConfiguration, org.springframework.boot.autoconfigure.security.oauth2.resource.servlet.OAuth2ResourceServerAutoConfiguration, org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration, org.springframework.boot.autoconfigure.security.servlet.SecurityFilterAutoConfiguration, org.springframework.boot.autoconfigure.security.servlet.UserDetailsServiceAutoConfiguration, org.springframework.boot.test.autoconfigure.web.servlet.MockMvcSecurityConfiguration, org.springframework.boot.test.autoconfigure.web.reactive.WebTestClientAutoConfiguration]], org.springframework.boot.test.context.filter.ExcludeFilterContextCustomizer@177bea38, org.springframework.boot.test.json.DuplicateJsonObjectContextCustomizerFactory$DuplicateJsonObjectContextCustomizer@8ad6665, org.springframework.boot.test.mock.mockito.MockitoContextCustomizer@0, org.springframework.boot.test.web.client.TestRestTemplateContextCustomizer@535779e4, org.springframework.boot.test.context.SpringBootTestArgs@1, org.springframework.boot.test.context.SpringBootTestWebEnvironment@60015ef5], resourceBasePath = 'src/main/webapp', contextLoader = 'org.springframework.boot.test.context.SpringBootContextLoader', parent = [null]], attributes = map['org.springframework.test.context.web.ServletTestExecutionListener.activateListener' -&gt; true, 'org.springframework.test.context.web.ServletTestExecutionListener.populatedRequestContextHolder' -&gt; true, 'org.springframework.test.context.web.ServletTestExecutionListener.resetRequestContextHolder' -&gt; true, 'org.springframework.test.context.event.ApplicationEventsTestExecutionListener.recordApplicationEvents' -&gt; false]]; transaction manager [org.springframework.orm.jpa.JpaTransactionManager@240c626d]; rollback [true]
+Hibernate: select user0_.id as col_0_0_ from users user0_ where user0_.user_id=? limit ?
+Hibernate: insert into users (id, created_at, updated_at, user_judge_account, user_name, user_password, user_profile_image, user_role, user_id) values (default, ?, ?, ?, ?, ?, ?, ?, ?)
+
+MockHttpServletRequest:
+      HTTP Method = POST
+      Request URI = /signup
+       Parameters = {}
+          Headers = [Content-Type:&quot;application/json;charset=UTF-8&quot;, Accept:&quot;application/json&quot;, Content-Length:&quot;129&quot;]
+             Body = {&quot;userId&quot;:&quot;testid&quot;,&quot;password&quot;:&quot;testPassword&quot;,&quot;name&quot;:&quot;testUser&quot;,&quot;profileImage&quot;:&quot;testProfileImg&quot;,&quot;judgeAccount&quot;:&quot;testJudgeAccount&quot;}
+    Session Attrs = {}
+
+Handler:
+             Type = algogather.api.controller.auth.AuthController
+           Method = algogather.api.controller.auth.AuthController#registerUser(SignUpForm)
+
+Async:
+    Async started = false
+     Async result = null
+
+Resolved Exception:
+             Type = null
+
+ModelAndView:
+        View name = null
+             View = null
+            Model = null
+
+FlashMap:
+       Attributes = null
+
+MockHttpServletResponse:
+           Status = 200
+    Error message = null
+          Headers = [Content-Type:&quot;application/json&quot;, X-Content-Type-Options:&quot;nosniff&quot;, X-XSS-Protection:&quot;1; mode=block&quot;, Cache-Control:&quot;no-cache, no-store, max-age=0, must-revalidate&quot;, Pragma:&quot;no-cache&quot;, Expires:&quot;0&quot;]
+     Content type = application/json
+             Body = {&quot;status&quot;:&quot;success&quot;,&quot;data&quot;:null,&quot;message&quot;:&quot;성공적으로 회원가입 되었습니다!&quot;}
+    Forwarded URL = null
+   Redirected URL = null
+          Cookies = []
+Hibernate: select user0_.id as id1_15_, user0_.created_at as created_2_15_, user0_.updated_at as updated_3_15_, user0_.user_judge_account as user_jud4_15_, user0_.user_name as user_nam5_15_, user0_.user_password as user_pas6_15_, user0_.user_profile_image as user_pro7_15_, user0_.user_role as user_rol8_15_, user0_.user_id as user_id9_15_ from users user0_ where user0_.user_id=?
+
+MockHttpServletRequest:
+      HTTP Method = POST
+      Request URI = /login
+       Parameters = {}
+          Headers = [Content-Type:&quot;application/json;charset=UTF-8&quot;, Accept:&quot;application/json&quot;, Content-Length:&quot;45&quot;]
+             Body = {&quot;userId&quot;:&quot;testid&quot;,&quot;password&quot;:&quot;testPassword&quot;}
+    Session Attrs = {SPRING_SECURITY_CONTEXT=SecurityContextImpl [Authentication=UsernamePasswordAuthenticationToken [Principal=algogather.api.domain.user.UserAdapter [Username=testid, Password=[PROTECTED], Enabled=true, AccountNonExpired=true, credentialsNonExpired=true, AccountNonLocked=true, Granted Authorities=[ROLE_USER]], Credentials=[PROTECTED], Authenticated=true, Details=null, Granted Authorities=[ROLE_USER]]]}
+
+Handler:
+             Type = algogather.api.controller.auth.AuthController
+           Method = algogather.api.controller.auth.AuthController#login(LoginForm)
+
+Async:
+    Async started = false
+     Async result = null
+
+Resolved Exception:
+             Type = null
+
+ModelAndView:
+        View name = null
+             View = null
+            Model = null
+
+FlashMap:
+       Attributes = null
+
+MockHttpServletResponse:
+           Status = 200
+    Error message = null
+          Headers = [Content-Type:&quot;application/json&quot;, X-Content-Type-Options:&quot;nosniff&quot;, X-XSS-Protection:&quot;1; mode=block&quot;, Cache-Control:&quot;no-cache, no-store, max-age=0, must-revalidate&quot;, Pragma:&quot;no-cache&quot;, Expires:&quot;0&quot;]
+     Content type = application/json
+             Body = {&quot;status&quot;:&quot;success&quot;,&quot;data&quot;:null,&quot;message&quot;:&quot;성공적으로 로그인 되었습니다!&quot;}
+    Forwarded URL = null
+   Redirected URL = null
+          Cookies = []
+2023-09-24 21:37:04.141  INFO 29062 --- [    Test worker] o.s.t.c.transaction.TransactionContext   : Rolled back transaction for test: [DefaultTestContext@4a9f80d3 testClass = AuthControllerTest, testInstance = algogather.api.controller.auth.AuthControllerTest@11636d43, testMethod = login_success_test@AuthControllerTest, testException = [null], mergedContextConfiguration = [WebMergedContextConfiguration@35beb15e testClass = AuthControllerTest, locations = '{}', classes = '{class algogather.api.ApiApplication}', contextInitializerClasses = '[]', activeProfiles = '{}', propertySourceLocations = '{}', propertySourceProperties = '{org.springframework.boot.test.context.SpringBootTestContextBootstrapper=true}', contextCustomizers = set[org.springframework.boot.test.autoconfigure.actuate.metrics.MetricsExportContextCustomizerFactory$DisableMetricExportContextCustomizer@4f0100a7, org.springframework.boot.test.autoconfigure.properties.PropertyMappingContextCustomizer@4b3fa0b3, org.springframework.boot.test.autoconfigure.web.servlet.WebDriverContextCustomizerFactory$Customizer@c94fd30, [ImportsContextCustomizer@41fe9859 key = [org.springframework.boot.test.autoconfigure.web.servlet.MockMvcAutoConfiguration, org.springframework.boot.test.autoconfigure.web.servlet.MockMvcWebClientAutoConfiguration, org.springframework.boot.test.autoconfigure.web.servlet.MockMvcWebDriverAutoConfiguration, org.springframework.boot.autoconfigure.security.oauth2.client.servlet.OAuth2ClientAutoConfiguration, org.springframework.boot.autoconfigure.security.oauth2.resource.servlet.OAuth2ResourceServerAutoConfiguration, org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration, org.springframework.boot.autoconfigure.security.servlet.SecurityFilterAutoConfiguration, org.springframework.boot.autoconfigure.security.servlet.UserDetailsServiceAutoConfiguration, org.springframework.boot.test.autoconfigure.web.servlet.MockMvcSecurityConfiguration, org.springframework.boot.test.autoconfigure.web.reactive.WebTestClientAutoConfiguration]], org.springframework.boot.test.context.filter.ExcludeFilterContextCustomizer@177bea38, org.springframework.boot.test.json.DuplicateJsonObjectContextCustomizerFactory$DuplicateJsonObjectContextCustomizer@8ad6665, org.springframework.boot.test.mock.mockito.MockitoContextCustomizer@0, org.springframework.boot.test.web.client.TestRestTemplateContextCustomizer@535779e4, org.springframework.boot.test.context.SpringBootTestArgs@1, org.springframework.boot.test.context.SpringBootTestWebEnvironment@60015ef5], resourceBasePath = 'src/main/webapp', contextLoader = 'org.springframework.boot.test.context.SpringBootContextLoader', parent = [null]], attributes = map['org.springframework.test.context.web.ServletTestExecutionListener.activateListener' -&gt; true, 'org.springframework.test.context.web.ServletTestExecutionListener.populatedRequestContextHolder' -&gt; true, 'org.springframework.test.context.web.ServletTestExecutionListener.resetRequestContextHolder' -&gt; true, 'org.springframework.test.context.event.ApplicationEventsTestExecutionListener.recordApplicationEvents' -&gt; false]]
+2023-09-24 21:37:04.142  INFO 29062 --- [    Test worker] o.s.t.c.transaction.TransactionContext   : Began transaction (1) for test context [DefaultTestContext@4a9f80d3 testClass = AuthControllerTest, testInstance = algogather.api.controller.auth.AuthControllerTest@3b67c637, testMethod = signup_fail_alreadyExistingUser_test@AuthControllerTest, testException = [null], mergedContextConfiguration = [WebMergedContextConfiguration@35beb15e testClass = AuthControllerTest, locations = '{}', classes = '{class algogather.api.ApiApplication}', contextInitializerClasses = '[]', activeProfiles = '{}', propertySourceLocations = '{}', propertySourceProperties = '{org.springframework.boot.test.context.SpringBootTestContextBootstrapper=true}', contextCustomizers = set[org.springframework.boot.test.autoconfigure.actuate.metrics.MetricsExportContextCustomizerFactory$DisableMetricExportContextCustomizer@4f0100a7, org.springframework.boot.test.autoconfigure.properties.PropertyMappingContextCustomizer@4b3fa0b3, org.springframework.boot.test.autoconfigure.web.servlet.WebDriverContextCustomizerFactory$Customizer@c94fd30, [ImportsContextCustomizer@41fe9859 key = [org.springframework.boot.test.autoconfigure.web.servlet.MockMvcAutoConfiguration, org.springframework.boot.test.autoconfigure.web.servlet.MockMvcWebClientAutoConfiguration, org.springframework.boot.test.autoconfigure.web.servlet.MockMvcWebDriverAutoConfiguration, org.springframework.boot.autoconfigure.security.oauth2.client.servlet.OAuth2ClientAutoConfiguration, org.springframework.boot.autoconfigure.security.oauth2.resource.servlet.OAuth2ResourceServerAutoConfiguration, org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration, org.springframework.boot.autoconfigure.security.servlet.SecurityFilterAutoConfiguration, org.springframework.boot.autoconfigure.security.servlet.UserDetailsServiceAutoConfiguration, org.springframework.boot.test.autoconfigure.web.servlet.MockMvcSecurityConfiguration, org.springframework.boot.test.autoconfigure.web.reactive.WebTestClientAutoConfiguration]], org.springframework.boot.test.context.filter.ExcludeFilterContextCustomizer@177bea38, org.springframework.boot.test.json.DuplicateJsonObjectContextCustomizerFactory$DuplicateJsonObjectContextCustomizer@8ad6665, org.springframework.boot.test.mock.mockito.MockitoContextCustomizer@0, org.springframework.boot.test.web.client.TestRestTemplateContextCustomizer@535779e4, org.springframework.boot.test.context.SpringBootTestArgs@1, org.springframework.boot.test.context.SpringBootTestWebEnvironment@60015ef5], resourceBasePath = 'src/main/webapp', contextLoader = 'org.springframework.boot.test.context.SpringBootContextLoader', parent = [null]], attributes = map['org.springframework.test.context.web.ServletTestExecutionListener.activateListener' -&gt; true, 'org.springframework.test.context.web.ServletTestExecutionListener.populatedRequestContextHolder' -&gt; true, 'org.springframework.test.context.web.ServletTestExecutionListener.resetRequestContextHolder' -&gt; true, 'org.springframework.test.context.event.ApplicationEventsTestExecutionListener.recordApplicationEvents' -&gt; false]]; transaction manager [org.springframework.orm.jpa.JpaTransactionManager@240c626d]; rollback [true]
+Hibernate: select user0_.id as col_0_0_ from users user0_ where user0_.user_id=? limit ?
+Hibernate: insert into users (id, created_at, updated_at, user_judge_account, user_name, user_password, user_profile_image, user_role, user_id) values (default, ?, ?, ?, ?, ?, ?, ?, ?)
+
+MockHttpServletRequest:
+      HTTP Method = POST
+      Request URI = /signup
+       Parameters = {}
+          Headers = [Content-Type:&quot;application/json;charset=UTF-8&quot;, Accept:&quot;application/json&quot;, Content-Length:&quot;129&quot;]
+             Body = {&quot;userId&quot;:&quot;testid&quot;,&quot;password&quot;:&quot;testPassword&quot;,&quot;name&quot;:&quot;testUser&quot;,&quot;profileImage&quot;:&quot;testProfileImg&quot;,&quot;judgeAccount&quot;:&quot;testJudgeAccount&quot;}
+    Session Attrs = {}
+
+Handler:
+             Type = algogather.api.controller.auth.AuthController
+           Method = algogather.api.controller.auth.AuthController#registerUser(SignUpForm)
+
+Async:
+    Async started = false
+     Async result = null
+
+Resolved Exception:
+             Type = null
+
+ModelAndView:
+        View name = null
+             View = null
+            Model = null
+
+FlashMap:
+       Attributes = null
+
+MockHttpServletResponse:
+           Status = 200
+    Error message = null
+          Headers = [Content-Type:&quot;application/json&quot;, X-Content-Type-Options:&quot;nosniff&quot;, X-XSS-Protection:&quot;1; mode=block&quot;, Cache-Control:&quot;no-cache, no-store, max-age=0, must-revalidate&quot;, Pragma:&quot;no-cache&quot;, Expires:&quot;0&quot;]
+     Content type = application/json
+             Body = {&quot;status&quot;:&quot;success&quot;,&quot;data&quot;:null,&quot;message&quot;:&quot;성공적으로 회원가입 되었습니다!&quot;}
+    Forwarded URL = null
+   Redirected URL = null
+          Cookies = []
+Hibernate: select user0_.id as col_0_0_ from users user0_ where user0_.user_id=? limit ?
+
+MockHttpServletRequest:
+      HTTP Method = POST
+      Request URI = /signup
+       Parameters = {}
+          Headers = [Content-Type:&quot;application/json;charset=UTF-8&quot;, Accept:&quot;application/json&quot;, Content-Length:&quot;129&quot;]
+             Body = {&quot;userId&quot;:&quot;testid&quot;,&quot;password&quot;:&quot;testPassword&quot;,&quot;name&quot;:&quot;testUser&quot;,&quot;profileImage&quot;:&quot;testProfileImg&quot;,&quot;judgeAccount&quot;:&quot;testJudgeAccount&quot;}
+    Session Attrs = {}
+
+Handler:
+             Type = algogather.api.controller.auth.AuthController
+           Method = algogather.api.controller.auth.AuthController#registerUser(SignUpForm)
+
+Async:
+    Async started = false
+     Async result = null
+
+Resolved Exception:
+             Type = algogather.api.exception.AlreadyExistingUserException
+
+ModelAndView:
+        View name = null
+             View = null
+            Model = null
+
+FlashMap:
+       Attributes = null
+
+MockHttpServletResponse:
+           Status = 400
+    Error message = null
+          Headers = [Content-Type:&quot;application/json&quot;, X-Content-Type-Options:&quot;nosniff&quot;, X-XSS-Protection:&quot;1; mode=block&quot;, Cache-Control:&quot;no-cache, no-store, max-age=0, must-revalidate&quot;, Pragma:&quot;no-cache&quot;, Expires:&quot;0&quot;]
+     Content type = application/json
+             Body = {&quot;status&quot;:&quot;error&quot;,&quot;data&quot;:null,&quot;message&quot;:&quot;이미 존재하는 아이디입니다.&quot;}
+    Forwarded URL = null
+   Redirected URL = null
+          Cookies = []
+2023-09-24 21:37:04.227  INFO 29062 --- [    Test worker] o.s.t.c.transaction.TransactionContext   : Rolled back transaction for test: [DefaultTestContext@4a9f80d3 testClass = AuthControllerTest, testInstance = algogather.api.controller.auth.AuthControllerTest@3b67c637, testMethod = signup_fail_alreadyExistingUser_test@AuthControllerTest, testException = [null], mergedContextConfiguration = [WebMergedContextConfiguration@35beb15e testClass = AuthControllerTest, locations = '{}', classes = '{class algogather.api.ApiApplication}', contextInitializerClasses = '[]', activeProfiles = '{}', propertySourceLocations = '{}', propertySourceProperties = '{org.springframework.boot.test.context.SpringBootTestContextBootstrapper=true}', contextCustomizers = set[org.springframework.boot.test.autoconfigure.actuate.metrics.MetricsExportContextCustomizerFactory$DisableMetricExportContextCustomizer@4f0100a7, org.springframework.boot.test.autoconfigure.properties.PropertyMappingContextCustomizer@4b3fa0b3, org.springframework.boot.test.autoconfigure.web.servlet.WebDriverContextCustomizerFactory$Customizer@c94fd30, [ImportsContextCustomizer@41fe9859 key = [org.springframework.boot.test.autoconfigure.web.servlet.MockMvcAutoConfiguration, org.springframework.boot.test.autoconfigure.web.servlet.MockMvcWebClientAutoConfiguration, org.springframework.boot.test.autoconfigure.web.servlet.MockMvcWebDriverAutoConfiguration, org.springframework.boot.autoconfigure.security.oauth2.client.servlet.OAuth2ClientAutoConfiguration, org.springframework.boot.autoconfigure.security.oauth2.resource.servlet.OAuth2ResourceServerAutoConfiguration, org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration, org.springframework.boot.autoconfigure.security.servlet.SecurityFilterAutoConfiguration, org.springframework.boot.autoconfigure.security.servlet.UserDetailsServiceAutoConfiguration, org.springframework.boot.test.autoconfigure.web.servlet.MockMvcSecurityConfiguration, org.springframework.boot.test.autoconfigure.web.reactive.WebTestClientAutoConfiguration]], org.springframework.boot.test.context.filter.ExcludeFilterContextCustomizer@177bea38, org.springframework.boot.test.json.DuplicateJsonObjectContextCustomizerFactory$DuplicateJsonObjectContextCustomizer@8ad6665, org.springframework.boot.test.mock.mockito.MockitoContextCustomizer@0, org.springframework.boot.test.web.client.TestRestTemplateContextCustomizer@535779e4, org.springframework.boot.test.context.SpringBootTestArgs@1, org.springframework.boot.test.context.SpringBootTestWebEnvironment@60015ef5], resourceBasePath = 'src/main/webapp', contextLoader = 'org.springframework.boot.test.context.SpringBootContextLoader', parent = [null]], attributes = map['org.springframework.test.context.web.ServletTestExecutionListener.activateListener' -&gt; true, 'org.springframework.test.context.web.ServletTestExecutionListener.populatedRequestContextHolder' -&gt; true, 'org.springframework.test.context.web.ServletTestExecutionListener.resetRequestContextHolder' -&gt; true, 'org.springframework.test.context.event.ApplicationEventsTestExecutionListener.recordApplicationEvents' -&gt; false]]
+2023-09-24 21:37:04.229  INFO 29062 --- [    Test worker] o.s.t.c.transaction.TransactionContext   : Began transaction (1) for test context [DefaultTestContext@4a9f80d3 testClass = AuthControllerTest, testInstance = algogather.api.controller.auth.AuthControllerTest@3ab7b0f, testMethod = login_fail_test@AuthControllerTest, testException = [null], mergedContextConfiguration = [WebMergedContextConfiguration@35beb15e testClass = AuthControllerTest, locations = '{}', classes = '{class algogather.api.ApiApplication}', contextInitializerClasses = '[]', activeProfiles = '{}', propertySourceLocations = '{}', propertySourceProperties = '{org.springframework.boot.test.context.SpringBootTestContextBootstrapper=true}', contextCustomizers = set[org.springframework.boot.test.autoconfigure.actuate.metrics.MetricsExportContextCustomizerFactory$DisableMetricExportContextCustomizer@4f0100a7, org.springframework.boot.test.autoconfigure.properties.PropertyMappingContextCustomizer@4b3fa0b3, org.springframework.boot.test.autoconfigure.web.servlet.WebDriverContextCustomizerFactory$Customizer@c94fd30, [ImportsContextCustomizer@41fe9859 key = [org.springframework.boot.test.autoconfigure.web.servlet.MockMvcAutoConfiguration, org.springframework.boot.test.autoconfigure.web.servlet.MockMvcWebClientAutoConfiguration, org.springframework.boot.test.autoconfigure.web.servlet.MockMvcWebDriverAutoConfiguration, org.springframework.boot.autoconfigure.security.oauth2.client.servlet.OAuth2ClientAutoConfiguration, org.springframework.boot.autoconfigure.security.oauth2.resource.servlet.OAuth2ResourceServerAutoConfiguration, org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration, org.springframework.boot.autoconfigure.security.servlet.SecurityFilterAutoConfiguration, org.springframework.boot.autoconfigure.security.servlet.UserDetailsServiceAutoConfiguration, org.springframework.boot.test.autoconfigure.web.servlet.MockMvcSecurityConfiguration, org.springframework.boot.test.autoconfigure.web.reactive.WebTestClientAutoConfiguration]], org.springframework.boot.test.context.filter.ExcludeFilterContextCustomizer@177bea38, org.springframework.boot.test.json.DuplicateJsonObjectContextCustomizerFactory$DuplicateJsonObjectContextCustomizer@8ad6665, org.springframework.boot.test.mock.mockito.MockitoContextCustomizer@0, org.springframework.boot.test.web.client.TestRestTemplateContextCustomizer@535779e4, org.springframework.boot.test.context.SpringBootTestArgs@1, org.springframework.boot.test.context.SpringBootTestWebEnvironment@60015ef5], resourceBasePath = 'src/main/webapp', contextLoader = 'org.springframework.boot.test.context.SpringBootContextLoader', parent = [null]], attributes = map['org.springframework.test.context.web.ServletTestExecutionListener.activateListener' -&gt; true, 'org.springframework.test.context.web.ServletTestExecutionListener.populatedRequestContextHolder' -&gt; true, 'org.springframework.test.context.web.ServletTestExecutionListener.resetRequestContextHolder' -&gt; true, 'org.springframework.test.context.event.ApplicationEventsTestExecutionListener.recordApplicationEvents' -&gt; false]]; transaction manager [org.springframework.orm.jpa.JpaTransactionManager@240c626d]; rollback [true]
+Hibernate: select user0_.id as id1_15_, user0_.created_at as created_2_15_, user0_.updated_at as updated_3_15_, user0_.user_judge_account as user_jud4_15_, user0_.user_name as user_nam5_15_, user0_.user_password as user_pas6_15_, user0_.user_profile_image as user_pro7_15_, user0_.user_role as user_rol8_15_, user0_.user_id as user_id9_15_ from users user0_ where user0_.user_id=?
+
+MockHttpServletRequest:
+      HTTP Method = POST
+      Request URI = /login
+       Parameters = {}
+          Headers = [Content-Type:&quot;application/json;charset=UTF-8&quot;, Accept:&quot;application/json&quot;, Content-Length:&quot;45&quot;]
+             Body = {&quot;userId&quot;:&quot;testid&quot;,&quot;password&quot;:&quot;testPassword&quot;}
+    Session Attrs = {}
+
+Handler:
+             Type = algogather.api.controller.auth.AuthController
+           Method = algogather.api.controller.auth.AuthController#login(LoginForm)
+
+Async:
+    Async started = false
+     Async result = null
+
+Resolved Exception:
+             Type = org.springframework.security.authentication.InternalAuthenticationServiceException
+
+ModelAndView:
+        View name = null
+             View = null
+            Model = null
+
+FlashMap:
+       Attributes = null
+
+MockHttpServletResponse:
+           Status = 400
+    Error message = null
+          Headers = [Content-Type:&quot;application/json&quot;, X-Content-Type-Options:&quot;nosniff&quot;, X-XSS-Protection:&quot;1; mode=block&quot;, Cache-Control:&quot;no-cache, no-store, max-age=0, must-revalidate&quot;, Pragma:&quot;no-cache&quot;, Expires:&quot;0&quot;]
+     Content type = application/json
+             Body = {&quot;status&quot;:&quot;error&quot;,&quot;data&quot;:null,&quot;message&quot;:&quot;해당 유저 아이디가 존재하지 않습니다.&quot;}
+    Forwarded URL = null
+   Redirected URL = null
+          Cookies = []
+2023-09-24 21:37:04.232  INFO 29062 --- [    Test worker] o.s.t.c.transaction.TransactionContext   : Rolled back transaction for test: [DefaultTestContext@4a9f80d3 testClass = AuthControllerTest, testInstance = algogather.api.controller.auth.AuthControllerTest@3ab7b0f, testMethod = login_fail_test@AuthControllerTest, testException = [null], mergedContextConfiguration = [WebMergedContextConfiguration@35beb15e testClass = AuthControllerTest, locations = '{}', classes = '{class algogather.api.ApiApplication}', contextInitializerClasses = '[]', activeProfiles = '{}', propertySourceLocations = '{}', propertySourceProperties = '{org.springframework.boot.test.context.SpringBootTestContextBootstrapper=true}', contextCustomizers = set[org.springframework.boot.test.autoconfigure.actuate.metrics.MetricsExportContextCustomizerFactory$DisableMetricExportContextCustomizer@4f0100a7, org.springframework.boot.test.autoconfigure.properties.PropertyMappingContextCustomizer@4b3fa0b3, org.springframework.boot.test.autoconfigure.web.servlet.WebDriverContextCustomizerFactory$Customizer@c94fd30, [ImportsContextCustomizer@41fe9859 key = [org.springframework.boot.test.autoconfigure.web.servlet.MockMvcAutoConfiguration, org.springframework.boot.test.autoconfigure.web.servlet.MockMvcWebClientAutoConfiguration, org.springframework.boot.test.autoconfigure.web.servlet.MockMvcWebDriverAutoConfiguration, org.springframework.boot.autoconfigure.security.oauth2.client.servlet.OAuth2ClientAutoConfiguration, org.springframework.boot.autoconfigure.security.oauth2.resource.servlet.OAuth2ResourceServerAutoConfiguration, org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration, org.springframework.boot.autoconfigure.security.servlet.SecurityFilterAutoConfiguration, org.springframework.boot.autoconfigure.security.servlet.UserDetailsServiceAutoConfiguration, org.springframework.boot.test.autoconfigure.web.servlet.MockMvcSecurityConfiguration, org.springframework.boot.test.autoconfigure.web.reactive.WebTestClientAutoConfiguration]], org.springframework.boot.test.context.filter.ExcludeFilterContextCustomizer@177bea38, org.springframework.boot.test.json.DuplicateJsonObjectContextCustomizerFactory$DuplicateJsonObjectContextCustomizer@8ad6665, org.springframework.boot.test.mock.mockito.MockitoContextCustomizer@0, org.springframework.boot.test.web.client.TestRestTemplateContextCustomizer@535779e4, org.springframework.boot.test.context.SpringBootTestArgs@1, org.springframework.boot.test.context.SpringBootTestWebEnvironment@60015ef5], resourceBasePath = 'src/main/webapp', contextLoader = 'org.springframework.boot.test.context.SpringBootContextLoader', parent = [null]], attributes = map['org.springframework.test.context.web.ServletTestExecutionListener.activateListener' -&gt; true, 'org.springframework.test.context.web.ServletTestExecutionListener.populatedRequestContextHolder' -&gt; true, 'org.springframework.test.context.web.ServletTestExecutionListener.resetRequestContextHolder' -&gt; true, 'org.springframework.test.context.event.ApplicationEventsTestExecutionListener.recordApplicationEvents' -&gt; false]]
+</pre>
+</span>
+</div>
+</div>
+<div id="footer">
+<p>
+<div>
+<label class="hidden" id="label-for-line-wrapping-toggle" for="line-wrapping-toggle">Wrap lines
+<input id="line-wrapping-toggle" type="checkbox" autocomplete="off"/>
+</label>
+</div>Generated by 
+<a href="http://www.gradle.org">Gradle 8.2.1</a> at 2023. 9. 24. 오후 9:37:04</p>
+</div>
+</div>
+</body>
+</html>
