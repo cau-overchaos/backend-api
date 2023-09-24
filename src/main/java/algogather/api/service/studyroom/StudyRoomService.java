@@ -19,6 +19,8 @@ public class StudyRoomService {
      */
     public void checkStudyRoomMember(UserAdapter userAdapter) {
         User user = userAdapter.getUser();
+
+        //TODO 특정 스터디룸 ID에 멤버가 연관되어있는지 확인하도록 수정
         userStudyRoomRepository.findById(user.getId()).orElseThrow(() -> new NotStudyRoomMemberException());
     }
 }
