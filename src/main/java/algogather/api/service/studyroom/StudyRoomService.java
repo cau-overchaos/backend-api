@@ -1,14 +1,16 @@
 package algogather.api.service.studyroom;
 
-import algogather.api.domain.studyroom.StudyRoomRepository;
-import algogather.api.domain.studyroom.UserStudyRoomRepository;
+import algogather.api.domain.studyroom.*;
 import algogather.api.domain.user.UserAdapter;
+import algogather.api.dto.studyroom.StudyRoomCreateForm;
 import algogather.api.exception.NotStudyRoomMemberException;
 import algogather.api.exception.StudyRoomNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import algogather.api.domain.user.User;
+
+import javax.transaction.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -26,6 +28,24 @@ public class StudyRoomService {
         findById(studyRoomId);
 
         userStudyRoomRepository.findByUserIdAndStudyRoomId(user.getId(), studyRoomId).orElseThrow(() -> new NotStudyRoomMemberException());
+    }
+
+    @Transactional
+    public void createStudyRoom(UserAdapter userAdapter, StudyRoomCreateForm studyRoomCreateForm) {
+        StudyRoom newStudyRoom = StudyRoom.builder()
+                .title(studyRoomCreateForm.getTitle())
+                .description(studyRoomCreateForm.getDescription())
+                .studyRoomVisibility(studyRoomCreateForm.getStudyRoomVisibility())
+                .maxUserCnt(studyRoomCreateForm.getMaxUserCnt())
+                .build();
+
+        UserStudyRoom newUserStudyRoom = UserStudyRoom.builder().studyRoom(newStudyRoom)
+                .user(userAdapter.getUser())
+                .role(StudyRoomRole.ADMIN) // 스터디방을 생성한 사람은 관리자가 된다.
+                .build();
+
+        studyRoomRepository.save(newStudyRoom);
+        userStudyRoomRepository.save(newUserStudyRoom);
     }
 
     public void findById(Long studyRoomId) {

@@ -2,6 +2,7 @@ package algogather.api.domain.studyroom;
 
 import algogather.api.domain.BaseTimeEntity;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -29,4 +30,12 @@ public class UserStudyRoom extends BaseTimeEntity {
     @JoinColumn(name = "study_room_id")
     @ManyToOne(fetch = FetchType.LAZY)
     private StudyRoom studyRoom;
+
+    @Builder
+    public UserStudyRoom(Long id, StudyRoomRole role, User user, StudyRoom studyRoom) {
+        this.id = id;
+        this.role = role;
+        this.user = user;
+        this.studyRoom = studyRoom;
+    }
 }
