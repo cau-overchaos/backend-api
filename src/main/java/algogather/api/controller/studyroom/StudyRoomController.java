@@ -5,6 +5,10 @@ import algogather.api.dto.api.ApiResponse;
 import algogather.api.dto.studyroom.StudyRoomCreateForm;
 import algogather.api.service.studyroom.StudyRoomService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/studyrooms")
+@Tag(name = "스터디방", description = "스터디방 관련 API 입니다.")
 public class StudyRoomController {
 
     private final StudyRoomService studyRoomService;
@@ -25,6 +30,11 @@ public class StudyRoomController {
 //        return ResponseEntity.status(HttpStatus.OK).body(ApiResponse.sucess("test 성공!"));
 //    }
 
+    @Operation(summary = "스터디방 생성", description = "스터디방 생성 API입니다.")
+    @ApiResponses(value = {
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "성공", content = @Content(schema = @Schema(implementation = ApiResponse.class))),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "400", description = "실패", content = @Content(schema = @Schema(implementation = ApiResponse.class)))
+    })
     @PostMapping
     public ResponseEntity<ApiResponse<?>> createStudyRoom(@AuthenticationPrincipal UserAdapter userAdapter, @RequestBody StudyRoomCreateForm studyRoomCreateForm) {
 
