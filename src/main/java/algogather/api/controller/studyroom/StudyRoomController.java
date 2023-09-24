@@ -20,8 +20,9 @@ public class StudyRoomController {
     private final StudyRoomService studyRoomService;
 //    @Operation(summary = "스터디룸 테스트중!!", description = "스터디룸 테스트중!!")
     @GetMapping
-    public ResponseEntity<ApiResponse<?>> test (@AuthenticationPrincipal UserAdapter userAdapter) {
-//        studyRoomService.checkStudyRoomMember(userAdapter);
+    public ResponseEntity<ApiResponse<?>> test (@AuthenticationPrincipal UserAdapter userAdapter, Long studyRoomId) {
+        studyRoomService.checkStudyRoomMember(userAdapter, studyRoomId); // 사용자가 스터디룸의 멤버인지 검증한다.
+
         return ResponseEntity.status(HttpStatus.OK).body(ApiResponse.sucess("test 성공!"));
     }
 }
