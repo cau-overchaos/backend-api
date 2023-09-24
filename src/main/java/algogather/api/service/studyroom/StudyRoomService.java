@@ -3,6 +3,7 @@ package algogather.api.service.studyroom;
 import algogather.api.domain.studyroom.*;
 import algogather.api.domain.user.UserAdapter;
 import algogather.api.dto.studyroom.StudyRoomCreateForm;
+import algogather.api.dto.studyroom.StudyRoomResponseDto;
 import algogather.api.exception.NotStudyRoomMemberException;
 import algogather.api.exception.StudyRoomNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -11,6 +12,8 @@ import org.springframework.stereotype.Service;
 import algogather.api.domain.user.User;
 
 import javax.transaction.Transactional;
+import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -41,14 +44,19 @@ public class StudyRoomService {
 
         UserStudyRoom newUserStudyRoom = UserStudyRoom.builder().studyRoom(newStudyRoom)
                 .user(userAdapter.getUser())
-                .role(StudyRoomRole.ADMIN) // 스터디방을 생성한 사람은 관리자가 된다.
+                .role(StudyRoomRole.MANAGER) // 스터디방을 생성한 사람은 관리자가 된다.
                 .build();
 
         studyRoomRepository.save(newStudyRoom);
         userStudyRoomRepository.save(newUserStudyRoom);
     }
 
-    public void findById(Long studyRoomId) {
-        studyRoomRepository.findById(studyRoomId).orElseThrow(() -> new StudyRoomNotFoundException());
+    public StudyRoom findById(Long studyRoomId) {
+        return studyRoomRepository.findById(studyRoomId).orElseThrow(() -> new StudyRoomNotFoundException());
+    }
+
+    public StudyRoomResponseDto findAll() {
+        List<StudyRoom> allStudyRooms = studyRoomRepository.findAll();
+        return new StudyRoomResponseDto(allStudyRooms);
     }
 }

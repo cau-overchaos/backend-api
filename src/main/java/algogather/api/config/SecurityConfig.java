@@ -13,6 +13,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
 import static algogather.api.config.FilterPath.*;
+import static org.springframework.http.HttpMethod.GET;
+import static org.springframework.http.HttpMethod.POST;
 
 @Configuration
 @RequiredArgsConstructor
@@ -28,7 +30,8 @@ public class SecurityConfig {
                 .csrf().disable()
                 .authorizeHttpRequests()
                 .antMatchers(developmentWhiteList).permitAll()
-                .antMatchers(deploymentWhiteList).permitAll()
+                .antMatchers(POST, deploymentWhiteListPOST).permitAll() // POST 요청 하용
+                .antMatchers(GET, deploymentWhiteListGET).permitAll() // GET 요청 허용
                 .antMatchers(swaggerPath).permitAll()
                 .anyRequest().authenticated()
                 .and()
@@ -55,7 +58,8 @@ public class SecurityConfig {
                 .formLogin().disable()
                 .csrf().disable()
                 .authorizeHttpRequests()
-                .antMatchers(deploymentWhiteList).permitAll()
+                .antMatchers(POST, deploymentWhiteListPOST).permitAll() // POST 요청 하용
+                .antMatchers(GET, deploymentWhiteListPOST).permitAll() // GET 요청 허용
                 .anyRequest().authenticated();
 
         http.exceptionHandling()

@@ -30,8 +30,8 @@ public class ApiResponse<T> {
         return new ApiResponse<>(SUCCESS_STATUS, data, null);
     }
 
-    public static ApiResponse<?> createSucessWithNoContent() {
-        return new ApiResponse<>(SUCCESS_STATUS, null, null);
+    public static <T> ApiResponse<T> sucessWithDataAndMessage(T data, String message) {
+        return new ApiResponse<>(SUCCESS_STATUS, data, message);
     }
 
     public static ApiResponse<?> sucess(String message) {
