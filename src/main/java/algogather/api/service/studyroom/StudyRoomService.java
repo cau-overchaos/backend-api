@@ -62,4 +62,9 @@ public class StudyRoomService {
         List<StudyRoom> allStudyRooms = studyRoomRepository.findAll();
         return new StudyRoomResponseDto(allStudyRooms);
     }
+
+    public StudyRoomResponseDto findMyStudyRooms(UserAdapter userAdapter) {
+        List<StudyRoom> myStudyRooms = studyRoomRepository.findStudyRoomsByUserId(userAdapter.getUser().getId());
+        return new StudyRoomResponseDto(myStudyRooms);
+    }
 }

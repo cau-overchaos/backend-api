@@ -45,6 +45,20 @@ public class StudyRoomController {
         return ResponseEntity.status(HttpStatus.OK).body(ApiResponse.sucessWithDataAndMessage(allStudyRoomList, "스터디방 목록을 성공적으로 불러왔습니다."));
     }
 
+    @Operation(summary = "내 스터디방 목록", description = "내 스터디방 목록 불러오기 API입니다.")
+    @ApiResponses(value = {
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "성공", content = @Content(schema = @Schema(implementation = ApiResponse.class))),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "400", description = "실패", content = @Content(schema = @Schema(implementation = ApiResponse.class)))
+    })
+    @GetMapping("/me")
+    public ResponseEntity<ApiResponse<?>> findAllStudyRoom(@AuthenticationPrincipal UserAdapter userAdapter) {
+
+        StudyRoomResponseDto myStudyRoomList = studyRoomService.findMyStudyRooms(userAdapter);
+
+        return ResponseEntity.status(HttpStatus.OK).body(ApiResponse.sucessWithDataAndMessage(myStudyRoomList, "내 스터디방 목록을 성공적으로 불러왔습니다."));
+    }
+
+
     @Operation(summary = "스터디방 생성", description = "스터디방 생성 API입니다.")
     @ApiResponses(value = {
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "성공", content = @Content(schema = @Schema(implementation = ApiResponse.class))),
