@@ -26,7 +26,7 @@ public class StudyRoomService {
     /**
      * 스터디방의 회원인지 확인한다.
      */
-    public void checkStudyRoomMember(UserAdapter userAdapter, Long studyRoomId) {
+    public void throwExceptionIfNotStudyRoomMember(UserAdapter userAdapter, Long studyRoomId) {
         User user = userAdapter.getUser();
 
         findById(studyRoomId);
