@@ -2,6 +2,7 @@ package algogather.api.controller.studyroom;
 
 import algogather.api.domain.user.UserAdapter;
 import algogather.api.dto.api.ApiResponse;
+import algogather.api.dto.studyroom.CreatedStudyRoomResponseDto;
 import algogather.api.dto.studyroom.StudyRoomCreateForm;
 import algogather.api.dto.studyroom.StudyRoomResponseDto;
 import algogather.api.service.studyroom.StudyRoomService;
@@ -52,9 +53,9 @@ public class StudyRoomController {
     @PostMapping
     public ResponseEntity<ApiResponse<?>> createStudyRoom(@AuthenticationPrincipal UserAdapter userAdapter, @RequestBody StudyRoomCreateForm studyRoomCreateForm) {
 
-        studyRoomService.createStudyRoom(userAdapter, studyRoomCreateForm);
+        CreatedStudyRoomResponseDto createdStudyRoom = studyRoomService.createStudyRoom(userAdapter, studyRoomCreateForm);
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(ApiResponse.sucess("스터디방이 성공적으로 생성되었습니다."));
+        return ResponseEntity.status(HttpStatus.CREATED).body(ApiResponse.sucessWithDataAndMessage(createdStudyRoom, "스터디방이 성공적으로 생성되었습니다."));
 
     }
 }

@@ -2,6 +2,7 @@ package algogather.api.service.studyroom;
 
 import algogather.api.domain.studyroom.*;
 import algogather.api.domain.user.UserAdapter;
+import algogather.api.dto.studyroom.CreatedStudyRoomResponseDto;
 import algogather.api.dto.studyroom.StudyRoomCreateForm;
 import algogather.api.dto.studyroom.StudyRoomResponseDto;
 import algogather.api.exception.NotStudyRoomMemberException;
@@ -34,7 +35,7 @@ public class StudyRoomService {
     }
 
     @Transactional
-    public void createStudyRoom(UserAdapter userAdapter, StudyRoomCreateForm studyRoomCreateForm) {
+    public CreatedStudyRoomResponseDto createStudyRoom(UserAdapter userAdapter, StudyRoomCreateForm studyRoomCreateForm) {
         StudyRoom newStudyRoom = StudyRoom.builder()
                 .title(studyRoomCreateForm.getTitle())
                 .description(studyRoomCreateForm.getDescription())
@@ -47,8 +48,10 @@ public class StudyRoomService {
                 .role(StudyRoomRole.MANAGER) // 스터디방을 생성한 사람은 관리자가 된다.
                 .build();
 
-        studyRoomRepository.save(newStudyRoom);
-        userStudyRoomRepository.save(newUserStudyRoom);
+        StudyRoom createdStudyRoom = studyRoomRepository.save(newStudyRoom);
+        UserStudyRoom createdUserStudyRoom = userStudyRoomRepository.save(newUserStudyRoom);
+
+        return new CreatedStudyRoomResponseDto(createdStudyRoom, createdUserStudyRoom.getUser().getName());
     }
 
     public StudyRoom findById(Long studyRoomId) {

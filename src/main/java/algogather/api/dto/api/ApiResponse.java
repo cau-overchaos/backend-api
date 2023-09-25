@@ -21,10 +21,10 @@ public class ApiResponse<T> {
 
     @Schema(description = "상태")
     private String status;
-    @Schema(description = "데이터")
-    private T data;
     @Schema(description = "메시지")
     private String message;
+    @Schema(description = "데이터")
+    private T data;
 
     public static <T> ApiResponse<T> createSuccess(T data) {
         return new ApiResponse<>(SUCCESS_STATUS, data, null);

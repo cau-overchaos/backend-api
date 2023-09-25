@@ -24,7 +24,7 @@ public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint 
         log.debug("request.getRequestURI = {}", request.getRequestURI());
         log.debug("AccessDeniedException = {}", authException.getMessage());
 
-        response.setStatus(HttpStatus.FORBIDDEN.value());
+        response.setStatus(HttpStatus.UNAUTHORIZED.value());
         response.setContentType("application/json; charset=utf-8");
         ApiResponse<?> apiResponse = ApiResponse.createError("접근 권한이 없습니다.");
         String responseBody = objectMapper.writeValueAsString(apiResponse);
