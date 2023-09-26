@@ -50,7 +50,7 @@ public class StudyRoomController {
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "성공", content = @Content(schema = @Schema(implementation = ApiResponse.class))),
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "400", description = "실패", content = @Content(schema = @Schema(implementation = ApiResponse.class)))
     })
-    @GetMapping("/me")
+    @GetMapping("/participated")
     public ResponseEntity<ApiResponse<?>> findAllStudyRoom(@AuthenticationPrincipal UserAdapter userAdapter) {
 
         StudyRoomResponseDto myStudyRoomList = studyRoomService.findMyStudyRooms(userAdapter);
