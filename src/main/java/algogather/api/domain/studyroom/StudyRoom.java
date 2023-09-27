@@ -2,6 +2,7 @@ package algogather.api.domain.studyroom;
 
 import algogather.api.domain.BaseTimeEntity;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -29,4 +30,13 @@ public class StudyRoom extends BaseTimeEntity {
 
     @Column(name = "study_roome_max_user_cnt")
     private Integer maxUserCnt;
+
+    @Builder
+    public StudyRoom(Long id, String title, String description, StudyRoomVisibility studyRoomVisibility, Integer maxUserCnt) {
+        this.id = id;
+        this.title = title;
+        this.description = description;
+        this.studyRoomVisibility = studyRoomVisibility;
+        this.maxUserCnt = maxUserCnt;
+    }
 }
