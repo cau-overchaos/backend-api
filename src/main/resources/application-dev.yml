@@ -22,3 +22,5 @@ server:
       cookie:
         max-age: 1800 # 1800초 (30분)
         http-only: true
+        same-site: None
+        secure: true
