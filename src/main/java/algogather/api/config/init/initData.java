@@ -75,6 +75,17 @@ public class initData {
          * solved.ac API를 호출해서 태그 정보를 받는다.
          */
 
+        ResponseEntity<String> response = getStringResponseEntity();
+
+        /**
+         * JSON 문자열 정보를 객체로 변환한다.
+         * 태그의 번호와 한국어 이름을 Tag DB에 저장한다.
+         */
+
+        parseAndSave(response);
+    }
+
+    private static ResponseEntity<String> getStringResponseEntity() {
         String url = "https://solved.ac/";
 
         URI uri = UriComponentsBuilder.fromHttpUrl(url)
@@ -89,12 +100,10 @@ public class initData {
                 .build();
 
         ResponseEntity<String> response = restTemplate.exchange(req, String.class);
+        return response;
+    }
 
-
-        /**
-         * JSON 문자열 정보를 객체로 변환한다.
-         * 태그의 번호와 한국어 이름을 Tag DB에 저장한다.
-         */
+    private void parseAndSave(ResponseEntity<String> response) throws ParseException {
         JSONParser jsonParser = new JSONParser();
         JSONObject parsedObject = (JSONObject) jsonParser.parse(response.getBody());
 
