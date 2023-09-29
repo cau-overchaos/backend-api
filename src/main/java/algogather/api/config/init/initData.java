@@ -2,22 +2,34 @@ package algogather.api.config.init;
 
 import algogather.api.domain.problem.Difficulty;
 import algogather.api.domain.problem.DifficultyRepository;
-import algogather.api.domain.problem.ProblemProvider;
+import algogather.api.domain.problem.Tag;
+import algogather.api.domain.problem.TagRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.annotation.Profile;
 import org.springframework.context.event.EventListener;
+import org.springframework.http.RequestEntity;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
+import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.UriComponentsBuilder;
+
+import java.net.URI;
 
 import static algogather.api.domain.problem.ProblemProvider.*;
 
 @Profile("dev")
 @RequiredArgsConstructor
 @Component
+@Slf4j
 public class initData {
-
-
-    public  final DifficultyRepository difficultyRepository;
+    public final DifficultyRepository difficultyRepository;
+    public final TagRepository tagRepository;
 
     @EventListener(ApplicationReadyEvent.class)
     public void initDifficulties() {
@@ -58,8 +70,63 @@ public class initData {
     }
 
     @EventListener(ApplicationReadyEvent.class)
-    public void initTags() {
+    public void initTags() throws ParseException {
+        /**
+         * solved.ac API를 호출해서 태그 정보를 받는다.
+         */
 
+        String url = "https://solved.ac/";
+
+        URI uri = UriComponentsBuilder.fromHttpUrl(url)
+                .path("api/v3/tag/list")
+                .encode()
+                .build()
+                .toUri();
+        RestTemplate restTemplate = new RestTemplate();
+
+        RequestEntity<Void> req = RequestEntity
+                .get(uri)
+                .build();
+
+        ResponseEntity<String> response = restTemplate.exchange(req, String.class);
+
+
+        /**
+         * JSON 문자열 정보를 객체로 변환한다.
+         * 태그의 번호와 한국어 이름을 Tag DB에 저장한다.
+         */
+        JSONParser jsonParser = new JSONParser();
+        JSONObject parsedObject = (JSONObject) jsonParser.parse(response.getBody());
+
+        JSONArray items = (JSONArray) parsedObject.get("items");
+
+        for(int i = 0; i < items.size(); i++) {
+            JSONObject item = (JSONObject) items.get(i);
+            JSONArray displayNames = (JSONArray) item.get("displayNames");
+
+            String tagName = null;
+            Long bojTagId = (Long) item.get("bojTagId");
+
+            log.info("{}", item.get("bojTagId"));
+
+            for(int j = 0; j < displayNames.size(); j++) {
+                JSONObject displayName = (JSONObject) displayNames.get(j);
+
+                String language = (String) displayName.get("language");
+                if(language.equals("ko")) { // 한국어 태그 이름만 태그에 저장한다.
+                    tagName = (String) displayName.get("name");
+                    break;
+                }
+            }
+
+            Tag tag = Tag.builder()
+                    .name(tagName)
+                    .idByProvider(bojTagId)
+                    .provider(BAEKJOON)
+                    .build();
+
+            tagRepository.save(tag);
+        }
     }
 
     @EventListener(ApplicationReadyEvent.class)

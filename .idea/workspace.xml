@@ -5,9 +5,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="0866e7c9-1716-4c82-9b1a-208a9e997fd1" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/src/main/java/algogather/api/domain/problem/TagRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules/api.main.iml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/algogather/api/config/init/initData.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/algogather/api/config/init/initData.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/algogather/api/domain/problem/Difficulty.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/algogather/api/domain/problem/Difficulty.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/algogather/api/domain/problem/Tag.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/algogather/api/domain/problem/Tag.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -46,8 +52,8 @@
         <option value="Enum" />
         <option value="AnnotationType" />
         <option value="JUnit5 Test Class" />
-        <option value="Interface" />
         <option value="Class" />
+        <option value="Interface" />
       </list>
     </option>
   </component>
@@ -81,6 +87,7 @@
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
+    "settings.editor.selected.configurable": "reference.settingsdialog.project.gradle",
     "spring.configuration.checksum": "980f2f457e12965af7944328f4e1287d",
     "vue.rearranger.settings.migration": "true"
   }
