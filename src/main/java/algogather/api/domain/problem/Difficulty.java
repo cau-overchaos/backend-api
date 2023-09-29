@@ -22,14 +22,14 @@ public class Difficulty extends BaseTimeEntity {
     private String name;
 
     @Column(name = "difficulty_level")
-    private Integer level;
+    private Long level;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "difficulty_provider")
     private ProblemProvider provider;
 
     @Builder
-    public Difficulty(Long id, String name, Integer level, ProblemProvider provider) {
+    public Difficulty(Long id, String name, Long level, ProblemProvider provider) {
         this.id = id;
         this.name = name;
         this.level = level;

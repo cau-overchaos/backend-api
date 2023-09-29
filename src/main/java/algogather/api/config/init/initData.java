@@ -1,9 +1,7 @@
 package algogather.api.config.init;
 
-import algogather.api.domain.problem.Difficulty;
-import algogather.api.domain.problem.DifficultyRepository;
-import algogather.api.domain.problem.Tag;
-import algogather.api.domain.problem.TagRepository;
+import algogather.api.domain.problem.*;
+import algogather.api.exception.DifficultyNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.json.simple.JSONArray;
@@ -30,43 +28,44 @@ import static algogather.api.domain.problem.ProblemProvider.*;
 public class initData {
     public final DifficultyRepository difficultyRepository;
     public final TagRepository tagRepository;
+    private final ProblemRepository problemRepository;
 
     @EventListener(ApplicationReadyEvent.class)
     public void initDifficulties() {
         /**
          * 백준 난이도 데이터 초기화
          */
-        difficultyRepository.save(Difficulty.builder().name("Unrated").level(0).provider(BAEKJOON).build());
-        difficultyRepository.save(Difficulty.builder().name("Bronze V").level(1).provider(BAEKJOON).build());
-        difficultyRepository.save(Difficulty.builder().name("Bronze IV").level(2).provider(BAEKJOON).build());
-        difficultyRepository.save(Difficulty.builder().name("Bronze III").level(3).provider(BAEKJOON).build());
-        difficultyRepository.save(Difficulty.builder().name("Bronze II").level(4).provider(BAEKJOON).build());
-        difficultyRepository.save(Difficulty.builder().name("Bronze I").level(5).provider(BAEKJOON).build());
-        difficultyRepository.save(Difficulty.builder().name("Silver V").level(6).provider(BAEKJOON).build());
-        difficultyRepository.save(Difficulty.builder().name("Silver IV").level(7).provider(BAEKJOON).build());
-        difficultyRepository.save(Difficulty.builder().name("Silver III").level(8).provider(BAEKJOON).build());
-        difficultyRepository.save(Difficulty.builder().name("Silver II").level(9).provider(BAEKJOON).build());
-        difficultyRepository.save(Difficulty.builder().name("Silver I").level(10).provider(BAEKJOON).build());
-        difficultyRepository.save(Difficulty.builder().name("Gold V").level(11).provider(BAEKJOON).build());
-        difficultyRepository.save(Difficulty.builder().name("Gold IV").level(12).provider(BAEKJOON).build());
-        difficultyRepository.save(Difficulty.builder().name("Gold III").level(13).provider(BAEKJOON).build());
-        difficultyRepository.save(Difficulty.builder().name("Gold II").level(14).provider(BAEKJOON).build());
-        difficultyRepository.save(Difficulty.builder().name("Gold I").level(15).provider(BAEKJOON).build());
-        difficultyRepository.save(Difficulty.builder().name("Platinum V").level(16).provider(BAEKJOON).build());
-        difficultyRepository.save(Difficulty.builder().name("Platinum IV").level(17).provider(BAEKJOON).build());
-        difficultyRepository.save(Difficulty.builder().name("Platinum III").level(18).provider(BAEKJOON).build());
-        difficultyRepository.save(Difficulty.builder().name("Platinum II").level(19).provider(BAEKJOON).build());
-        difficultyRepository.save(Difficulty.builder().name("Platinum I").level(20).provider(BAEKJOON).build());
-        difficultyRepository.save(Difficulty.builder().name("Diamond V").level(21).provider(BAEKJOON).build());
-        difficultyRepository.save(Difficulty.builder().name("Diamond IV").level(22).provider(BAEKJOON).build());
-        difficultyRepository.save(Difficulty.builder().name("Diamond III").level(23).provider(BAEKJOON).build());
-        difficultyRepository.save(Difficulty.builder().name("Diamond II").level(24).provider(BAEKJOON).build());
-        difficultyRepository.save(Difficulty.builder().name("Diamond I").level(25).provider(BAEKJOON).build());
-        difficultyRepository.save(Difficulty.builder().name("Ruby V").level(26).provider(BAEKJOON).build());
-        difficultyRepository.save(Difficulty.builder().name("Ruby IV").level(27).provider(BAEKJOON).build());
-        difficultyRepository.save(Difficulty.builder().name("Ruby III").level(28).provider(BAEKJOON).build());
-        difficultyRepository.save(Difficulty.builder().name("Ruby II").level(29).provider(BAEKJOON).build());
-        difficultyRepository.save(Difficulty.builder().name("Ruby I").level(30).provider(BAEKJOON).build());
+        difficultyRepository.save(Difficulty.builder().name("Unrated").level(0L).provider(BAEKJOON).build());
+        difficultyRepository.save(Difficulty.builder().name("Bronze V").level(1L).provider(BAEKJOON).build());
+        difficultyRepository.save(Difficulty.builder().name("Bronze IV").level(2L).provider(BAEKJOON).build());
+        difficultyRepository.save(Difficulty.builder().name("Bronze III").level(3L).provider(BAEKJOON).build());
+        difficultyRepository.save(Difficulty.builder().name("Bronze II").level(4L).provider(BAEKJOON).build());
+        difficultyRepository.save(Difficulty.builder().name("Bronze I").level(5L).provider(BAEKJOON).build());
+        difficultyRepository.save(Difficulty.builder().name("Silver V").level(6L).provider(BAEKJOON).build());
+        difficultyRepository.save(Difficulty.builder().name("Silver IV").level(7L).provider(BAEKJOON).build());
+        difficultyRepository.save(Difficulty.builder().name("Silver III").level(8L).provider(BAEKJOON).build());
+        difficultyRepository.save(Difficulty.builder().name("Silver II").level(9L).provider(BAEKJOON).build());
+        difficultyRepository.save(Difficulty.builder().name("Silver I").level(10L).provider(BAEKJOON).build());
+        difficultyRepository.save(Difficulty.builder().name("Gold V").level(11L).provider(BAEKJOON).build());
+        difficultyRepository.save(Difficulty.builder().name("Gold IV").level(12L).provider(BAEKJOON).build());
+        difficultyRepository.save(Difficulty.builder().name("Gold III").level(13L).provider(BAEKJOON).build());
+        difficultyRepository.save(Difficulty.builder().name("Gold II").level(14L).provider(BAEKJOON).build());
+        difficultyRepository.save(Difficulty.builder().name("Gold I").level(15L).provider(BAEKJOON).build());
+        difficultyRepository.save(Difficulty.builder().name("Platinum V").level(16L).provider(BAEKJOON).build());
+        difficultyRepository.save(Difficulty.builder().name("Platinum IV").level(17L).provider(BAEKJOON).build());
+        difficultyRepository.save(Difficulty.builder().name("Platinum III").level(18L).provider(BAEKJOON).build());
+        difficultyRepository.save(Difficulty.builder().name("Platinum II").level(19L).provider(BAEKJOON).build());
+        difficultyRepository.save(Difficulty.builder().name("Platinum I").level(20L).provider(BAEKJOON).build());
+        difficultyRepository.save(Difficulty.builder().name("Diamond V").level(21L).provider(BAEKJOON).build());
+        difficultyRepository.save(Difficulty.builder().name("Diamond IV").level(22L).provider(BAEKJOON).build());
+        difficultyRepository.save(Difficulty.builder().name("Diamond III").level(23L).provider(BAEKJOON).build());
+        difficultyRepository.save(Difficulty.builder().name("Diamond II").level(24L).provider(BAEKJOON).build());
+        difficultyRepository.save(Difficulty.builder().name("Diamond I").level(25L).provider(BAEKJOON).build());
+        difficultyRepository.save(Difficulty.builder().name("Ruby V").level(26L).provider(BAEKJOON).build());
+        difficultyRepository.save(Difficulty.builder().name("Ruby IV").level(27L).provider(BAEKJOON).build());
+        difficultyRepository.save(Difficulty.builder().name("Ruby III").level(28L).provider(BAEKJOON).build());
+        difficultyRepository.save(Difficulty.builder().name("Ruby II").level(29L).provider(BAEKJOON).build());
+        difficultyRepository.save(Difficulty.builder().name("Ruby I").level(30L).provider(BAEKJOON).build());
     }
 
     @EventListener(ApplicationReadyEvent.class)
@@ -82,7 +81,7 @@ public class initData {
          * 태그의 번호와 한국어 이름을 Tag DB에 저장한다.
          */
 
-        parseAndSave(response);
+        parseAndSaveTag(response);
     }
 
     private static ResponseEntity<String> getStringResponseEntity() {
@@ -103,7 +102,7 @@ public class initData {
         return response;
     }
 
-    private void parseAndSave(ResponseEntity<String> response) throws ParseException {
+    private void parseAndSaveTag(ResponseEntity<String> response) throws ParseException {
         JSONParser jsonParser = new JSONParser();
         JSONObject parsedObject = (JSONObject) jsonParser.parse(response.getBody());
 
@@ -140,16 +139,20 @@ public class initData {
 
     //TODO 문제 응답 받아서 DB에 저장
     @EventListener(ApplicationReadyEvent.class)
-    public void initProblems() {
+    public void initProblems() throws ParseException {
         String url = "https://solved.ac/";
         RestTemplate restTemplate = new RestTemplate();
 
-        for(int i = 1; i <= 600; i++) {
+        for(int page = 1;; page++) {
+            /**
+             * solved.ac API를 호출해서 페이지별로 문제 정보를 받는다.
+             */
+
             URI uri = UriComponentsBuilder.fromHttpUrl(url)
                     .path("api/v3/search/problem")
                     .queryParam("query", "")
                     .queryParam("sort", "id")
-                    .queryParam("page", i)
+                    .queryParam("page", page)
                     .encode()
                     .build()
                     .toUri();
@@ -159,7 +162,53 @@ public class initData {
                     .build();
 
             ResponseEntity<String> response = restTemplate.exchange(req, String.class);
-            log.info("{}", response);
+
+            /**
+             * JSON 문자열 정보를 객체로 변환한다.
+             */
+
+            JSONParser jsonParser = new JSONParser();
+            JSONObject parsedObject = (JSONObject) jsonParser.parse(response.getBody());
+
+            JSONArray items = (JSONArray) parsedObject.get("items");
+
+            if(items.isEmpty()) { // API 응답의 문제가 빈리스트라면 반복을 종료한다.
+                break;
+            }
+
+            for(int i = 0; i < items.size(); i++) {
+                JSONObject item = (JSONObject) items.get(i);
+                JSONArray titles = (JSONArray) item.get("titles");
+
+                String problemTitle = null;
+                Long problemId = (Long) item.get("problemId");
+                Long problemLevel = (Long) item.get("level");
+
+                for(int j = 0; j < titles.size(); j++) {
+                    JSONObject title = (JSONObject) titles.get(j);
+
+                    String language = (String)title.get("language");
+
+                    if(language.equals("ko")) {
+                        problemTitle = (String) title.get("title");
+                        break;
+                    }
+                }
+
+                Problem problem = Problem.builder()
+                        .pid(problemId)
+                        .title(problemTitle)
+                        .difficulty(difficultyRepository
+                                .findByLevel(problemLevel)
+                                .orElseThrow(() -> new DifficultyNotFoundException())
+                        )
+                        .provider(BAEKJOON)
+                        .build();
+
+                problemRepository.save(problem);
+
+                //TODO 태그 연관시키기
+            }
         }
     }
 }
