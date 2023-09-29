@@ -138,8 +138,28 @@ public class initData {
         }
     }
 
+    //TODO 문제 응답 받아서 DB에 저장
     @EventListener(ApplicationReadyEvent.class)
     public void initProblems() {
+        String url = "https://solved.ac/";
+        RestTemplate restTemplate = new RestTemplate();
 
+        for(int i = 1; i <= 600; i++) {
+            URI uri = UriComponentsBuilder.fromHttpUrl(url)
+                    .path("api/v3/search/problem")
+                    .queryParam("query", "")
+                    .queryParam("sort", "id")
+                    .queryParam("page", i)
+                    .encode()
+                    .build()
+                    .toUri();
+
+            RequestEntity<Void> req = RequestEntity
+                    .get(uri)
+                    .build();
+
+            ResponseEntity<String> response = restTemplate.exchange(req, String.class);
+            log.info("{}", response);
+        }
     }
 }
