@@ -2,6 +2,7 @@ package algogather.api.domain.problem;
 
 import algogather.api.domain.BaseTimeEntity;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -19,4 +20,14 @@ public class Difficulty extends BaseTimeEntity {
 
     @Column(name = "difficulty_name")
     private String name;
+
+    @Column(name = "difficulty_level")
+    private Integer level;
+
+    @Builder
+    public Difficulty(Long id, String name, Integer level) {
+        this.id = id;
+        this.name = name;
+        this.level = level;
+    }
 }
