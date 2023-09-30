@@ -2,6 +2,7 @@ package algogather.api.domain.problem;
 
 import algogather.api.domain.BaseTimeEntity;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -24,4 +25,11 @@ public class ProblemTag extends BaseTimeEntity {
     @JoinColumn(name = "tag_id")
     @ManyToOne(fetch = FetchType.LAZY)
     private Tag tag;
+
+    @Builder
+    public ProblemTag(Long id, Problem problem, Tag tag) {
+        this.id = id;
+        this.problem = problem;
+        this.tag = tag;
+    }
 }

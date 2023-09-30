@@ -2,6 +2,7 @@ package algogather.api.config.init;
 
 import algogather.api.domain.problem.*;
 import algogather.api.exception.DifficultyNotFoundException;
+import algogather.api.exception.TagNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.json.simple.JSONArray;
@@ -29,8 +30,16 @@ public class initData {
     public final DifficultyRepository difficultyRepository;
     public final TagRepository tagRepository;
     private final ProblemRepository problemRepository;
+    private final ProblemTagRepository problemTagRepository;
 
     @EventListener(ApplicationReadyEvent.class)
+    public void DifficultiesAndTagsAndProblems() throws ParseException {
+        initDifficulties();
+        initTags();
+        initProblems();
+    }
+
+//    @EventListener(ApplicationReadyEvent.class)
     public void initDifficulties() {
         /**
          * 백준 난이도 데이터 초기화
@@ -68,7 +77,7 @@ public class initData {
         difficultyRepository.save(Difficulty.builder().name("Ruby I").level(30L).provider(BAEKJOON).build());
     }
 
-    @EventListener(ApplicationReadyEvent.class)
+//    @EventListener(ApplicationReadyEvent.class)
     public void initTags() throws ParseException {
         /**
          * solved.ac API를 호출해서 태그 정보를 받는다.
@@ -115,8 +124,6 @@ public class initData {
             String tagName = null;
             Long bojTagId = (Long) item.get("bojTagId");
 
-            log.info("{}", item.get("bojTagId"));
-
             for(int j = 0; j < displayNames.size(); j++) {
                 JSONObject displayName = (JSONObject) displayNames.get(j);
 
@@ -138,7 +145,7 @@ public class initData {
     }
 
     //TODO 문제 응답 받아서 DB에 저장
-    @EventListener(ApplicationReadyEvent.class)
+//    @EventListener(ApplicationReadyEvent.class)
     public void initProblems() throws ParseException {
         String url = "https://solved.ac/";
         RestTemplate restTemplate = new RestTemplate();
@@ -162,7 +169,7 @@ public class initData {
                     .build();
 
             ResponseEntity<String> response = restTemplate.exchange(req, String.class);
-
+            log.info("{}", response.getBody());
             /**
              * JSON 문자열 정보를 객체로 변환한다.
              */
@@ -205,10 +212,22 @@ public class initData {
                         .provider(BAEKJOON)
                         .build();
 
-                problemRepository.save(problem);
+                Problem savedProblem = problemRepository.save(problem);
 
-                //TODO 태그 연관시키기
+                //태그 연관시키기
+                JSONArray tags = (JSONArray) item.get("tags");
+                for(int j = 0; j < tags.size(); j++) {
+                    JSONObject tag = (JSONObject) tags.get(j);
+                    Long bojTagId = (Long) tag.get("bojTagId");
+
+                    ProblemTag createdProblemTag = ProblemTag.builder()
+                            .problem(savedProblem)
+                            .tag(tagRepository.findByIdByProvider(bojTagId).orElseThrow(() -> new TagNotFoundException()))
+                            .build();
+                    problemTagRepository.save(createdProblemTag);
+                }
             }
         }
+        log.info("끝!");
     }
 }
