@@ -39,7 +39,6 @@ public class initData {
         initProblems();
     }
 
-//    @EventListener(ApplicationReadyEvent.class)
     public void initDifficulties() {
         /**
          * 백준 난이도 데이터 초기화
@@ -77,7 +76,6 @@ public class initData {
         difficultyRepository.save(Difficulty.builder().name("Ruby I").level(30L).provider(BAEKJOON).build());
     }
 
-//    @EventListener(ApplicationReadyEvent.class)
     public void initTags() throws ParseException {
         /**
          * solved.ac API를 호출해서 태그 정보를 받는다.
@@ -144,8 +142,8 @@ public class initData {
         }
     }
 
-    //TODO 문제 응답 받아서 DB에 저장
-//    @EventListener(ApplicationReadyEvent.class)
+    //TODO 문제 응답 받아서 DB에 저장, 초기화할때마다 API 보내지않으려면, SQL 로그를 따로 파일로 저장해야할 것 같음
+    //TODO 코드 리팩터링하기
     public void initProblems() throws ParseException {
         String url = "https://solved.ac/";
         RestTemplate restTemplate = new RestTemplate();
@@ -195,9 +193,9 @@ public class initData {
                     JSONObject title = (JSONObject) titles.get(j);
 
                     String language = (String)title.get("language");
+                    problemTitle = (String) title.get("title");
 
-                    if(language.equals("ko")) {
-                        problemTitle = (String) title.get("title");
+                    if(language.equals("ko")) { // 한국어 제목이 있으면 저장되고, 없으면 다른 언어 제목이 저장된다.
                         break;
                     }
                 }
@@ -228,6 +226,6 @@ public class initData {
                 }
             }
         }
-        log.info("끝!");
+        log.debug("끝!");
     }
 }
