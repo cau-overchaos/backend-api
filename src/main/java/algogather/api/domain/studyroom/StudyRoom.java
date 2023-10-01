@@ -28,7 +28,7 @@ public class StudyRoom extends BaseTimeEntity {
     @Column(name = "study_room_visibility")
     private StudyRoomVisibility studyRoomVisibility;
 
-    @Column(name = "study_roome_max_user_cnt")
+    @Column(name = "study_room_max_user_cnt")
     private Integer maxUserCnt;
 
     @Builder
