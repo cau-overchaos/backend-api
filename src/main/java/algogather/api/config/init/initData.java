@@ -32,12 +32,18 @@ public class initData {
     private final ProblemRepository problemRepository;
     private final ProblemTagRepository problemTagRepository;
 
-    @EventListener(ApplicationReadyEvent.class)
-    public void DifficultiesAndTagsAndProblems() throws ParseException {
-        initDifficulties();
-        initTags();
-        initProblems();
-    }
+    /*
+        난이도, 태그, 문제들 초기화 하는 부분
+        따로 쿼리 로그를 뽑아내었기 때문에 필요한 경우 외에 사용하지 않으므로 주석처리 하였음
+        import.sql에 초기 데이터 채우는 쿼리문 존재
+     */
+
+//    @EventListener(ApplicationReadyEvent.class)
+//    public void DifficultiesAndTagsAndProblems() throws ParseException {
+//        initDifficulties();
+//        initTags();
+//        initProblems();
+//    }
 
     public void initDifficulties() {
         /**
@@ -110,10 +116,7 @@ public class initData {
     }
 
     private void parseAndSaveTag(ResponseEntity<String> response) throws ParseException {
-        JSONParser jsonParser = new JSONParser();
-        JSONObject parsedObject = (JSONObject) jsonParser.parse(response.getBody());
-
-        JSONArray items = (JSONArray) parsedObject.get("items");
+        JSONArray items = getJsonArray(response);
 
         for(int i = 0; i < items.size(); i++) {
             JSONObject item = (JSONObject) items.get(i);
@@ -142,8 +145,6 @@ public class initData {
         }
     }
 
-    //TODO 문제 응답 받아서 DB에 저장, 초기화할때마다 API 보내지않으려면, SQL 로그를 따로 파일로 저장해야할 것 같음
-    //TODO 코드 리팩터링하기
     public void initProblems() throws ParseException {
         String url = "https://solved.ac/";
         RestTemplate restTemplate = new RestTemplate();
@@ -153,79 +154,94 @@ public class initData {
              * solved.ac API를 호출해서 페이지별로 문제 정보를 받는다.
              */
 
-            URI uri = UriComponentsBuilder.fromHttpUrl(url)
-                    .path("api/v3/search/problem")
-                    .queryParam("query", "")
-                    .queryParam("sort", "id")
-                    .queryParam("page", page)
-                    .encode()
-                    .build()
-                    .toUri();
+            ResponseEntity<String> response = getStringResponseEntity(url, restTemplate, page);
 
-            RequestEntity<Void> req = RequestEntity
-                    .get(uri)
-                    .build();
-
-            ResponseEntity<String> response = restTemplate.exchange(req, String.class);
-            log.info("{}", response.getBody());
             /**
              * JSON 문자열 정보를 객체로 변환한다.
              */
 
-            JSONParser jsonParser = new JSONParser();
-            JSONObject parsedObject = (JSONObject) jsonParser.parse(response.getBody());
-
-            JSONArray items = (JSONArray) parsedObject.get("items");
+            JSONArray items = getJsonArray(response);
 
             if(items.isEmpty()) { // API 응답의 문제가 빈리스트라면 반복을 종료한다.
                 break;
             }
 
-            for(int i = 0; i < items.size(); i++) {
-                JSONObject item = (JSONObject) items.get(i);
-                JSONArray titles = (JSONArray) item.get("titles");
-
-                String problemTitle = null;
-                Long problemId = (Long) item.get("problemId");
-                Long problemLevel = (Long) item.get("level");
-
-                for(int j = 0; j < titles.size(); j++) {
-                    JSONObject title = (JSONObject) titles.get(j);
-
-                    String language = (String)title.get("language");
-                    problemTitle = (String) title.get("title");
-
-                    if(language.equals("ko")) { // 한국어 제목이 있으면 저장되고, 없으면 다른 언어 제목이 저장된다.
-                        break;
-                    }
-                }
-
-                Problem problem = Problem.builder()
-                        .pid(problemId)
-                        .title(problemTitle)
-                        .difficulty(difficultyRepository
-                                .findByLevel(problemLevel)
-                                .orElseThrow(() -> new DifficultyNotFoundException())
-                        )
-                        .provider(BAEKJOON)
-                        .build();
-
-                Problem savedProblem = problemRepository.save(problem);
-
-                //태그 연관시키기
-                JSONArray tags = (JSONArray) item.get("tags");
-                for(int j = 0; j < tags.size(); j++) {
-                    JSONObject tag = (JSONObject) tags.get(j);
-                    Long bojTagId = (Long) tag.get("bojTagId");
-
-                    ProblemTag createdProblemTag = ProblemTag.builder()
-                            .problem(savedProblem)
-                            .tag(tagRepository.findByIdByProvider(bojTagId).orElseThrow(() -> new TagNotFoundException()))
-                            .build();
-                    problemTagRepository.save(createdProblemTag);
-                }
-            }
+            saveProblemsAndAssociateWithTags(items);
         }
         log.debug("끝!");
+    }
+
+    private void saveProblemsAndAssociateWithTags(JSONArray items) {
+        for(int i = 0; i < items.size(); i++) {
+            JSONObject item = (JSONObject) items.get(i);
+            JSONArray titles = (JSONArray) item.get("titles");
+
+            String problemTitle = null;
+            Long problemId = (Long) item.get("problemId");
+            Long problemLevel = (Long) item.get("level");
+
+            for(int j = 0; j < titles.size(); j++) {
+                JSONObject title = (JSONObject) titles.get(j);
+
+                String language = (String)title.get("language");
+                problemTitle = (String) title.get("title");
+
+                if(language.equals("ko")) { // 한국어 제목이 있으면 저장되고, 없으면 다른 언어 제목이 저장된다.
+                    break;
+                }
+            }
+
+            Problem problem = Problem.builder()
+                    .pid(problemId)
+                    .title(problemTitle)
+                    .difficulty(difficultyRepository
+                            .findByLevel(problemLevel)
+                            .orElseThrow(() -> new DifficultyNotFoundException())
+                    )
+                    .provider(BAEKJOON)
+                    .build();
+
+            Problem savedProblem = problemRepository.save(problem);
+
+            //태그 연관시키기
+            JSONArray tags = (JSONArray) item.get("tags");
+            for(int j = 0; j < tags.size(); j++) {
+                JSONObject tag = (JSONObject) tags.get(j);
+                Long bojTagId = (Long) tag.get("bojTagId");
+
+                ProblemTag createdProblemTag = ProblemTag.builder()
+                        .problem(savedProblem)
+                        .tag(tagRepository.findByIdByProvider(bojTagId).orElseThrow(() -> new TagNotFoundException()))
+                        .build();
+                problemTagRepository.save(createdProblemTag);
+            }
+        }
+    }
+
+    private static JSONArray getJsonArray(ResponseEntity<String> response) throws ParseException {
+        JSONParser jsonParser = new JSONParser();
+        JSONObject parsedObject = (JSONObject) jsonParser.parse(response.getBody());
+
+        JSONArray items = (JSONArray) parsedObject.get("items");
+        return items;
+    }
+
+    private static ResponseEntity<String> getStringResponseEntity(String url, RestTemplate restTemplate, int page) {
+        URI uri = UriComponentsBuilder.fromHttpUrl(url)
+                .path("api/v3/search/problem")
+                .queryParam("query", "")
+                .queryParam("sort", "id")
+                .queryParam("page", page)
+                .encode()
+                .build()
+                .toUri();
+
+        RequestEntity<Void> req = RequestEntity
+                .get(uri)
+                .build();
+
+        ResponseEntity<String> response = restTemplate.exchange(req, String.class);
+        log.info("{}", response.getBody());
+        return response;
     }
 }
