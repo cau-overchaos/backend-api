@@ -18,7 +18,7 @@ public class Feedback extends BaseTimeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @JoinColumn(name = "feedback_baord_id")
+    @JoinColumn(name = "feedback_board_id")
     @ManyToOne(fetch = FetchType.LAZY)
     private FeedbackBoard feedbackBoard;
 

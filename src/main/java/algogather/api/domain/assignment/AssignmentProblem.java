@@ -23,7 +23,7 @@ public class AssignmentProblem extends BaseTimeEntity {
     @Column(name = "assignment_problem_start_date")
     private LocalDateTime start_date;
 
-    @Column(name = "assigment_problem_due_date")
+    @Column(name = "assignment_problem_due_date")
     private LocalDateTime due_date;
 
     @JoinColumn(name = "study_room_id")
