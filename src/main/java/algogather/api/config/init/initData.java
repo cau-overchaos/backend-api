@@ -20,6 +20,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
 
+import static algogather.api.config.init.initConst.solvedAcUrl;
 import static algogather.api.domain.problem.ProblemProvider.*;
 
 @Profile("dev")
@@ -87,7 +88,7 @@ public class initData {
          * solved.ac API를 호출해서 태그 정보를 받는다.
          */
 
-        ResponseEntity<String> response = getStringResponseEntity();
+        ResponseEntity<String> response = getTagListResponseEntity();
 
         /**
          * JSON 문자열 정보를 객체로 변환한다.
@@ -97,10 +98,8 @@ public class initData {
         parseAndSaveTag(response);
     }
 
-    private static ResponseEntity<String> getStringResponseEntity() {
-        String url = "https://solved.ac/";
-
-        URI uri = UriComponentsBuilder.fromHttpUrl(url)
+    private static ResponseEntity<String> getTagListResponseEntity() {
+        URI uri = UriComponentsBuilder.fromHttpUrl(solvedAcUrl)
                 .path("api/v3/tag/list")
                 .encode()
                 .build()
@@ -146,7 +145,6 @@ public class initData {
     }
 
     public void initProblems() throws ParseException {
-        String url = "https://solved.ac/";
         RestTemplate restTemplate = new RestTemplate();
 
         for(int page = 1;; page++) {
@@ -154,7 +152,7 @@ public class initData {
              * solved.ac API를 호출해서 페이지별로 문제 정보를 받는다.
              */
 
-            ResponseEntity<String> response = getStringResponseEntity(url, restTemplate, page);
+            ResponseEntity<String> response = getProblemListResponseEntity(restTemplate, page);
 
             /**
              * JSON 문자열 정보를 객체로 변환한다.
@@ -168,7 +166,7 @@ public class initData {
 
             saveProblemsAndAssociateWithTags(items);
         }
-        log.debug("끝!");
+        log.debug("문제 저장 끝!");
     }
 
     private void saveProblemsAndAssociateWithTags(JSONArray items) {
@@ -226,8 +224,8 @@ public class initData {
         return items;
     }
 
-    private static ResponseEntity<String> getStringResponseEntity(String url, RestTemplate restTemplate, int page) {
-        URI uri = UriComponentsBuilder.fromHttpUrl(url)
+    private static ResponseEntity<String> getProblemListResponseEntity(RestTemplate restTemplate, int page) {
+        URI uri = UriComponentsBuilder.fromHttpUrl(solvedAcUrl)
                 .path("api/v3/search/problem")
                 .queryParam("query", "")
                 .queryParam("sort", "id")
