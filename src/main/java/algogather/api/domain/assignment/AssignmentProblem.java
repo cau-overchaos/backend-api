@@ -21,10 +21,10 @@ public class AssignmentProblem extends BaseTimeEntity {
     private Long id;
 
     @Column(name = "assignment_problem_start_date")
-    private LocalDateTime start_date;
+    private LocalDateTime startDate;
 
     @Column(name = "assignment_problem_due_date")
-    private LocalDateTime due_date;
+    private LocalDateTime dueDate;
 
     @JoinColumn(name = "study_room_id")
     @ManyToOne(fetch = FetchType.LAZY)
