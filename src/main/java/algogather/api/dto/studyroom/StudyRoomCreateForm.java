@@ -3,8 +3,7 @@ package algogather.api.dto.studyroom;
 import algogather.api.domain.studyroom.StudyRoomVisibility;
 import lombok.Getter;
 
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.*;
 
 @Getter
 public class StudyRoomCreateForm {
@@ -13,11 +12,12 @@ public class StudyRoomCreateForm {
 
     private String description;
 
-    @NotEmpty(message = "스터디방 공개여부를 선택해주세요.")
+    @NotNull(message = "스터디방 공개 여부를 올바르게 선택해주세요.")
     private StudyRoomVisibility studyRoomVisibility;
 
-    @NotEmpty(message = "유저의 수는 2~30명의 범위로 입력해주세요")
-    @Size(min = 2, max = 30)
+    @NotNull(message = "유저 수를 입력해주세요.")
+    @Min(value=2, message = "유저의 수는 2명 이상이어야 합니다.")
+    @Max(value=30, message = "유저의 수는 30명 이하이어야 합니다.")
     private Integer maxUserCnt;
 
 }

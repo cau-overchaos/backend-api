@@ -1,12 +1,12 @@
 package algogather.api.dto.studyroom;
 
-import algogather.api.domain.problem.ProblemProvider;
 import algogather.api.dto.problem.ProblemInfoDto;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -19,16 +19,16 @@ public class AssignmentCreateForm {
     private List<ProblemInfoDto> problemList;
 
     @Schema(description = "스터디방 번호")
-    @NotEmpty(message = "스터디방 번호가 없습니다.")
+    @NotNull(message = "스터디방 번호가 없습니다.")
     private Long studyRoomId;
 
     @Schema(description = "과제 시작 날짜 yyyy-MM-dd HH:mm 형식")
-    @NotEmpty(message = "과제 시작 날짜를 입력해주세요.")
+    @NotNull(message = "과제 시작 날짜를 입력해주세요.")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm", timezone = "Asia/Seoul")
     private LocalDateTime startDate;
 
     @Schema(description = "과제 종료 날짜 yyyy-MM-dd HH:mm 형식")
-    @NotEmpty(message = "과제 종료 날짜를 입력해주세요.")
+    @NotNull(message = "과제 종료 날짜를 입력해주세요.")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm", timezone = "Asia/Seoul")
-    private LocalDateTime duetDate;
+    private LocalDateTime dueDate;
 }

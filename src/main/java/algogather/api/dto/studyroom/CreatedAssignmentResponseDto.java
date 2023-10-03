@@ -1,13 +1,10 @@
 package algogather.api.dto.studyroom;
 
 import algogather.api.domain.assignment.AssignmentProblem;
-import algogather.api.domain.problem.ProblemProvider;
 import algogather.api.dto.problem.ProblemInfoDto;
-import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 
-import javax.validation.constraints.NotEmpty;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -22,11 +19,21 @@ public class CreatedAssignmentResponseDto {
                 .map(createdAssignment -> new CreatedAssignment(createdAssignment)).collect(Collectors.toList());
     }
 
+    @Getter
     static class CreatedAssignment {
+        @Schema(description = "생성된 과제 고유번호")
         private Long id;
+
+        @Schema(description = "생성된 문제 정보 (문제 출처, 해당 출처에서 문제 번호)")
         private ProblemInfoDto problemInfoDto;
+
+        @Schema(description = "생성된 과제와 연관된 스터디방 고유번호")
         private Long studyRoomId;
+
+        @Schema(description = "과제 시작 날짜")
         private LocalDateTime startDate;
+
+        @Schema(description = "과제 종료 날짜")
         private LocalDateTime duetDate;
 
         public CreatedAssignment(AssignmentProblem assignmentProblem) {

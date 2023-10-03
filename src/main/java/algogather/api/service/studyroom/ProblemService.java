@@ -6,7 +6,6 @@ import algogather.api.domain.problem.ProblemRepository;
 import algogather.api.dto.problem.ProblemInfoDto;
 import algogather.api.dto.problem.ProblemResponseDto;
 import algogather.api.exception.ProblemNotFoundException;
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

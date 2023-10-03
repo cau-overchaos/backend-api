@@ -2,10 +2,8 @@ package algogather.api.controller.studyroom;
 
 import algogather.api.domain.user.UserAdapter;
 import algogather.api.dto.api.ApiResponse;
-import algogather.api.dto.studyroom.AssignmentCreateForm;
-import algogather.api.dto.studyroom.CreatedStudyRoomResponseDto;
-import algogather.api.dto.studyroom.StudyRoomCreateForm;
-import algogather.api.dto.studyroom.StudyRoomResponseDto;
+import algogather.api.dto.studyroom.*;
+import algogather.api.service.studyroom.AssignmentService;
 import algogather.api.service.studyroom.StudyRoomService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -27,6 +25,8 @@ import javax.validation.Valid;
 public class StudyRoomController {
 
     private final StudyRoomService studyRoomService;
+    private final AssignmentService assignmentService;
+
     @Operation(summary = "스터디룸 테스트중!!", description = "스터디룸 테스트중!!")
     @GetMapping("/test")
     public ResponseEntity<ApiResponse<?>> test (@AuthenticationPrincipal UserAdapter userAdapter, Long studyRoomId) {
@@ -68,7 +68,7 @@ public class StudyRoomController {
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "400", description = "실패", content = @Content(schema = @Schema(implementation = ApiResponse.class)))
     })
     @PostMapping
-    public ResponseEntity<ApiResponse<?>> createStudyRoom(@AuthenticationPrincipal UserAdapter userAdapter, @RequestBody StudyRoomCreateForm studyRoomCreateForm) {
+    public ResponseEntity<ApiResponse<?>> createStudyRoom(@AuthenticationPrincipal UserAdapter userAdapter, @Valid @RequestBody StudyRoomCreateForm studyRoomCreateForm) {
 
         CreatedStudyRoomResponseDto createdStudyRoom = studyRoomService.createStudyRoom(userAdapter, studyRoomCreateForm);
 
@@ -76,10 +76,12 @@ public class StudyRoomController {
 
     }
 
+    @Operation(summary = "과제 생성", description = "과제 생성 API입니다.")
     @PostMapping("/{studyRoomId}/assignments")
     public ResponseEntity<ApiResponse<?>> createAssignment(@AuthenticationPrincipal UserAdapter userAdapter, @Valid @RequestBody AssignmentCreateForm assignmentCreateForm) {
 
+        CreatedAssignmentResponseDto createdAssignmentResponseDto = assignmentService.createAssignment(userAdapter, assignmentCreateForm);
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(ApiResponse.sucessWithDataAndMessage(, "스터디방이 성공적으로 생성되었습니다."));
+        return ResponseEntity.status(HttpStatus.CREATED).body(ApiResponse.sucessWithDataAndMessage(createdAssignmentResponseDto, "스터디방이 성공적으로 생성되었습니다."));
     }
 }
