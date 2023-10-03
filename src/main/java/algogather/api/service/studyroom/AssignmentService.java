@@ -23,13 +23,11 @@ public class AssignmentService {
     //TODO 문제-과제 관계 저장
     public CreatedAssignmentResponseDto createAssignment(UserAdapter userAdapter, AssignmentCreateForm assignmentCreateForm) {
 
-        //TODO 스터디룸 관리자만 과제 생성할 수 있도록 변경
-
         List<ProblemInfoDto> problemInfoDtoList = assignmentCreateForm.getProblemList();
         List<AssignmentProblem> results = new ArrayList<>();
 
-        // 해당 스터디룸의 멤버인지 검증
-        studyRoomService.throwExceptionIfNotStudyRoomMember(userAdapter, assignmentCreateForm.getStudyRoomId());
+        // 해당 스터디룸의 관리자만 과제를 생성할 수 있다.
+        studyRoomService.throwExceptionIfNotStudyRoomManager(userAdapter, assignmentCreateForm.getStudyRoomId());
 
         // 문제가 존재하는지 검증
         problemService.validateProblems(problemInfoDtoList);

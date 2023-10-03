@@ -5,6 +5,7 @@ import algogather.api.domain.user.UserAdapter;
 import algogather.api.dto.studyroom.CreatedStudyRoomResponseDto;
 import algogather.api.dto.studyroom.StudyRoomCreateForm;
 import algogather.api.dto.studyroom.StudyRoomResponseDto;
+import algogather.api.exception.NotStudyRoomManagerException;
 import algogather.api.exception.NotStudyRoomMemberException;
 import algogather.api.exception.StudyRoomNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -44,8 +45,8 @@ public class StudyRoomService {
 
         UserStudyRoom foundUserStudyRoom = userStudyRoomRepository.findByUserIdAndStudyRoomId(user.getId(), studyRoomId).orElseThrow(() -> new NotStudyRoomMemberException());
 
-        if(foundUserStudyRoom.getRole().getKey() != "MANAGER") {
-
+        if(!foundUserStudyRoom.getRole().getKey().equals("MANAGER")) {
+            throw new NotStudyRoomManagerException();
         }
 
     }

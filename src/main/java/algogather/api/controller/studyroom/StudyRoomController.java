@@ -27,14 +27,6 @@ public class StudyRoomController {
     private final StudyRoomService studyRoomService;
     private final AssignmentService assignmentService;
 
-    @Operation(summary = "스터디룸 테스트중!!", description = "스터디룸 테스트중!!")
-    @GetMapping("/test")
-    public ResponseEntity<ApiResponse<?>> test (@AuthenticationPrincipal UserAdapter userAdapter, Long studyRoomId) {
-        studyRoomService.throwExceptionIfNotStudyRoomMember(userAdapter, studyRoomId); // 사용자가 스터디룸의 멤버인지 검증한다.
-
-        return ResponseEntity.status(HttpStatus.OK).body(ApiResponse.sucess("test 성공!"));
-    }
-
     @Operation(summary = "모든 스터디방 목록", description = "모든 스터디방 목록 불러오기 API입니다.")
     @ApiResponses(value = {
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "성공", content = @Content(schema = @Schema(implementation = ApiResponse.class))),

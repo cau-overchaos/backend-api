@@ -23,10 +23,4 @@ public class CommonExceptionHandler {
         log.debug("bindingResult = {}", bindingResult);
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ApiResponse.createFail(bindingResult));
     }
-
-    @ExceptionHandler(Exception.class)
-    public ResponseEntity<ApiResponse<?>> handleException(Exception exception) {
-        log.debug("Exception = {}", exception.getMessage());
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(ApiResponse.createError(exception.getMessage()));
-    }
 }

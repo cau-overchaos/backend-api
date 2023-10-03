@@ -19,15 +19,15 @@ public class StudyRoomExceptionHandler {
         return ResponseEntity.status(HttpStatus.FORBIDDEN).body(ApiResponse.createError(exception.getMessage()));
     }
 
-    @ExceptionHandler(StudyRoomNotFoundException.class)
-    public ResponseEntity<ApiResponse<?>> handleStudyRoomNotFoundException(StudyRoomNotFoundException exception) {
-        log.debug("StudyRoomNotFoundException = {}", exception.getMessage());
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ApiResponse.createError(exception.getMessage()));
-    }
-
     @ExceptionHandler(NotStudyRoomManagerException.class)
     public ResponseEntity<ApiResponse<?>> handleNotStudyRoomManagerException(NotStudyRoomManagerException exception) {
         log.debug("NotStudyRoomManagerException = {}", exception.getMessage());
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(ApiResponse.createError(exception.getMessage()));
+    }
+
+    @ExceptionHandler(StudyRoomNotFoundException.class)
+    public ResponseEntity<ApiResponse<?>> handleStudyRoomNotFoundException(StudyRoomNotFoundException exception) {
+        log.debug("StudyRoomNotFoundException = {}", exception.getMessage());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ApiResponse.createError(exception.getMessage()));
     }
 }
