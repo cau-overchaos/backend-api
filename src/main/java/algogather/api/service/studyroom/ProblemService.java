@@ -17,13 +17,19 @@ public class ProblemService {
     private final ProblemRepository problemRepository;
 
     public ProblemResponseDto findProblemByPidAndProviderAndReturnDto(Long pid, ProblemProvider provider) {
-        Problem foundProblem = problemRepository.findByPidAndProvider(pid, provider).orElseThrow(() -> new ProblemNotFoundException());
+        Problem foundProblem = problemRepository.findByPidAndProvider(pid, provider)
+                .orElseThrow(
+                        () -> new ProblemNotFoundException(provider.getValue() + "의 " + pid + "번 문제를 찾을 수 없습니다.")
+                );
 
         return new ProblemResponseDto(foundProblem);
     }
 
     public Problem findByPidAndProvider(Long pid, ProblemProvider provider) {
-        Problem foundProblem = problemRepository.findByPidAndProvider(pid, provider).orElseThrow(() -> new ProblemNotFoundException());
+        Problem foundProblem = problemRepository.findByPidAndProvider(pid, provider)
+                .orElseThrow(
+                        () -> new ProblemNotFoundException(provider.getValue() + "의 " + pid + "번 문제를 찾을 수 없습니다.")
+                );
 
         return foundProblem;
     }
