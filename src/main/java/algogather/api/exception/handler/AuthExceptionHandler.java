@@ -10,8 +10,6 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import java.rmi.server.ExportException;
-
 @Slf4j
 @RestControllerAdvice
 public class AuthExceptionHandler {

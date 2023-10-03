@@ -1,7 +1,6 @@
 package algogather.api.domain.programminglanguage;
 
 import algogather.api.domain.BaseTimeEntity;
-import algogather.api.domain.problem.Problem;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

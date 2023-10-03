@@ -10,8 +10,6 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import javax.servlet.http.HttpServletRequest;
-import java.rmi.server.ExportException;
-import java.util.Map;
 
 @Slf4j
 @RestControllerAdvice
