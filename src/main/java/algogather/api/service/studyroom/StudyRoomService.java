@@ -34,6 +34,22 @@ public class StudyRoomService {
         userStudyRoomRepository.findByUserIdAndStudyRoomId(user.getId(), studyRoomId).orElseThrow(() -> new NotStudyRoomMemberException());
     }
 
+    /**
+     * 스터디방의 관리자인지 확인한다.
+     */
+    public void throwExceptionIfNotStudyRoomManager(UserAdapter userAdapter, Long studyRoomId) {
+        User user = userAdapter.getUser();
+
+        findById(studyRoomId);
+
+        UserStudyRoom foundUserStudyRoom = userStudyRoomRepository.findByUserIdAndStudyRoomId(user.getId(), studyRoomId).orElseThrow(() -> new NotStudyRoomMemberException());
+
+        if(foundUserStudyRoom.getRole().getKey() != "MANAGER") {
+
+        }
+
+    }
+
     @Transactional
     public CreatedStudyRoomResponseDto createStudyRoom(UserAdapter userAdapter, StudyRoomCreateForm studyRoomCreateForm) {
         StudyRoom newStudyRoom = StudyRoom.builder()

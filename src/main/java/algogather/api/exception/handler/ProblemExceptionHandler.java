@@ -2,6 +2,7 @@ package algogather.api.exception.handler;
 
 import algogather.api.dto.api.ApiResponse;
 import algogather.api.exception.DifficultyNotFoundException;
+import algogather.api.exception.ProblemNotFoundException;
 import algogather.api.exception.TagNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -21,6 +22,12 @@ public class ProblemExceptionHandler {
     @ExceptionHandler(TagNotFoundException.class)
     public ResponseEntity<ApiResponse<?>> handleTagNotFoundException(TagNotFoundException exception) {
         log.debug("TagNotFoundException = {}", exception.getMessage());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ApiResponse.createError(exception.getMessage()));
+    }
+
+    @ExceptionHandler(ProblemNotFoundException.class)
+    public ResponseEntity<ApiResponse<?>> handleProblemNotFoundException(ProblemNotFoundException exception) {
+        log.debug("ProblemNotFoundException = {}", exception.getMessage());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ApiResponse.createError(exception.getMessage()));
     }
 }
