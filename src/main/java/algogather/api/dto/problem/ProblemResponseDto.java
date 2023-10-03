@@ -1,11 +1,8 @@
 package algogather.api.dto.problem;
 
-import algogather.api.domain.problem.Difficulty;
 import algogather.api.domain.problem.Problem;
 import algogather.api.domain.problem.ProblemProvider;
 import lombok.Getter;
-
-import javax.persistence.*;
 
 @Getter
 public class ProblemResponseDto {

@@ -1,19 +1,41 @@
 package algogather.api.service.studyroom;
 
+import algogather.api.domain.assignment.AssignmentProblem;
 import algogather.api.domain.assignment.AssignmentProblemRepository;
+import algogather.api.dto.problem.ProblemInfoDto;
 import algogather.api.dto.studyroom.AssignmentCreateForm;
+import algogather.api.dto.studyroom.CreatedAssignmentResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
 public class AssignmentService {
 
     private final AssignmentProblemRepository assignmentProblemRepository;
-    //TODO CreatedAssignmentResponseDto 만들기
-    public Object createAssignment(AssignmentCreateForm assignmentCreateForm) {
+    private final ProblemService problemService;
+    private final StudyRoomService studyRoomService;
 
-        // 문제목록들 문제가 존재하는지 검증
+    //TODO 문제-과제 관계 저장
+    public CreatedAssignmentResponseDto createAssignment(AssignmentCreateForm assignmentCreateForm) {
 
+        List<ProblemInfoDto> problemInfoDtoList = assignmentCreateForm.getProblemList();
+        List<AssignmentProblem> results = null;
+        // 문제가 존재하는지 검증
+        problemService.validateProblems(problemInfoDtoList);
+
+        for(ProblemInfoDto problemInfo : problemInfoDtoList) {
+            AssignmentProblem createdAssignmentProblem = AssignmentProblem.builder()
+                    .startDate(assignmentCreateForm.getStartDate())
+                    .dueDate(assignmentCreateForm.getDuetDate())
+                    .studyRoom(studyRoomService.findById(assignmentCreateForm.getStudyRoomId()))
+                    .problem(problemService.findByPidAndProvider(problemInfo.getPid(), problemInfo.getProvider()))
+                    .build();
+            results.add(assignmentProblemRepository.save(createdAssignmentProblem));
+        }
+
+        return new CreatedAssignmentResponseDto(results);
     }
 }

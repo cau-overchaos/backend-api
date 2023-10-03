@@ -16,7 +16,7 @@ public class StudyRoomCreateForm {
     @NotEmpty(message = "스터디방 공개여부를 선택해주세요.")
     private StudyRoomVisibility studyRoomVisibility;
 
-    @NotEmpty(message = "유저의 수는 2~30 명의 범위에서 선택해주세요.")
+    @NotEmpty(message = "유저의 수는 2~30명의 범위로 입력해주세요")
     @Size(min = 2, max = 30)
     private Integer maxUserCnt;
 
