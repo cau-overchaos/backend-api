@@ -76,10 +76,10 @@ public class StudyRoomController {
 
     }
 
-//    @PostMapping("/{studyRoomId}/assignments")
-//    public ResponseEntity<ApiResponse<?>> createAssignment(@AuthenticationPrincipal UserAdapter userAdapter, @Valid @RequestBody AssignmentCreateForm assignmentCreateForm) {
-//
-//
-//        return ResponseEntity.status(HttpStatus.CREATED).body(ApiResponse.sucessWithDataAndMessage(, "스터디방이 성공적으로 생성되었습니다."));
-//    }
+    @PostMapping("/{studyRoomId}/assignments")
+    public ResponseEntity<ApiResponse<?>> createAssignment(@AuthenticationPrincipal UserAdapter userAdapter, @Valid @RequestBody AssignmentCreateForm assignmentCreateForm) {
+
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(ApiResponse.sucessWithDataAndMessage(, "스터디방이 성공적으로 생성되었습니다."));
+    }
 }

@@ -11,9 +11,9 @@ public class AssignmentService {
 
     private final AssignmentProblemRepository assignmentProblemRepository;
     //TODO CreatedAssignmentResponseDto 만들기
-//    public Object createAssignment(AssignmentCreateForm assignmentCreateForm) {
-//
-//        // 문제목록들 문제가 존재하는지 검증
-//
-//    }
+    public Object createAssignment(AssignmentCreateForm assignmentCreateForm) {
+
+        // 문제목록들 문제가 존재하는지 검증
+
+    }
 }
