@@ -1,5 +1,6 @@
 package algogather.api.dto.studyroom;
 
+import algogather.api.domain.problem.ProblemProvider;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
@@ -11,11 +12,10 @@ import java.util.List;
 
 @Getter
 public class AssignmentCreateForm {
-
     @Schema(description = "문제 리스트")
     @NotEmpty(message = "문제 목록이 비어있습니다.")
     @Size(max = 30, message = "문제는 한번에 30개까지 등록이 가능합니다")
-    private List<Long> problemList;
+    private List<ProblemInfo> problemList;
 
     @Schema(description = "스터디방 번호")
     @NotEmpty(message = "스터디방 번호가 없습니다.")
@@ -30,4 +30,15 @@ public class AssignmentCreateForm {
     @NotEmpty(message = "과제 종료 날짜를 입력해주세요.")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm", timezone = "Asia/Seoul")
     private LocalDateTime duetDate;
+
+    @Getter
+    static class ProblemInfo {
+        @Schema(description = "문제 출처")
+        @NotEmpty(message = "문제 출처를 입력해주세요.")
+        private ProblemProvider provider;
+
+        @Schema(description = "문제 번호")
+        @NotEmpty(message = "문제 번호를 입력해주세요.")
+        private Long pid;
+    }
 }

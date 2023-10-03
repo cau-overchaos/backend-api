@@ -2,6 +2,7 @@ package algogather.api.controller.studyroom;
 
 import algogather.api.domain.user.UserAdapter;
 import algogather.api.dto.api.ApiResponse;
+import algogather.api.dto.studyroom.AssignmentCreateForm;
 import algogather.api.dto.studyroom.CreatedStudyRoomResponseDto;
 import algogather.api.dto.studyroom.StudyRoomCreateForm;
 import algogather.api.dto.studyroom.StudyRoomResponseDto;
@@ -16,6 +17,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 @RestController
 @RequiredArgsConstructor
@@ -72,4 +75,11 @@ public class StudyRoomController {
         return ResponseEntity.status(HttpStatus.CREATED).body(ApiResponse.sucessWithDataAndMessage(createdStudyRoom, "스터디방이 성공적으로 생성되었습니다."));
 
     }
+
+//    @PostMapping("/{studyRoomId}/assignments")
+//    public ResponseEntity<ApiResponse<?>> createAssignment(@AuthenticationPrincipal UserAdapter userAdapter, @Valid @RequestBody AssignmentCreateForm assignmentCreateForm) {
+//
+//
+//        return ResponseEntity.status(HttpStatus.CREATED).body(ApiResponse.sucessWithDataAndMessage(, "스터디방이 성공적으로 생성되었습니다."));
+//    }
 }
