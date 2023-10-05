@@ -19,8 +19,7 @@ public class AssignmentService {
     private final AssignmentProblemRepository assignmentProblemRepository;
     private final ProblemService problemService;
     private final StudyRoomService studyRoomService;
-
-    //TODO 문제-과제 관계 저장
+    
     public CreatedAssignmentResponseDto createAssignment(UserAdapter userAdapter, AssignmentCreateForm assignmentCreateForm) {
 
         List<ProblemInfoDto> problemInfoDtoList = assignmentCreateForm.getProblemList();

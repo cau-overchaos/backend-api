@@ -74,6 +74,6 @@ public class StudyRoomController {
 
         CreatedAssignmentResponseDto createdAssignmentResponseDto = assignmentService.createAssignment(userAdapter, assignmentCreateForm);
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(ApiResponse.sucessWithDataAndMessage(createdAssignmentResponseDto, "스터디방이 성공적으로 생성되었습니다."));
+        return ResponseEntity.status(HttpStatus.CREATED).body(ApiResponse.sucessWithDataAndMessage(createdAssignmentResponseDto, "과제가 성공적으로 생성되었습니다."));
     }
 }
