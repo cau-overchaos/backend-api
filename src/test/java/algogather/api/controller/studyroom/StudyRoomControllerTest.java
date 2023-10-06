@@ -3,10 +3,8 @@ package algogather.api.controller.studyroom;
 import algogather.api.domain.studyroom.StudyRoomVisibility;
 import algogather.api.domain.user.UserRepository;
 import algogather.api.domain.user.UserRole;
-import algogather.api.dto.auth.LoginForm;
-import algogather.api.dto.auth.SignUpForm;
+
 import algogather.api.dto.studyroom.StudyRoomCreateForm;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -23,7 +21,6 @@ import algogather.api.domain.user.User;
 
 import javax.transaction.Transactional;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
