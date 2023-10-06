@@ -5,6 +5,7 @@ import algogather.api.domain.user.UserAdapter;
 import algogather.api.dto.studyroom.CreatedStudyRoomResponseDto;
 import algogather.api.dto.studyroom.StudyRoomCreateForm;
 import algogather.api.dto.studyroom.StudyRoomResponseDto;
+import algogather.api.exception.NotStudyRoomManagerException;
 import algogather.api.exception.NotStudyRoomMemberException;
 import algogather.api.exception.StudyRoomNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -14,7 +15,6 @@ import algogather.api.domain.user.User;
 
 import javax.transaction.Transactional;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -32,6 +32,22 @@ public class StudyRoomService {
         findById(studyRoomId);
 
         userStudyRoomRepository.findByUserIdAndStudyRoomId(user.getId(), studyRoomId).orElseThrow(() -> new NotStudyRoomMemberException());
+    }
+
+    /**
+     * 스터디방의 관리자인지 확인한다.
+     */
+    public void throwExceptionIfNotStudyRoomManager(UserAdapter userAdapter, Long studyRoomId) {
+        User user = userAdapter.getUser();
+
+        findById(studyRoomId);
+
+        UserStudyRoom foundUserStudyRoom = userStudyRoomRepository.findByUserIdAndStudyRoomId(user.getId(), studyRoomId).orElseThrow(() -> new NotStudyRoomMemberException());
+
+        if(!foundUserStudyRoom.getRole().getKey().equals("MANAGER")) {
+            throw new NotStudyRoomManagerException();
+        }
+
     }
 
     @Transactional

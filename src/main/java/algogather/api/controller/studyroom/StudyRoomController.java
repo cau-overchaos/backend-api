@@ -2,9 +2,8 @@ package algogather.api.controller.studyroom;
 
 import algogather.api.domain.user.UserAdapter;
 import algogather.api.dto.api.ApiResponse;
-import algogather.api.dto.studyroom.CreatedStudyRoomResponseDto;
-import algogather.api.dto.studyroom.StudyRoomCreateForm;
-import algogather.api.dto.studyroom.StudyRoomResponseDto;
+import algogather.api.dto.studyroom.*;
+import algogather.api.service.studyroom.AssignmentService;
 import algogather.api.service.studyroom.StudyRoomService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -17,6 +16,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/studyrooms")
@@ -24,13 +25,7 @@ import org.springframework.web.bind.annotation.*;
 public class StudyRoomController {
 
     private final StudyRoomService studyRoomService;
-    @Operation(summary = "스터디룸 테스트중!!", description = "스터디룸 테스트중!!")
-    @GetMapping("/test")
-    public ResponseEntity<ApiResponse<?>> test (@AuthenticationPrincipal UserAdapter userAdapter, Long studyRoomId) {
-        studyRoomService.throwExceptionIfNotStudyRoomMember(userAdapter, studyRoomId); // 사용자가 스터디룸의 멤버인지 검증한다.
-
-        return ResponseEntity.status(HttpStatus.OK).body(ApiResponse.sucess("test 성공!"));
-    }
+    private final AssignmentService assignmentService;
 
     @Operation(summary = "모든 스터디방 목록", description = "모든 스터디방 목록 불러오기 API입니다.")
     @ApiResponses(value = {
@@ -65,11 +60,20 @@ public class StudyRoomController {
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "400", description = "실패", content = @Content(schema = @Schema(implementation = ApiResponse.class)))
     })
     @PostMapping
-    public ResponseEntity<ApiResponse<?>> createStudyRoom(@AuthenticationPrincipal UserAdapter userAdapter, @RequestBody StudyRoomCreateForm studyRoomCreateForm) {
+    public ResponseEntity<ApiResponse<?>> createStudyRoom(@AuthenticationPrincipal UserAdapter userAdapter, @Valid @RequestBody StudyRoomCreateForm studyRoomCreateForm) {
 
         CreatedStudyRoomResponseDto createdStudyRoom = studyRoomService.createStudyRoom(userAdapter, studyRoomCreateForm);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(ApiResponse.sucessWithDataAndMessage(createdStudyRoom, "스터디방이 성공적으로 생성되었습니다."));
 
+    }
+
+    @Operation(summary = "과제 생성", description = "과제 생성 API입니다.")
+    @PostMapping("/{studyRoomId}/assignments")
+    public ResponseEntity<ApiResponse<?>> createAssignment(@AuthenticationPrincipal UserAdapter userAdapter, @Valid @RequestBody AssignmentCreateForm assignmentCreateForm) {
+
+        CreatedAssignmentResponseDto createdAssignmentResponseDto = assignmentService.createAssignment(userAdapter, assignmentCreateForm);
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(ApiResponse.sucessWithDataAndMessage(createdAssignmentResponseDto, "과제가 성공적으로 생성되었습니다."));
     }
 }

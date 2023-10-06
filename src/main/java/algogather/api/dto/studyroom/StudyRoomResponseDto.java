@@ -10,7 +10,6 @@ import java.util.stream.Collectors;
 
 @Getter
 public class StudyRoomResponseDto {
-
     private List<StudyRoomDto> studyRoomList;
 
     public StudyRoomResponseDto(List<StudyRoom> studyRoomList) {

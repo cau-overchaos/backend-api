@@ -1,7 +1,6 @@
 package algogather.api.domain.chat;
 
 import algogather.api.domain.BaseTimeEntity;
-import algogather.api.domain.post.Board;
 import algogather.api.domain.studyroom.StudyRoom;
 import algogather.api.domain.user.User;
 import lombok.AccessLevel;

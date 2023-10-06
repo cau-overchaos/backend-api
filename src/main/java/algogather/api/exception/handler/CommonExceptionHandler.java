@@ -10,8 +10,6 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import javax.servlet.http.HttpServletRequest;
-import java.rmi.server.ExportException;
-import java.util.Map;
 
 @Slf4j
 @RestControllerAdvice
@@ -22,11 +20,5 @@ public class CommonExceptionHandler {
         log.debug("request.getRequestURI() = {}, ", request.getRequestURI());
         log.debug("bindingResult = {}", bindingResult);
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ApiResponse.createFail(bindingResult));
-    }
-
-    @ExceptionHandler(Exception.class)
-    public ResponseEntity<ApiResponse<?>> handleException(Exception exception) {
-        log.debug("Exception = {}", exception.getMessage());
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(ApiResponse.createError(exception.getMessage()));
     }
 }
