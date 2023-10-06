@@ -29,8 +29,8 @@ replay_pid*
 .LSOverride
 
 # IntelliJ project files
-.idea
-.idea/*.xml
+#.idea
+#.idea/*.xml
 *.iml
 out
 gen
