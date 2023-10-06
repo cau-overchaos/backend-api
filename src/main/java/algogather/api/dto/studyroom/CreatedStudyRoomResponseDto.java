@@ -12,14 +12,14 @@ public class CreatedStudyRoomResponseDto {
     private StudyRoomVisibility studyRoomVisibility;
     private Integer maxUserCnt;
 
-    private String managerName;
+    private String managerUserId;
 
-    public CreatedStudyRoomResponseDto(StudyRoom studyRoom, String managerName) {
+    public CreatedStudyRoomResponseDto(StudyRoom studyRoom, String managerUserId) {
         this.id = studyRoom.getId();
         this.title = studyRoom.getTitle();
         this.description = studyRoom.getDescription();
         this.studyRoomVisibility = studyRoom.getStudyRoomVisibility();
         this.maxUserCnt = studyRoom.getMaxUserCnt();
-        this.managerName = managerName;
+        this.managerUserId = managerUserId;
     }
 }
