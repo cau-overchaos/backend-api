@@ -1,6 +1,7 @@
 package algogather.api.dto.studyroom;
 
 import algogather.api.domain.studyroom.StudyRoomVisibility;
+import lombok.Builder;
 import lombok.Getter;
 
 import javax.validation.constraints.*;
@@ -20,4 +21,11 @@ public class StudyRoomCreateForm {
     @Max(value=30, message = "유저의 수는 30명 이하이어야 합니다.")
     private Integer maxUserCnt;
 
+    @Builder
+    public StudyRoomCreateForm(String title, String description, StudyRoomVisibility studyRoomVisibility, Integer maxUserCnt) {
+        this.title = title;
+        this.description = description;
+        this.studyRoomVisibility = studyRoomVisibility;
+        this.maxUserCnt = maxUserCnt;
+    }
 }
