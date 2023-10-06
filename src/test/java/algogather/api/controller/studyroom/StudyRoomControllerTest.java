@@ -81,4 +81,27 @@ class StudyRoomControllerTest {
                 .andExpect(jsonPath("$.data.maxUserCnt").value(25))
                 .andExpect(jsonPath("$.data.managerUserId").value("testUser"));
     }
+
+    @Test
+    @DisplayName("로그인을 하지 않으면 스터디방을 만들지 못한다.")
+    void create_studyroom_not_authenticated_fail() throws Exception {
+        //given
+        StudyRoomCreateForm studyRoomCreateForm = StudyRoomCreateForm
+                .builder()
+                .title("testStudyRoomTitle")
+                .description("testDescription")
+                .studyRoomVisibility(StudyRoomVisibility.PRIVATE)
+                .maxUserCnt(25)
+                .build();
+
+        //when
+        ResultActions resultActions = mvc.perform(post("/studyrooms")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(studyRoomCreateForm))
+                .accept(MediaType.APPLICATION_JSON)).andDo(print());
+
+        //then
+        resultActions.andExpect(status().isUnauthorized())
+                .andExpect(jsonPath("$.message").value("접근 권한이 없습니다."));
+    }
 }
