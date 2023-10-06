@@ -3,7 +3,6 @@ package algogather.api.controller.auth;
 import algogather.api.domain.user.UserRepository;
 import algogather.api.dto.auth.LoginForm;
 import algogather.api.dto.auth.SignUpForm;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -13,7 +12,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
-import algogather.api.domain.user.User;
 
 import javax.transaction.Transactional;
 

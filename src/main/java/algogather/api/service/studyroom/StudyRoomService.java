@@ -67,7 +67,7 @@ public class StudyRoomService {
         StudyRoom createdStudyRoom = studyRoomRepository.save(newStudyRoom);
         UserStudyRoom createdUserStudyRoom = userStudyRoomRepository.save(newUserStudyRoom);
 
-        return new CreatedStudyRoomResponseDto(createdStudyRoom, createdUserStudyRoom.getUser().getName());
+        return new CreatedStudyRoomResponseDto(createdStudyRoom, createdUserStudyRoom.getUser().getUserId());
     }
 
     public StudyRoom findById(Long studyRoomId) {
