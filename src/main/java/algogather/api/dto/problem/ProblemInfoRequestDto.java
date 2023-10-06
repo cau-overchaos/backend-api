@@ -10,7 +10,7 @@ import javax.validation.constraints.NotNull;
 
 @Getter
 @NoArgsConstructor
-public class ProblemInfoDto {
+public class ProblemInfoRequestDto {
     @Schema(description = "문제 출처")
     @NotNull(message = "문제 출처를 올바르게 입력해주세요")
     private ProblemProvider provider;
@@ -19,7 +19,7 @@ public class ProblemInfoDto {
     @NotEmpty(message = "문제 번호를 입력해주세요.")
     private Long pid;
 
-    public ProblemInfoDto(ProblemProvider provider, Long pid) {
+    public ProblemInfoRequestDto(ProblemProvider provider, Long pid) {
         this.provider = provider;
         this.pid = pid;
     }

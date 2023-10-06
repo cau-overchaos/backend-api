@@ -1,6 +1,6 @@
 package algogather.api.dto.studyroom;
 
-import algogather.api.dto.problem.ProblemInfoDto;
+import algogather.api.dto.problem.ProblemInfoRequestDto;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
@@ -16,7 +16,7 @@ public class AssignmentCreateForm {
     @Schema(description = "문제 리스트")
     @NotEmpty(message = "문제 목록이 비어있습니다.")
     @Size(max = 30, message = "문제는 한번에 30개까지 등록이 가능합니다")
-    private List<ProblemInfoDto> problemList;
+    private List<ProblemInfoRequestDto> problemList;
 
     @Schema(description = "스터디방 번호")
     @NotNull(message = "스터디방 번호가 없습니다.")

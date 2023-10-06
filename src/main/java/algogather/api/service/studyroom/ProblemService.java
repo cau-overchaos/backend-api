@@ -3,7 +3,7 @@ package algogather.api.service.studyroom;
 import algogather.api.domain.problem.Problem;
 import algogather.api.domain.problem.ProblemProvider;
 import algogather.api.domain.problem.ProblemRepository;
-import algogather.api.dto.problem.ProblemInfoDto;
+import algogather.api.dto.problem.ProblemInfoRequestDto;
 import algogather.api.dto.problem.ProblemResponseDto;
 import algogather.api.exception.ProblemNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -34,8 +34,8 @@ public class ProblemService {
         return foundProblem;
     }
 
-    public void validateProblems(List<ProblemInfoDto> problemInfoDtoList) {
-        problemInfoDtoList.stream()
+    public void validateProblems(List<ProblemInfoRequestDto> problemInfoRequestDtoList) {
+        problemInfoRequestDtoList.stream()
                 .map(problemInfo -> findProblemByPidAndProviderAndReturnDto(problemInfo.getPid(), problemInfo.getProvider()));
     }
 }
