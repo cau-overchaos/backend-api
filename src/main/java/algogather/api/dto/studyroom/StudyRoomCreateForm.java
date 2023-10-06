@@ -21,7 +21,6 @@ public class StudyRoomCreateForm {
     @Max(value=30, message = "유저의 수는 30명 이하이어야 합니다.")
     private Integer maxUserCnt;
 
-
     @Builder
     public StudyRoomCreateForm(String title, String description, StudyRoomVisibility studyRoomVisibility, Integer maxUserCnt) {
         this.title = title;

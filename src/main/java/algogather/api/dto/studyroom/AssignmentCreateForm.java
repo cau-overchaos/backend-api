@@ -2,8 +2,12 @@ package algogather.api.dto.studyroom;
 
 import algogather.api.dto.problem.ProblemInfoRequestDto;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
 import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
@@ -12,6 +16,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Getter
+@NoArgsConstructor
 public class AssignmentCreateForm {
     @Schema(description = "문제 리스트")
     @NotEmpty(message = "문제 목록이 비어있습니다.")
@@ -31,4 +36,12 @@ public class AssignmentCreateForm {
     @NotNull(message = "과제 종료 날짜를 입력해주세요.")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm", timezone = "Asia/Seoul")
     private LocalDateTime dueDate;
+
+    @Builder
+    public AssignmentCreateForm(List<ProblemInfoRequestDto> problemList, Long studyRoomId, LocalDateTime startDate, LocalDateTime dueDate) {
+        this.problemList = problemList;
+        this.studyRoomId = studyRoomId;
+        this.startDate = startDate;
+        this.dueDate = dueDate;
+    }
 }

@@ -2,6 +2,7 @@ package algogather.api.dto.problem;
 
 import algogather.api.domain.problem.ProblemProvider;
 import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -19,8 +20,11 @@ public class ProblemInfoRequestDto {
     @NotEmpty(message = "문제 번호를 입력해주세요.")
     private Long pid;
 
+    @Builder
     public ProblemInfoRequestDto(ProblemProvider provider, Long pid) {
         this.provider = provider;
         this.pid = pid;
     }
+
+
 }
