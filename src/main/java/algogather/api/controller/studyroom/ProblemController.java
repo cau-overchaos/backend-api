@@ -21,6 +21,6 @@ public class ProblemController {
     public ResponseEntity<ApiResponse<?>> findProblemByPidAndProvider(@RequestParam Long pid, @RequestParam ProblemProvider provider) {
         ProblemResponseDto problemResponseDto = problemService.findProblemByPidAndProviderAndReturnDto(pid, provider);
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(ApiResponse.sucessWithDataAndMessage(problemResponseDto, "해당 문제를 찾았습니다."));
+        return ResponseEntity.status(HttpStatus.OK).body(ApiResponse.sucessWithDataAndMessage(problemResponseDto, "해당 문제를 찾았습니다."));
     }
 }

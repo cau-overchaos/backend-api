@@ -14,13 +14,16 @@ public class ProblemResponseDto {
 
     private String title;
 
-    private String difficulty;
+    private Long difficultyLevel;
+
+    private String difficultyName;
 
     public ProblemResponseDto(Problem problem) {
         this.id = problem.getId();
         this.provider = problem.getProvider();
         this.pid = problem.getPid();
         this.title = problem.getTitle();
-        this.difficulty = problem.getDifficulty().getName();
+        this.difficultyLevel = problem.getDifficulty().getLevel();
+        this.difficultyName = problem.getDifficulty().getName();
     }
 }
