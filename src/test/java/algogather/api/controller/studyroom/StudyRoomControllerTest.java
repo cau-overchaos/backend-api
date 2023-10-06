@@ -283,4 +283,119 @@ class StudyRoomControllerTest {
                 .andExpect(status().isForbidden())
                 .andExpect(jsonPath("$.message").value("해당 스터디방의 멤버가 아닙니다."));
     }
+
+    @Test
+    @DisplayName("스터디방 매니저가 아니면 과제를 생성하지 못한다.")
+    @WithUserDetails(value = "testUser", userDetailsServiceBeanName = "customUserDetailsService", setupBefore = TestExecutionEvent.TEST_EXECUTION)
+    void create_studyroom_not_studyroom_manager_fail() throws Exception {
+        //given
+
+        // 스터디방을 만들고 관리자와 연관시킨다.
+        StudyRoom studyRoom = StudyRoom.builder()
+                .title("testStudyRoomTitle")
+                .description("testDescription")
+                .studyRoomVisibility(StudyRoomVisibility.PRIVATE)
+                .maxUserCnt(25)
+                .build();
+
+        User manager = User.builder()
+                .userId("testManager")
+                .password("testPassword")
+                .name("ManagerName")
+                .judge_account("ManagerJudgeAccount")
+                .role(UserRole.USER)
+                .build();
+
+        UserStudyRoom userStudyRoom = UserStudyRoom.builder()
+                .studyRoom(studyRoom)
+                .user(manager)
+                .role(StudyRoomRole.MANAGER)
+                .build();
+
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        UserAdapter userAdapter = (UserAdapter) principal;
+
+        UserStudyRoom userStudyRoomNotManager = UserStudyRoom.builder()
+                .studyRoom(studyRoom)
+                .user(userAdapter.getUser())
+                .role(StudyRoomRole.USER)
+                .build();
+
+        userRepository.save(manager);
+        studyRoomRepository.save(studyRoom);
+        userStudyRoomRepository.save(userStudyRoom);
+        userStudyRoomRepository.save(userStudyRoomNotManager);
+
+
+        //문제 및 난이도 데이터 저장
+        Difficulty testDifficulty1 = Difficulty
+                .builder()
+                .name("testLevel1")
+                .level(0L)
+                .provider(BAEKJOON)
+                .build();
+
+        Difficulty testDifficulty2 = Difficulty
+                .builder()
+                .name("testLevel2")
+                .level(1L)
+                .provider(BAEKJOON)
+                .build();
+
+        difficultyRepository.save(testDifficulty1);
+        difficultyRepository.save(testDifficulty2);
+
+        Problem testProblem1 = Problem.builder()
+                .pid(1L)
+                .title("testProblem1")
+                .difficulty(testDifficulty1)
+                .provider(BAEKJOON)
+                .build();
+
+        Problem testProblem2 = Problem.builder()
+                .pid(2L)
+                .title("testProblem2")
+                .difficulty(testDifficulty2)
+                .provider(BAEKJOON)
+                .build();
+
+        Problem savedProblem1 = problemRepository.save(testProblem1);
+        Problem savedProblem2 = problemRepository.save(testProblem2);
+
+        ProblemInfoRequestDto problemInfoRequestDto1 = ProblemInfoRequestDto
+                .builder()
+                .pid(savedProblem1.getPid())
+                .provider(BAEKJOON)
+                .build();
+
+        ProblemInfoRequestDto problemInfoRequestDto2 = ProblemInfoRequestDto
+                .builder()
+                .pid(savedProblem2.getPid())
+                .provider(BAEKJOON)
+                .build();
+
+        List<ProblemInfoRequestDto> problemInfoRequestDtoList = new ArrayList<>();
+        problemInfoRequestDtoList.add(problemInfoRequestDto1);
+        problemInfoRequestDtoList.add(problemInfoRequestDto2);
+
+        LocalDateTime testDateTime = LocalDateTime.now();
+        AssignmentCreateForm assignmentCreateForm = AssignmentCreateForm.builder()
+                .studyRoomId(studyRoom.getId())
+                .startDate(testDateTime)
+                .dueDate(testDateTime)
+                .problemList(problemInfoRequestDtoList).
+                build();
+
+        //when
+        ResultActions resultActions = mvc.perform(post("/studyrooms/" + studyRoom.getId() + "/assignments")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(assignmentCreateForm))
+                        .accept(MediaType.APPLICATION_JSON))
+                .andDo(print());
+
+        //then
+        resultActions
+                .andExpect(status().isForbidden())
+                .andExpect(jsonPath("$.message").value("해당 스터디룸의 관리자가 아닙니다!"));
+    }
 }
