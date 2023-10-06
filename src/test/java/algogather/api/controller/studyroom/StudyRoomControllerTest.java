@@ -11,6 +11,8 @@ import algogather.api.dto.studyroom.AssignmentCreateForm;
 import algogather.api.dto.studyroom.CreatedStudyRoomResponseDto;
 import algogather.api.dto.studyroom.StudyRoomCreateForm;
 import algogather.api.service.studyroom.StudyRoomService;
+import algogather.api.domain.studyroom.StudyRoomVisibility;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -41,7 +43,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-
 @SpringBootTest
 @Transactional
 @AutoConfigureMockMvc
@@ -62,7 +63,6 @@ class StudyRoomControllerTest {
     private ProblemRepository problemRepository;
     @Autowired
     private DifficultyRepository difficultyRepository;
-
     @BeforeEach
     void setTestUser() {
         User user = User.builder()

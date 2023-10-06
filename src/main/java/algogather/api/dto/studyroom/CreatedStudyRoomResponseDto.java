@@ -11,7 +11,6 @@ public class CreatedStudyRoomResponseDto {
     private String description;
     private StudyRoomVisibility studyRoomVisibility;
     private Integer maxUserCnt;
-
     private String managerUserId;
 
     public CreatedStudyRoomResponseDto(StudyRoom studyRoom, String managerUserId) {
