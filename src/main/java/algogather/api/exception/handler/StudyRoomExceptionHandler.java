@@ -3,6 +3,7 @@ package algogather.api.exception.handler;
 import algogather.api.dto.api.ApiResponse;
 import algogather.api.exception.NotStudyRoomManagerException;
 import algogather.api.exception.NotStudyRoomMemberException;
+import algogather.api.exception.NotSupportedProviderException;
 import algogather.api.exception.StudyRoomNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -28,6 +29,12 @@ public class StudyRoomExceptionHandler {
     @ExceptionHandler(StudyRoomNotFoundException.class)
     public ResponseEntity<ApiResponse<?>> handleStudyRoomNotFoundException(StudyRoomNotFoundException exception) {
         log.debug("StudyRoomNotFoundException = {}", exception.getMessage());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ApiResponse.createError(exception.getMessage()));
+    }
+
+    @ExceptionHandler(NotSupportedProviderException.class)
+    public ResponseEntity<ApiResponse<?>> handleSNotSupportedProviderException(NotSupportedProviderException exception) {
+        log.debug("NotSupportedProviderException = {}", exception.getMessage());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ApiResponse.createError(exception.getMessage()));
     }
 }

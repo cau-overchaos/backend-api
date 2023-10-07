@@ -19,9 +19,9 @@ public class AssignmentSolve extends BaseTimeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @JoinColumn(name = "study_room_id")
+    @JoinColumn(name = "assignment_problem_id")
     @ManyToOne(fetch = FetchType.LAZY)
-    private StudyRoom studyRoom;
+    private AssignmentProblem assignmentProblem;
 
     @JoinColumn(name = "user_id")
     @ManyToOne(fetch = FetchType.LAZY)
