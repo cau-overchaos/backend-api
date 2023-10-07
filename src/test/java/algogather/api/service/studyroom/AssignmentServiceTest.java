@@ -1,6 +1,5 @@
 package algogather.api.service.studyroom;
 
-import algogather.api.config.crawler.BojCrawlerThread;
 import algogather.api.domain.assignment.AssignmentProblem;
 import algogather.api.domain.assignment.AssignmentProblemRepository;
 import algogather.api.domain.problem.Problem;
@@ -21,8 +20,8 @@ import org.springframework.util.StopWatch;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.*;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 
 
 @SpringBootTest
@@ -40,76 +39,7 @@ class AssignmentServiceTest {
     protected AssignmentProblemRepository assignmentProblemRepository;
 
     @Test
-    void checkIfUserSolveProblemOnce() { // 1회 호출 약 0.4초
-        User testUser = User.builder()
-                .userId("testUserId")
-                .name("testUserName")
-                .password("testPassword")
-                .judge_account("boulce")
-                .role(UserRole.USER)
-                .build();
-        User savedUser = userRepository.save(testUser);
-
-        Problem problem = Problem.builder()
-                .pid(2000L)
-                .provider(ProblemProvider.BAEKJOON)
-                .build();
-
-        Problem savedProblem = problemRepository.save(problem);
-
-        AssignmentProblem assignmentProblem = AssignmentProblem.builder()
-                .problem(savedProblem)
-                .build();
-
-        AssignmentProblem savedAssignmentProblem = assignmentProblemRepository.save(assignmentProblem);
-
-        StopWatch stopWatch = new StopWatch();
-        stopWatch.start();
-        assignmentService.checkIfUserSolveProblem(savedUser, savedAssignmentProblem);
-//        log.info("problme: {}, solved: {}", savedAssignmentProblem.getProblem().getPid(), assignmentService.checkIfUserSolveProblem(savedUser, savedAssignmentProblem));
-
-        stopWatch.stop();
-        log.info("time: {}", stopWatch.getTotalTimeSeconds());
-    }
-
-    @Test
-    void checkIfUserSolveProblem100times() { // 100회 호출 약 9초
-        User testUser = User.builder()
-                .userId("testUserId")
-                .name("testUserName")
-                .password("testPassword")
-                .judge_account("boulce")
-                .role(UserRole.USER)
-                .build();
-        User savedUser = userRepository.save(testUser);
-
-        Problem problem = Problem.builder()
-                .pid(2000L)
-                .provider(ProblemProvider.BAEKJOON)
-                .build();
-
-        Problem savedProblem = problemRepository.save(problem);
-
-        AssignmentProblem assignmentProblem = AssignmentProblem.builder()
-                .problem(savedProblem)
-                .build();
-
-        AssignmentProblem savedAssignmentProblem = assignmentProblemRepository.save(assignmentProblem);
-
-        StopWatch stopWatch = new StopWatch();
-        stopWatch.start();
-
-        for(int i = 0; i <100; i++) {
-            assignmentService.checkIfUserSolveProblem(savedUser, savedAssignmentProblem);
-//            log.info("problme: {}, solved: {}", savedAssignmentProblem.getProblem().getPid(), assignmentService.checkIfUserSolveProblem(savedUser, savedAssignmentProblem));
-        }
-
-        stopWatch.stop();
-        log.info("time: {}", stopWatch.getTotalTimeSeconds());
-    }
-
-    @Test
-    void checkIfUserSolveProblem100timesMultiThreading() { // 쓰레드 100개로 100회 호출 약 2초
+    void checkIfUserSolveProblemOnceWithSpringAsync() throws ExecutionException, InterruptedException { // @Async 적용 1회 호출 약 0.4초
         User testUser = User.builder()
                 .userId("testUserId")
                 .name("testUserName")
@@ -135,32 +65,104 @@ class AssignmentServiceTest {
         StopWatch stopWatch = new StopWatch();
         stopWatch.start();
 
-        List<BojCrawlerThread> bojCrawlerThreadArrayList = new ArrayList<>();
-        for(int i = 0; i <50; i++) {
-            BojCrawlerThread bojCrawlerThread = new BojCrawlerThread(savedUser.getJudgeAccount(), assignmentProblem.getProblem().getPid(), i);
-            bojCrawlerThreadArrayList.add(bojCrawlerThread);
-        }
+        List<CompletableFuture<Boolean>> result = new ArrayList<>();
 
-        for(int i = 0; i <50; i++) {
-            BojCrawlerThread bojCrawlerThread = new BojCrawlerThread("smmaker118", assignmentProblem.getProblem().getPid(), i);
-            bojCrawlerThreadArrayList.add(bojCrawlerThread);
-        }
+        CompletableFuture<Boolean> booleanCompletableFuture = assignmentService.checkIfUserSolveProblem(savedUser, savedAssignmentProblem);
+        result.add(booleanCompletableFuture);
 
-        for(BojCrawlerThread b : bojCrawlerThreadArrayList) {
-            try {
-                b.getThread().join();
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
-        }
-
-        for(BojCrawlerThread b : bojCrawlerThreadArrayList) {
-            for (Date resultAcceptedDate : b.getResultAcceptedDates()) {
-                log.info("{}", resultAcceptedDate);
-            }
-        }
+        CompletableFuture.allOf(result.toArray(new CompletableFuture[0])).join();
 
         stopWatch.stop();
-        log.info("time: {}", stopWatch.getTotalTimeSeconds());
+        log.info("==============time: {}================", stopWatch.getTotalTimeSeconds());
+
+        for (CompletableFuture<Boolean> b : result) {
+            log.info("problme: {}, solved: {}", savedAssignmentProblem.getProblem().getPid(), b.get());
+        }
+    }
+
+    @Test
+    void checkIfUserSolveProblem50timesWithSpringAsync() throws ExecutionException, InterruptedException { // @Async 적용 100회 호출 약 2초
+        User testUser = User.builder()
+                .userId("testUserId")
+                .name("testUserName")
+                .password("testPassword")
+                .judge_account("boulce")
+                .role(UserRole.USER)
+                .build();
+        User savedUser = userRepository.save(testUser);
+
+        Problem problem = Problem.builder()
+                .pid(1000L)
+                .provider(ProblemProvider.BAEKJOON)
+                .build();
+
+        Problem savedProblem = problemRepository.save(problem);
+
+        AssignmentProblem assignmentProblem = AssignmentProblem.builder()
+                .problem(savedProblem)
+                .build();
+
+        AssignmentProblem savedAssignmentProblem = assignmentProblemRepository.save(assignmentProblem);
+
+        StopWatch stopWatch = new StopWatch();
+        stopWatch.start();
+
+        List<CompletableFuture<Boolean>> result = new ArrayList<>();
+        for(int i = 0; i <50; i++) {
+            CompletableFuture<Boolean> booleanCompletableFuture = assignmentService.checkIfUserSolveProblem(savedUser, savedAssignmentProblem);
+            result.add(booleanCompletableFuture);
+        }
+
+        CompletableFuture.allOf(result.toArray(new CompletableFuture[0])).join();
+
+        stopWatch.stop();
+        log.info("==============time: {}================", stopWatch.getTotalTimeSeconds());
+
+        for (CompletableFuture<Boolean> booleanCompletableFuture : result) {
+            log.info("problme: {}, solved: {}", savedAssignmentProblem.getProblem().getPid(), booleanCompletableFuture.get());
+        }
+    }
+
+    @Test
+    void checkIfUserSolveProblem100timesWithSpringAsync() throws ExecutionException, InterruptedException { // @Async 적용 100회 호출 약 2초
+        User testUser = User.builder()
+                .userId("testUserId")
+                .name("testUserName")
+                .password("testPassword")
+                .judge_account("boulce")
+                .role(UserRole.USER)
+                .build();
+        User savedUser = userRepository.save(testUser);
+
+        Problem problem = Problem.builder()
+                .pid(1000L)
+                .provider(ProblemProvider.BAEKJOON)
+                .build();
+
+        Problem savedProblem = problemRepository.save(problem);
+
+        AssignmentProblem assignmentProblem = AssignmentProblem.builder()
+                .problem(savedProblem)
+                .build();
+
+        AssignmentProblem savedAssignmentProblem = assignmentProblemRepository.save(assignmentProblem);
+
+        StopWatch stopWatch = new StopWatch();
+        stopWatch.start();
+
+        List<CompletableFuture<Boolean>> result = new ArrayList<>();
+        for(int i = 0; i <100; i++) {
+            CompletableFuture<Boolean> booleanCompletableFuture = assignmentService.checkIfUserSolveProblem(savedUser, savedAssignmentProblem);
+            result.add(booleanCompletableFuture);
+        }
+
+        CompletableFuture.allOf(result.toArray(new CompletableFuture[0])).join();
+
+        stopWatch.stop();
+        log.info("==============time: {}================", stopWatch.getTotalTimeSeconds());
+
+        for (CompletableFuture<Boolean> booleanCompletableFuture : result) {
+            log.info("problme: {}, solved: {}", savedAssignmentProblem.getProblem().getPid(), booleanCompletableFuture.get());
+        }
     }
 }
