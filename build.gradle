@@ -36,6 +36,9 @@ dependencies {
 	implementation 'org.jsoup:jsoup:1.16.1'
 
 	implementation 'org.springdoc:springdoc-openapi-ui:1.6.9'
+
+	testCompileOnly 'org.projectlombok:lombok'
+	testAnnotationProcessor 'org.projectlombok:lombok'
 }
 
 tasks.named('test') {

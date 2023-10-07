@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 public class BojCrawler {
-    public List<Date> GetAcceptedDates(String userId, int problemId) throws IOException {
+    public List<Date> GetAcceptedDates(String userId, Long problemId) throws IOException {
         String urlFormat = "https://acmicpc.net/status?problem_id=%d&user_id=%s&language_id=-1&result_id=-1&from_problem=1";
         String url = String.format(urlFormat, problemId, userId);
 
