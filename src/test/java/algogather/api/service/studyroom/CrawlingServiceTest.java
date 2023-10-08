@@ -32,7 +32,7 @@ import java.util.stream.Collectors;
 @Transactional
 @Slf4j
 // judgeAcoount: boulce, pid: 20183에 대하여 test
-class AssignmentServiceTest {
+class CrawlingServiceTest {
 
     @Autowired
     protected UserRepository userRepository;
