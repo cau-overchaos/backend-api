@@ -58,7 +58,7 @@ public class AssignmentService {
         return new CreatedAssignmentResponseDto(results);
     }
 
-    @Async
+    @Async("threadPoolTaskExecutor")
     public CompletableFuture<Boolean> checkIfUserSolveProblem(User user, AssignmentProblem assignmentProblem) {
         if(assignmentProblem.getProblem().getProvider() == ProblemProvider.BAEKJOON) {
             //AssignmentSolve에서 우선 문제를 푼 기록이 있는지 확인, 있으면 true 반환
