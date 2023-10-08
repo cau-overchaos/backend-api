@@ -70,9 +70,9 @@ public class StudyRoomController {
 
     @Operation(summary = "과제 생성", description = "과제 생성 API입니다.")
     @PostMapping("/{studyRoomId}/assignments")
-    public ResponseEntity<ApiResponse<?>> createAssignment(@AuthenticationPrincipal UserAdapter userAdapter, @Valid @RequestBody AssignmentCreateForm assignmentCreateForm) {
+    public ResponseEntity<ApiResponse<?>> createAssignment(@AuthenticationPrincipal UserAdapter userAdapter, @PathVariable Long studyRoomId, @Valid @RequestBody AssignmentCreateForm assignmentCreateForm) {
 
-        CreatedAssignmentResponseDto createdAssignmentResponseDto = assignmentService.createAssignment(userAdapter, assignmentCreateForm);
+        CreatedAssignmentResponseDto createdAssignmentResponseDto = assignmentService.createAssignment(userAdapter, studyRoomId, assignmentCreateForm);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(ApiResponse.sucessWithDataAndMessage(createdAssignmentResponseDto, "과제가 성공적으로 생성되었습니다."));
     }
