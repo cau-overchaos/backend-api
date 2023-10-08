@@ -1,8 +1,8 @@
 package algogather.api.domain.assignment;
 
 import algogather.api.domain.BaseTimeEntity;
-import algogather.api.domain.studyroom.StudyRoom;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -37,4 +37,12 @@ public class AssignmentSolve extends BaseTimeEntity {
 
     @Column(name = "solved_date")
     private LocalDateTime solvedDate;
+
+    @Builder
+    public AssignmentSolve(Long id, AssignmentProblem assignmentProblem, User user, LocalDateTime solvedDate) {
+        this.id = id;
+        this.assignmentProblem = assignmentProblem;
+        this.user = user;
+        this.solvedDate = solvedDate;
+    }
 }
