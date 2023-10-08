@@ -75,27 +75,49 @@ public class AssignmentService {
         List<AssignmentProblem> activeAssignmentProblemList = new ArrayList<>();
 
         // 마감된 과제와 마감되지 않은 과제를 구분한다.
-        for (AssignmentProblem assignmentProblem : assignmentProblemListInStudyRoom) {
-            if(LocalDateTime.now().isAfter(assignmentProblem.getDueDate())) {
-                closedAssignmentProblemList.add(assignmentProblem);
-            }
-            else {
-                activeAssignmentProblemList.add(assignmentProblem);
-            }
-        }
+        distinguishClosedAssignmentsAndActiveAssignments(assignmentProblemListInStudyRoom, closedAssignmentProblemList, activeAssignmentProblemList);
 
         // 마감된 과제를 푼 유저와 함께 불러 온다.
-        for (AssignmentProblem closedAssignmentProblem : closedAssignmentProblemList) {
-            List<AssignmentSolve> assignmentSolveList = assignmentSolveRepository.findByAssignmentProblemId(closedAssignmentProblem.getId());
+        getAssignmentSolvesWithClosedAssignments(closedAssignmentProblemList, resultAssignmentSolveList);
 
-            resultAssignmentSolveList.addAll(assignmentSolveList);
-//            List<User> usersWhoSolvedClosedAssignment = assignmentSolveList.stream().map(AssignmentSolve::getUser).collect(Collectors.toList());
 
-//            assignmentsWithSolvedUsersMap.put(closedAssignmentProblem.getId(), usersWhoSolvedClosedAssignment);
+        //마감되지 않은 과제를 처리한다.
+        getAssignmentSolvesWithActiveAssignments(studyRoomId, activeAssignmentProblemList, resultAssignmentSolveList);
+
+        /**
+         * 스터디방 과제들과 푼 유저를 대응 시켜서 응답으로 보낸다.
+         */
+        List<AssignmentWithSolvedUserDto> assignmentWithSolvedUserDtoList = getAssignmentWithSolvedUserDtoList(assignmentProblemListInStudyRoom, resultAssignmentSolveList);
+
+        return new AssignmentResponseDto(assignmentWithSolvedUserDtoList);
+    }
+
+    private List<AssignmentWithSolvedUserDto> getAssignmentWithSolvedUserDtoList(List<AssignmentProblem> assignmentProblemListInStudyRoom, List<AssignmentSolve> resultAssignmentSolveList) {
+        HashMap<Long, List<UserWithSolvedLocalDateDto>> assignmentsWithSolvedUsersMap = new HashMap<>(); // {과제 id, List<UserWithSolvedLocalDate>}
+
+        for (AssignmentProblem assignmentProblem : assignmentProblemListInStudyRoom) { // 응답에서는 스터디방 인원이 문제를 풀었든 안 풀었든 모든 문제에 대한 정보를 주어야함.
+            assignmentsWithSolvedUsersMap.put(assignmentProblem.getId(), new ArrayList<>());
         }
 
+        for (AssignmentSolve solve : resultAssignmentSolveList) {
+            List<UserWithSolvedLocalDateDto> userWithSolvedLocalDateList = assignmentsWithSolvedUsersMap.get(solve.getAssignmentProblem().getId());
+            userWithSolvedLocalDateList.add(new UserWithSolvedLocalDateDto(solve.getUser(), solve.getSolvedDate()));
+        }
 
-        //TODO 마감되지 않은 과제를 처리한다.
+        Set<Long> keySet = assignmentsWithSolvedUsersMap.keySet();
+
+        List<AssignmentWithSolvedUserDto> assignmentWithSolvedUserDtoList = new ArrayList<>();
+        for (Long key : keySet) {
+            AssignmentWithSolvedUserDto assignmentWithSolvedUserDto = AssignmentWithSolvedUserDto.builder()
+                    .assignmentProblem(assignmentProblemRepository.findById(key).get())
+                    .userWithSolvedLocalDateDtoList(assignmentsWithSolvedUsersMap.get(key))
+                    .build();
+            assignmentWithSolvedUserDtoList.add(assignmentWithSolvedUserDto);
+        }
+        return assignmentWithSolvedUserDtoList;
+    }
+
+    private void getAssignmentSolvesWithActiveAssignments(Long studyRoomId, List<AssignmentProblem> activeAssignmentProblemList, List<AssignmentSolve> resultAssignmentSolveList) {
         List<User> userList = userStudyRoomRepository.findUserByStudyRoomId(studyRoomId);
 
         for (User user : userList) {
@@ -107,15 +129,6 @@ public class AssignmentService {
                 if(!assignmentSolve.isEmpty()) { // 푼 기록이 DB에 존재하면 크롤링 안함
 
                     resultAssignmentSolveList.add(assignmentSolve.get());
-
-//                    if(assignmentsWithSolvedUsersMap.containsKey(assignmentProblemId)) {
-//                        List<User> users = assignmentsWithSolvedUsersMap.get(assignmentProblemId);
-//                        users.add(user);
-//                    }
-//                    else {
-//                        List<User> users = new ArrayList<>(); users.add(user);
-//                        assignmentsWithSolvedUsersMap.put(assignmentProblemId, users);
-//                    }
                 }
                 else { // 푼 기록이 DB에 존재하지 않으면 크롤링을 해서 정보를 가져온다.
                     CompletableFuture<LocalDateTime> localDateTimeCompletableFuture = crawlingService.checkIfUserSolveProblemOnBAEKJOON(user, activeAssignmentProblem);
@@ -138,33 +151,25 @@ public class AssignmentService {
                 }
             }
         }
+    }
 
-        /**
-         * 스터디방 과제들과 푼 유저를 대응 시켜서 응답으로 보낸다.
-         */
-        HashMap<Long, List<UserWithSolvedLocalDateDto>> assignmentsWithSolvedUsersMap = new HashMap<>(); // {과제 id, List<UserWithSolvedLocalDate>}
-
-        for (AssignmentProblem assignmentProblem : assignmentProblemListInStudyRoom) { // 응답에서는 스터디방 인원이 문제를 풀었든 안 풀었든 모든 문제에 대한 정보를 주어야함.
-            assignmentsWithSolvedUsersMap.put(assignmentProblem.getId(), new ArrayList<>());
+    private static void distinguishClosedAssignmentsAndActiveAssignments(List<AssignmentProblem> assignmentProblemListInStudyRoom, List<AssignmentProblem> closedAssignmentProblemList, List<AssignmentProblem> activeAssignmentProblemList) {
+        for (AssignmentProblem assignmentProblem : assignmentProblemListInStudyRoom) {
+            if(LocalDateTime.now().isAfter(assignmentProblem.getDueDate())) {
+                closedAssignmentProblemList.add(assignmentProblem);
+            }
+            else {
+                activeAssignmentProblemList.add(assignmentProblem);
+            }
         }
+    }
 
-        for (AssignmentSolve solve : resultAssignmentSolveList) {
-            List<UserWithSolvedLocalDateDto> userWithSolvedLocalDateList = assignmentsWithSolvedUsersMap.get(solve.getAssignmentProblem().getId());
-            userWithSolvedLocalDateList.add(new UserWithSolvedLocalDateDto(solve.getUser(), solve.getSolvedDate()));
+    private void getAssignmentSolvesWithClosedAssignments(List<AssignmentProblem> closedAssignmentProblemList, List<AssignmentSolve> resultAssignmentSolveList) {
+        for (AssignmentProblem closedAssignmentProblem : closedAssignmentProblemList) {
+            List<AssignmentSolve> assignmentSolveList = assignmentSolveRepository.findByAssignmentProblemId(closedAssignmentProblem.getId());
+
+            resultAssignmentSolveList.addAll(assignmentSolveList);
         }
-
-        Set<Long> keySet = assignmentsWithSolvedUsersMap.keySet();
-
-        List<AssignmentWithSolvedUserDto> assignmentWithSolvedUserDtoList = new ArrayList<>();
-        for (Long key : keySet) {
-            AssignmentWithSolvedUserDto assignmentWithSolvedUserDto = AssignmentWithSolvedUserDto.builder()
-                    .assignmentProblem(assignmentProblemRepository.findById(key).get())
-                    .userWithSolvedLocalDateDtoList(assignmentsWithSolvedUsersMap.get(key))
-                    .build();
-            assignmentWithSolvedUserDtoList.add(assignmentWithSolvedUserDto);
-        }
-
-        return new AssignmentResponseDto(assignmentWithSolvedUserDtoList);
     }
 
     public List<AssignmentProblem> findByStudyRoomId(Long studyRoomId) {
