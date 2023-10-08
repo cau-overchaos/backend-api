@@ -18,8 +18,8 @@ import algogather.api.domain.user.User;
 import org.springframework.util.StopWatch;
 
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
@@ -29,6 +29,7 @@ import java.util.stream.Collectors;
 @SpringBootTest
 @Transactional
 @Slf4j
+// judgeAcoount: boulce, pid: 20183에 대하여 test
 class AssignmentServiceTest {
 
     @Autowired
@@ -52,7 +53,7 @@ class AssignmentServiceTest {
         User savedUser = userRepository.save(testUser);
 
         Problem problem = Problem.builder()
-                .pid(1000L)
+                .pid(20183L)
                 .provider(ProblemProvider.BAEKJOON)
                 .build();
 
@@ -60,6 +61,8 @@ class AssignmentServiceTest {
 
         AssignmentProblem assignmentProblem = AssignmentProblem.builder()
                 .problem(savedProblem)
+                .startDate(LocalDateTime.parse("2023-01-17T15:16:48"))
+                .dueDate(LocalDateTime.now())
                 .build();
 
         AssignmentProblem savedAssignmentProblem = assignmentProblemRepository.save(assignmentProblem);
@@ -67,19 +70,19 @@ class AssignmentServiceTest {
         StopWatch stopWatch = new StopWatch();
         stopWatch.start();
 
-        List<CompletableFuture<Boolean>> result = new ArrayList<>();
+        List<CompletableFuture<LocalDateTime>> result = new ArrayList<>();
 
-        CompletableFuture<Boolean> booleanCompletableFuture = crawlingService.checkIfUserSolveProblem(savedUser, savedAssignmentProblem);
+        CompletableFuture<LocalDateTime> localDateTimeCompletableFuture = crawlingService.checkIfUserSolveProblemOnBAEKJOON(savedUser, savedAssignmentProblem);
 
-        booleanCompletableFuture.exceptionally(
+        localDateTimeCompletableFuture.exceptionally(
                 throwable -> {
                     throw new AsyncException("비동기 멀티스레딩 중 예외가 발생하였습니다.");
                 }
         );
 
-        result.add(booleanCompletableFuture);
+        result.add(localDateTimeCompletableFuture);
 
-        List<Boolean> booleanList = CompletableFuture.allOf(result.toArray(new CompletableFuture[0]))
+        List<LocalDateTime> localDateTimes = CompletableFuture.allOf(result.toArray(new CompletableFuture[0]))
                 .thenApply(Void -> result.stream()
                         .map(CompletableFuture::join)
                         .collect(Collectors.toList()))
@@ -88,8 +91,8 @@ class AssignmentServiceTest {
         stopWatch.stop();
         log.info("==============time: {}================", stopWatch.getTotalTimeSeconds());
 
-        for (Boolean b : booleanList) {
-            log.info("problem: {}, solved: {}", savedAssignmentProblem.getProblem().getPid(), b);
+        for (LocalDateTime localDateTime : localDateTimes) {
+            log.info("problem: {}, solved: {}", savedAssignmentProblem.getProblem().getPid(), localDateTime);
         }
     }
 
@@ -105,7 +108,7 @@ class AssignmentServiceTest {
         User savedUser = userRepository.save(testUser);
 
         Problem problem = Problem.builder()
-                .pid(1000L)
+                .pid(20183L)
                 .provider(ProblemProvider.BAEKJOON)
                 .build();
 
@@ -113,6 +116,8 @@ class AssignmentServiceTest {
 
         AssignmentProblem assignmentProblem = AssignmentProblem.builder()
                 .problem(savedProblem)
+                .startDate(LocalDateTime.parse("2023-01-17T15:16:48"))
+                .dueDate(LocalDateTime.now())
                 .build();
 
         AssignmentProblem savedAssignmentProblem = assignmentProblemRepository.save(assignmentProblem);
@@ -120,20 +125,20 @@ class AssignmentServiceTest {
         StopWatch stopWatch = new StopWatch();
         stopWatch.start();
 
-        List<CompletableFuture<Boolean>> result = new ArrayList<>();
+        List<CompletableFuture<LocalDateTime>> result = new ArrayList<>();
         for(int i = 0; i <50; i++) {
-            CompletableFuture<Boolean> booleanCompletableFuture = crawlingService.checkIfUserSolveProblem(savedUser, savedAssignmentProblem);
+            CompletableFuture<LocalDateTime> localDateTimeCompletableFuture = crawlingService.checkIfUserSolveProblemOnBAEKJOON(savedUser, savedAssignmentProblem);
 
-            booleanCompletableFuture.exceptionally(
+            localDateTimeCompletableFuture.exceptionally(
                     throwable -> {
                         throw new AsyncException("비동기 멀티스레딩 중 예외가 발생하였습니다.");
                     }
             );
 
-            result.add(booleanCompletableFuture);
+            result.add(localDateTimeCompletableFuture);
         }
 
-        List<Boolean> booleanList = CompletableFuture.allOf(result.toArray(new CompletableFuture[0]))
+        List<LocalDateTime> localDateTimes = CompletableFuture.allOf(result.toArray(new CompletableFuture[0]))
                 .thenApply(Void -> result.stream()
                         .map(CompletableFuture::join)
                         .collect(Collectors.toList()))
@@ -142,8 +147,8 @@ class AssignmentServiceTest {
         stopWatch.stop();
         log.info("==============time: {}================", stopWatch.getTotalTimeSeconds());
 
-        for (Boolean b : booleanList) {
-            log.info("problem: {}, solved: {}", savedAssignmentProblem.getProblem().getPid(), b);
+        for (LocalDateTime localDateTime : localDateTimes) {
+            log.info("problem: {}, solved: {}", savedAssignmentProblem.getProblem().getPid(), localDateTime);
         }
     }
 
@@ -159,7 +164,7 @@ class AssignmentServiceTest {
         User savedUser = userRepository.save(testUser);
 
         Problem problem = Problem.builder()
-                .pid(1000L)
+                .pid(20183L)
                 .provider(ProblemProvider.BAEKJOON)
                 .build();
 
@@ -167,6 +172,8 @@ class AssignmentServiceTest {
 
         AssignmentProblem assignmentProblem = AssignmentProblem.builder()
                 .problem(savedProblem)
+                .startDate(LocalDateTime.parse("2023-01-17T15:16:48"))
+                .dueDate(LocalDateTime.now())
                 .build();
 
         AssignmentProblem savedAssignmentProblem = assignmentProblemRepository.save(assignmentProblem);
@@ -174,20 +181,20 @@ class AssignmentServiceTest {
         StopWatch stopWatch = new StopWatch();
         stopWatch.start();
 
-        List<CompletableFuture<Boolean>> result = new ArrayList<>();
-        for(int i = 0; i <100; i++) {
-            CompletableFuture<Boolean> booleanCompletableFuture = crawlingService.checkIfUserSolveProblem(savedUser, savedAssignmentProblem);
+        List<CompletableFuture<LocalDateTime>> result = new ArrayList<>();
+        for(int i = 0; i <50; i++) {
+            CompletableFuture<LocalDateTime> localDateTimeCompletableFuture = crawlingService.checkIfUserSolveProblemOnBAEKJOON(savedUser, savedAssignmentProblem);
 
-            booleanCompletableFuture.exceptionally(
+            localDateTimeCompletableFuture.exceptionally(
                     throwable -> {
                         throw new AsyncException("비동기 멀티스레딩 중 예외가 발생하였습니다.");
                     }
             );
 
-            result.add(booleanCompletableFuture);
+            result.add(localDateTimeCompletableFuture);
         }
 
-        List<Boolean> booleanList = CompletableFuture.allOf(result.toArray(new CompletableFuture[0]))
+        List<LocalDateTime> localDateTimes = CompletableFuture.allOf(result.toArray(new CompletableFuture[0]))
                 .thenApply(Void -> result.stream()
                         .map(CompletableFuture::join)
                         .collect(Collectors.toList()))
@@ -196,8 +203,8 @@ class AssignmentServiceTest {
         stopWatch.stop();
         log.info("==============time: {}================", stopWatch.getTotalTimeSeconds());
 
-        for (Boolean b : booleanList) {
-            log.info("problem: {}, solved: {}", savedAssignmentProblem.getProblem().getPid(), b);
+        for (LocalDateTime localDateTime : localDateTimes) {
+            log.info("problem: {}, solved: {}", savedAssignmentProblem.getProblem().getPid(), localDateTime);
         }
     }
 }

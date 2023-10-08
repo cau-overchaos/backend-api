@@ -1,50 +1,54 @@
 package algogather.api.config.crawler;
 
+import lombok.extern.slf4j.Slf4j;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
-import org.springframework.scheduling.annotation.Scheduled;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+@Slf4j
 public class BojCrawler {
-    public List<Date> GetAcceptedDates(String userId, Long problemId) throws IOException {
-        String urlFormat = "https://acmicpc.net/status?problem_id=%d&user_id=%s&language_id=-1&result_id=4&from_problem=1"; //result_id가 4여야 맞았습니다! 결과의 채점현황만 가져옴.
+    public LocalDateTime GetAcceptedDates(String userId, Long problemId, LocalDateTime assignmentStartDate, LocalDateTime assignmentDueDate) throws IOException {
+        String urlFormat = "https://acmicpc.net/status?problem_id=%d&user_id=%s&language_id=-1&result_id=4&from_problem=1"; // result_id가 4여야 맞았습니다! 결과의 채점현황만 가져옴.
         String url = String.format(urlFormat, problemId, userId);
 
-        return getAcceptedDatesFrom(url);
+        return getAcceptedDatesFrom(url, assignmentStartDate, assignmentDueDate);
     }
 
-    private List<Date> getAcceptedDatesFrom(String url) throws IOException {
+    private LocalDateTime getAcceptedDatesFrom(String url, LocalDateTime assignmentStartDate, LocalDateTime assignmentDueDate) throws IOException {
         Document doc = Jsoup.connect(url).userAgent("Mozilla/5.0 (compatible; Algogather-Bot/0.1; +https://github.com/cau-overchaos)").get();
-        ArrayList<Date> result = new ArrayList<Date>();
+        LocalDateTime resultLocalDateTime = null;
+
 
         Elements rows = doc.body().select("#status-table tbody tr");
         for (Element i: rows) {
-//            boolean ac = i.selectFirst(".result-ac") != null;
-//            if (ac) {
-                Element timeElement = i.selectFirst("[data-timestamp]");
-                if (timeElement == null)
-                    throw new NullPointerException();
+            Element timeElement = i.selectFirst("[data-timestamp]");
+            if (timeElement == null)
+                throw new NullPointerException();
 
-                long timestamp = Long.parseLong(timeElement.attr("data-timestamp")) * 1000L;
-                Date date = new Date(timestamp);
+            long timestamp = Long.parseLong(timeElement.attr("data-timestamp")) * 1000L;
+            LocalDateTime solvedLocalDateTime = Instant.ofEpochMilli(timestamp).atZone(ZoneId.systemDefault()).toLocalDateTime();
 
-                //TODO 마감 날짜보다 오래된 날짜 나오면 중지
-
-                result.add(date);
-//            }
+            if((solvedLocalDateTime.isEqual(assignmentStartDate) || solvedLocalDateTime.isAfter(assignmentStartDate))
+            && (solvedLocalDateTime.isEqual(assignmentDueDate) || solvedLocalDateTime.isBefore(assignmentDueDate))) { // 푼날짜가 과제 시작날짜보다 같거나 이후이고, 과제 종료날짜보다 같거나 이전이면 푼것으로 판단.
+                return solvedLocalDateTime;
+            }
+            else if(solvedLocalDateTime.isBefore(assignmentStartDate)) { // 푼 날짜가 과제 시작 날짜 이전이면 과제 기간동안 과제를 풀지 않은 것이므로 크롤링 종료
+                return null;
+            } // 푼날짜가 과제 종료날짜 이후일 수가 없다. 왜냐하면 진행중인 과제에 대해서만(현재날짜가 종료날짜 이전인 과제들만) 크롤링을 하기 때문이다.
         }
 
         Element nextPageLink = doc.selectFirst("a#next_page");
         if (nextPageLink != null) {
             String nextUrl = nextPageLink.absUrl("href");
-            result.addAll(getAcceptedDatesFrom(nextUrl));
+
+            resultLocalDateTime = getAcceptedDatesFrom(nextUrl, assignmentStartDate, assignmentDueDate);
         }
 
-        return result;
+        return resultLocalDateTime;
     }
 }

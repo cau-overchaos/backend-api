@@ -12,8 +12,7 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
-import java.util.Date;
-import java.util.List;
+import java.time.LocalDateTime;
 import java.util.concurrent.CompletableFuture;
 
 @Slf4j
@@ -23,31 +22,19 @@ public class CrawlingService {
     private final AssignmentSolveRepository assignmentSolveRepository;
 
     @Async("threadPoolTaskExecutor")
-    public CompletableFuture<Boolean> checkIfUserSolveProblem(User user, AssignmentProblem assignmentProblem) {
+    public CompletableFuture<LocalDateTime> checkIfUserSolveProblemOnBAEKJOON(User user, AssignmentProblem assignmentProblem) {
         if(assignmentProblem.getProblem().getProvider() == ProblemProvider.BAEKJOON) {
-            //AssignmentSolve에서 우선 문제를 푼 기록이 있는지 확인, 있으면 true 반환
-            if(assignmentSolveRepository.existsByUserIdAndAssignmentProblemId(user.getId(), assignmentProblem.getId())) {
-                return CompletableFuture.completedFuture(true);
-            }
-            else {  // 없으면 크롤링해서 정보 가져옴 기간안에 풀었으면 true 반환
-                BojCrawler crawler = new BojCrawler();
+            BojCrawler crawler = new BojCrawler();
 
-                try {
-                    List<Date> result =  crawler.GetAcceptedDates(user.getJudgeAccount(), assignmentProblem.getProblem().getPid());
-                    log.debug("{} results", result.size());
-                    for (Date i: result) {
-//                        System.out.printf("Accepted at %s\n", i.toString());
-                    }
+            try {
+                //TODO 과제 기간 정보도 보내기
+                LocalDateTime localDateTime = crawler.GetAcceptedDates(user.getJudgeAccount(), assignmentProblem.getProblem().getPid(), assignmentProblem.getStartDate(), assignmentProblem.getDueDate());
 
-                    if(!result.isEmpty()) { // 있으면 true 반환 //TODO 기간 안에 풀었는지 판단 로직 만들기
-                        return CompletableFuture.completedFuture(true);
-                    }
-                    else { // 없으면 false 반환
-                        return CompletableFuture.completedFuture(false);
-                    }
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
+                return CompletableFuture.completedFuture(localDateTime); // 푼 날짜가 없으면 null을 보낸다.
+
+
+            } catch (IOException e) {
+                throw new RuntimeException(e);
             }
         }
         else {

@@ -4,6 +4,7 @@ import algogather.api.domain.assignment.AssignmentProblem;
 import algogather.api.domain.assignment.AssignmentProblemRepository;
 import algogather.api.domain.assignment.AssignmentSolve;
 import algogather.api.domain.assignment.AssignmentSolveRepository;
+import algogather.api.domain.studyroom.UserStudyRoomRepository;
 import algogather.api.domain.user.UserAdapter;
 import algogather.api.dto.problem.ProblemInfoRequestDto;
 import algogather.api.dto.studyroom.AssignmentCreateForm;
@@ -28,6 +29,8 @@ public class AssignmentService {
 
     private final AssignmentProblemRepository assignmentProblemRepository;
     private final AssignmentSolveRepository assignmentSolveRepository;
+    private final UserStudyRoomRepository userStudyRoomRepository;
+
     private final ProblemService problemService;
     private final StudyRoomService studyRoomService;
 
@@ -92,9 +95,17 @@ public class AssignmentService {
         }
 
 
-        //마감되지 않은 과제를 처리한다.
-        for (AssignmentProblem activeAssignmentProblem : activeAssignmentProblemList) {
-            //TODO
+        //TODO 마감되지 않은 과제를 처리한다.
+        List<User> userList = userStudyRoomRepository.findUserByStudyRoomId(studyRoomId);
+
+        for (User user : userList) {
+            for (AssignmentProblem activeAssignmentProblem : activeAssignmentProblemList) {
+
+                // 푼 기록이 DB에 존재하면 assignmentsWithSolvedUserMap에 저장
+
+                // 푼 기록이 존재하지 않으면 크롤링해서 정보 가져온다.
+
+            }
         }
 
 
