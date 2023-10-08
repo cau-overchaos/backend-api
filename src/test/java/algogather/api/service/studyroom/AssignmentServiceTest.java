@@ -23,6 +23,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
+import java.util.stream.Collectors;
 
 
 @SpringBootTest
@@ -78,18 +79,22 @@ class AssignmentServiceTest {
 
         result.add(booleanCompletableFuture);
 
-        CompletableFuture.allOf(result.toArray(new CompletableFuture[0])).join();
+        List<Boolean> booleanList = CompletableFuture.allOf(result.toArray(new CompletableFuture[0]))
+                .thenApply(Void -> result.stream()
+                        .map(CompletableFuture::join)
+                        .collect(Collectors.toList()))
+                .join();
 
         stopWatch.stop();
         log.info("==============time: {}================", stopWatch.getTotalTimeSeconds());
 
-        for (CompletableFuture<Boolean> b : result) {
-            log.info("problme: {}, solved: {}", savedAssignmentProblem.getProblem().getPid(), b.get());
+        for (Boolean b : booleanList) {
+            log.info("problem: {}, solved: {}", savedAssignmentProblem.getProblem().getPid(), b);
         }
     }
 
     @Test
-    void checkIfUserSolveProblem50timesWithSpringAsync() throws ExecutionException, InterruptedException { // @Async 적용 100회 호출 약 2초
+    void checkIfUserSolveProblem50timesWithSpringAsync() throws ExecutionException, InterruptedException { // @Async 적용 50회 호출 약 1초
         User testUser = User.builder()
                 .userId("testUserId")
                 .name("testUserName")
@@ -128,13 +133,17 @@ class AssignmentServiceTest {
             result.add(booleanCompletableFuture);
         }
 
-        CompletableFuture.allOf(result.toArray(new CompletableFuture[0])).join();
+        List<Boolean> booleanList = CompletableFuture.allOf(result.toArray(new CompletableFuture[0]))
+                .thenApply(Void -> result.stream()
+                        .map(CompletableFuture::join)
+                        .collect(Collectors.toList()))
+                .join();
 
         stopWatch.stop();
         log.info("==============time: {}================", stopWatch.getTotalTimeSeconds());
 
-        for (CompletableFuture<Boolean> booleanCompletableFuture : result) {
-            log.info("problme: {}, solved: {}", savedAssignmentProblem.getProblem().getPid(), booleanCompletableFuture.get());
+        for (Boolean b : booleanList) {
+            log.info("problem: {}, solved: {}", savedAssignmentProblem.getProblem().getPid(), b);
         }
     }
 
@@ -178,13 +187,17 @@ class AssignmentServiceTest {
             result.add(booleanCompletableFuture);
         }
 
-        CompletableFuture.allOf(result.toArray(new CompletableFuture[0])).join();
+        List<Boolean> booleanList = CompletableFuture.allOf(result.toArray(new CompletableFuture[0]))
+                .thenApply(Void -> result.stream()
+                        .map(CompletableFuture::join)
+                        .collect(Collectors.toList()))
+                .join();
 
         stopWatch.stop();
         log.info("==============time: {}================", stopWatch.getTotalTimeSeconds());
 
-        for (CompletableFuture<Boolean> booleanCompletableFuture : result) {
-            log.info("problme: {}, solved: {}", savedAssignmentProblem.getProblem().getPid(), booleanCompletableFuture.get());
+        for (Boolean b : booleanList) {
+            log.info("problem: {}, solved: {}", savedAssignmentProblem.getProblem().getPid(), b);
         }
     }
 }
