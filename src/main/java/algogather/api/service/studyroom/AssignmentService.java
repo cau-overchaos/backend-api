@@ -125,9 +125,8 @@ public class AssignmentService {
 
                 Long assignmentProblemId = activeAssignmentProblem.getId();
 
-                Optional<AssignmentSolve> assignmentSolve = assignmentSolveRepository.existsByUserIdAndAssignmentProblemId(user.getId(), assignmentProblemId);
-                if(!assignmentSolve.isEmpty()) { // 푼 기록이 DB에 존재하면 크롤링 안함
-
+                Optional<AssignmentSolve> assignmentSolve = assignmentSolveRepository.findByUserIdAndAssignmentProblemId(user.getId(), assignmentProblemId);
+                if(assignmentSolve.isPresent()) { // 푼 기록이 DB에 존재하면 크롤링 안함
                     resultAssignmentSolveList.add(assignmentSolve.get());
                 }
                 else { // 푼 기록이 DB에 존재하지 않으면 크롤링을 해서 정보를 가져온다.

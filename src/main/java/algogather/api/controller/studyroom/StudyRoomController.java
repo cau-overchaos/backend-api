@@ -80,8 +80,7 @@ public class StudyRoomController {
     @Operation(summary = "과제 목록", description = "과제 목록 API입니다.")
     @GetMapping("/{studyRoomId}/assignments")
     public ResponseEntity<ApiResponse<?>> getAssignments(@AuthenticationPrincipal UserAdapter userAdapter, @PathVariable Long studyRoomId) {
-
-//        return ResponseEntity.status(HttpStatus.CREATED).body(ApiResponse.sucessWithDataAndMessage(, "과제를 성공적으로 불러왔습니다."));
-        return null;
+        AssignmentResponseDto assignmentList = assignmentService.getAssignmentList(userAdapter, studyRoomId);
+        return ResponseEntity.status(HttpStatus.CREATED).body(ApiResponse.sucessWithDataAndMessage(assignmentList, "과제를 성공적으로 불러왔습니다."));
     }
 }

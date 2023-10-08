@@ -287,7 +287,7 @@ class CrawlingServiceTest {
     }
 
     @Test
-    @DisplayName("스프링 Async 사용하여 크롤링 50회 시간측정 약 2초")
+    @DisplayName("스프링 Async 사용하여 크롤링 100회 시간측정 약 2초")
     void checkIfUserSolveProblem100timesWithSpringAsync() throws ExecutionException, InterruptedException { // @Async 적용 100회 호출 약 2초
         User testUser = User.builder()
                 .userId("testUserId")
@@ -317,7 +317,7 @@ class CrawlingServiceTest {
         stopWatch.start();
 
         List<CompletableFuture<LocalDateTime>> result = new ArrayList<>();
-        for(int i = 0; i <50; i++) {
+        for(int i = 0; i < 100; i++) {
             CompletableFuture<LocalDateTime> localDateTimeCompletableFuture = crawlingService.checkIfUserSolveProblemOnBAEKJOON(savedUser, savedAssignmentProblem);
 
             localDateTimeCompletableFuture.exceptionally(
