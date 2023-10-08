@@ -36,7 +36,7 @@ class AssignmentServiceTest {
     @Autowired
     protected ProblemRepository problemRepository;
     @Autowired
-    protected AssignmentService assignmentService;
+    protected CrawlingService crawlingService;
     @Autowired
     protected AssignmentProblemRepository assignmentProblemRepository;
 
@@ -69,7 +69,7 @@ class AssignmentServiceTest {
 
         List<CompletableFuture<Boolean>> result = new ArrayList<>();
 
-        CompletableFuture<Boolean> booleanCompletableFuture = assignmentService.checkIfUserSolveProblem(savedUser, savedAssignmentProblem);
+        CompletableFuture<Boolean> booleanCompletableFuture = crawlingService.checkIfUserSolveProblem(savedUser, savedAssignmentProblem);
 
         booleanCompletableFuture.exceptionally(
                 throwable -> {
@@ -122,7 +122,7 @@ class AssignmentServiceTest {
 
         List<CompletableFuture<Boolean>> result = new ArrayList<>();
         for(int i = 0; i <50; i++) {
-            CompletableFuture<Boolean> booleanCompletableFuture = assignmentService.checkIfUserSolveProblem(savedUser, savedAssignmentProblem);
+            CompletableFuture<Boolean> booleanCompletableFuture = crawlingService.checkIfUserSolveProblem(savedUser, savedAssignmentProblem);
 
             booleanCompletableFuture.exceptionally(
                     throwable -> {
@@ -176,7 +176,7 @@ class AssignmentServiceTest {
 
         List<CompletableFuture<Boolean>> result = new ArrayList<>();
         for(int i = 0; i <100; i++) {
-            CompletableFuture<Boolean> booleanCompletableFuture = assignmentService.checkIfUserSolveProblem(savedUser, savedAssignmentProblem);
+            CompletableFuture<Boolean> booleanCompletableFuture = crawlingService.checkIfUserSolveProblem(savedUser, savedAssignmentProblem);
 
             booleanCompletableFuture.exceptionally(
                     throwable -> {

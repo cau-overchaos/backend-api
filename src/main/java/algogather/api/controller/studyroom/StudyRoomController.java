@@ -76,4 +76,12 @@ public class StudyRoomController {
 
         return ResponseEntity.status(HttpStatus.CREATED).body(ApiResponse.sucessWithDataAndMessage(createdAssignmentResponseDto, "과제가 성공적으로 생성되었습니다."));
     }
+
+    @Operation(summary = "과제 목록", description = "과제 목록 API입니다.")
+    @GetMapping("/{studyRoomId}/assignments")
+    public ResponseEntity<ApiResponse<?>> getAssignments(@AuthenticationPrincipal UserAdapter userAdapter) {
+
+//        return ResponseEntity.status(HttpStatus.CREATED).body(ApiResponse.sucessWithDataAndMessage(, "과제를 성공적으로 불러왔습니다."));
+        return null;
+    }
 }
