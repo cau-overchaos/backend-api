@@ -7,6 +7,7 @@ import algogather.api.domain.problem.ProblemProvider;
 import algogather.api.domain.problem.ProblemRepository;
 import algogather.api.domain.user.UserRepository;
 import algogather.api.domain.user.UserRole;
+import algogather.api.exception.AsyncException;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -68,6 +69,13 @@ class AssignmentServiceTest {
         List<CompletableFuture<Boolean>> result = new ArrayList<>();
 
         CompletableFuture<Boolean> booleanCompletableFuture = assignmentService.checkIfUserSolveProblem(savedUser, savedAssignmentProblem);
+
+        booleanCompletableFuture.exceptionally(
+                throwable -> {
+                    throw new AsyncException("비동기 멀티스레딩 중 예외가 발생하였습니다.");
+                }
+        );
+
         result.add(booleanCompletableFuture);
 
         CompletableFuture.allOf(result.toArray(new CompletableFuture[0])).join();
@@ -110,6 +118,13 @@ class AssignmentServiceTest {
         List<CompletableFuture<Boolean>> result = new ArrayList<>();
         for(int i = 0; i <50; i++) {
             CompletableFuture<Boolean> booleanCompletableFuture = assignmentService.checkIfUserSolveProblem(savedUser, savedAssignmentProblem);
+
+            booleanCompletableFuture.exceptionally(
+                    throwable -> {
+                        throw new AsyncException("비동기 멀티스레딩 중 예외가 발생하였습니다.");
+                    }
+            );
+
             result.add(booleanCompletableFuture);
         }
 
@@ -153,6 +168,13 @@ class AssignmentServiceTest {
         List<CompletableFuture<Boolean>> result = new ArrayList<>();
         for(int i = 0; i <100; i++) {
             CompletableFuture<Boolean> booleanCompletableFuture = assignmentService.checkIfUserSolveProblem(savedUser, savedAssignmentProblem);
+
+            booleanCompletableFuture.exceptionally(
+                    throwable -> {
+                        throw new AsyncException("비동기 멀티스레딩 중 예외가 발생하였습니다.");
+                    }
+            );
+
             result.add(booleanCompletableFuture);
         }
 
