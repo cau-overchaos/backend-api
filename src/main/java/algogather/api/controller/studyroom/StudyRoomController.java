@@ -81,6 +81,6 @@ public class StudyRoomController {
     @GetMapping("/{studyRoomId}/assignments")
     public ResponseEntity<ApiResponse<?>> getAssignments(@AuthenticationPrincipal UserAdapter userAdapter, @PathVariable Long studyRoomId) {
         AssignmentResponseDto assignmentList = assignmentService.getAssignmentList(userAdapter, studyRoomId);
-        return ResponseEntity.status(HttpStatus.CREATED).body(ApiResponse.sucessWithDataAndMessage(assignmentList, "과제를 성공적으로 불러왔습니다."));
+        return ResponseEntity.status(HttpStatus.OK).body(ApiResponse.sucessWithDataAndMessage(assignmentList, "과제를 성공적으로 불러왔습니다."));
     }
 }
