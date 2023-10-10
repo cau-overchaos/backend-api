@@ -48,3 +48,4 @@ rebel.xml
 /build/
 .gradletasknamecache
 
+.application-prod.yml
