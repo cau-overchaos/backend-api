@@ -33,8 +33,13 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
 	implementation group: 'com.googlecode.json-simple', name: 'json-simple', version: '1.1.1'
 	implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310'
+	implementation 'org.jsoup:jsoup:1.16.1'
+	runtimeOnly 'org.mariadb.jdbc:mariadb-java-client'
 
 	implementation 'org.springdoc:springdoc-openapi-ui:1.6.9'
+
+	testCompileOnly 'org.projectlombok:lombok'
+	testAnnotationProcessor 'org.projectlombok:lombok'
 }
 
 tasks.named('test') {

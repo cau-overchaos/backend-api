@@ -23,10 +23,6 @@ public class AssignmentCreateForm {
     @Size(max = 30, message = "문제는 한번에 30개까지 등록이 가능합니다")
     private List<ProblemInfoRequestDto> problemList;
 
-    @Schema(description = "스터디방 번호")
-    @NotNull(message = "스터디방 번호가 없습니다.")
-    private Long studyRoomId;
-
     @Schema(description = "과제 시작 날짜 yyyy-MM-dd HH:mm 형식")
     @NotNull(message = "과제 시작 날짜를 입력해주세요.")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm", timezone = "Asia/Seoul")
@@ -38,9 +34,8 @@ public class AssignmentCreateForm {
     private LocalDateTime dueDate;
 
     @Builder
-    public AssignmentCreateForm(List<ProblemInfoRequestDto> problemList, Long studyRoomId, LocalDateTime startDate, LocalDateTime dueDate) {
+    public AssignmentCreateForm(List<ProblemInfoRequestDto> problemList, LocalDateTime startDate, LocalDateTime dueDate) {
         this.problemList = problemList;
-        this.studyRoomId = studyRoomId;
         this.startDate = startDate;
         this.dueDate = dueDate;
     }

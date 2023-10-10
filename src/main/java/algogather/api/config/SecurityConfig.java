@@ -51,7 +51,7 @@ public class SecurityConfig {
     }
 
     @Bean
-    @Profile("deploy")
+    @Profile("prod")
     SecurityFilterChain securityFilterChainDeploy(HttpSecurity http) throws Exception {
         http
                 .httpBasic().disable()

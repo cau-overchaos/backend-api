@@ -1,9 +1,7 @@
 package algogather.api.exception.handler;
 
 import algogather.api.dto.api.ApiResponse;
-import algogather.api.exception.NotStudyRoomManagerException;
-import algogather.api.exception.NotStudyRoomMemberException;
-import algogather.api.exception.StudyRoomNotFoundException;
+import algogather.api.exception.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,5 +27,17 @@ public class StudyRoomExceptionHandler {
     public ResponseEntity<ApiResponse<?>> handleStudyRoomNotFoundException(StudyRoomNotFoundException exception) {
         log.debug("StudyRoomNotFoundException = {}", exception.getMessage());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ApiResponse.createError(exception.getMessage()));
+    }
+
+    @ExceptionHandler(NotSupportedProviderException.class)
+    public ResponseEntity<ApiResponse<?>> handleNotSupportedProviderException(NotSupportedProviderException exception) {
+        log.debug("NotSupportedProviderException = {}", exception.getMessage());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ApiResponse.createError(exception.getMessage()));
+    }
+
+    @ExceptionHandler(AsyncException.class)
+    public ResponseEntity<ApiResponse<?>> handleAsyncException(AsyncException exception) {
+        log.debug("AsyncException = {}", exception.getMessage());
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(ApiResponse.createError(exception.getMessage()));
     }
 }

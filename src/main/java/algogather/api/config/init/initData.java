@@ -23,7 +23,7 @@ import java.net.URI;
 import static algogather.api.config.init.initConst.solvedAcUrl;
 import static algogather.api.domain.problem.ProblemProvider.*;
 
-@Profile("dev")
+@Profile("prod")
 @RequiredArgsConstructor
 @Component
 @Slf4j
@@ -37,14 +37,17 @@ public class initData {
         난이도, 태그, 문제들 초기화 하는 부분
         따로 쿼리 로그를 뽑아내었기 때문에 필요한 경우 외에 사용하지 않으므로 주석처리 하였음
         import.sql에 초기 데이터 채우는 쿼리문 존재
+
+        배포때 DB에 데이터 채울때 처음 한번만 사용할 것. 시간 오래 걸린다.
      */
 
-//    @EventListener(ApplicationReadyEvent.class)
-//    public void DifficultiesAndTagsAndProblems() throws ParseException {
+    @EventListener(ApplicationReadyEvent.class)
+    public void DifficultiesAndTagsAndProblems() throws ParseException {
 //        initDifficulties();
 //        initTags();
 //        initProblems();
-//    }
+//        log.debug("초기 데이터 채우기 끝!!!!초기 데이터 채우기 끝!!!!초기 데이터 채우기 끝!!!!");
+    }
 
     public void initDifficulties() {
         /**

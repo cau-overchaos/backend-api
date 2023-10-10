@@ -148,7 +148,6 @@ class StudyRoomControllerTest {
 
         LocalDateTime testDateTime = LocalDateTime.now();
         AssignmentCreateForm assignmentCreateForm = AssignmentCreateForm.builder()
-                .studyRoomId(createdStudyRoomResponseDto.getId())
                 .startDate(testDateTime)
                 .dueDate(testDateTime)
                 .problemList(problemInfoRequestDtoList).
@@ -264,7 +263,6 @@ class StudyRoomControllerTest {
 
         LocalDateTime testDateTime = LocalDateTime.now();
         AssignmentCreateForm assignmentCreateForm = AssignmentCreateForm.builder()
-                .studyRoomId(studyRoom.getId())
                 .startDate(testDateTime)
                 .dueDate(testDateTime)
                 .problemList(problemInfoRequestDtoList).
@@ -379,7 +377,6 @@ class StudyRoomControllerTest {
 
         LocalDateTime testDateTime = LocalDateTime.now();
         AssignmentCreateForm assignmentCreateForm = AssignmentCreateForm.builder()
-                .studyRoomId(studyRoom.getId())
                 .startDate(testDateTime)
                 .dueDate(testDateTime)
                 .problemList(problemInfoRequestDtoList).
@@ -477,7 +474,6 @@ class StudyRoomControllerTest {
 
         LocalDateTime testDateTime = LocalDateTime.now();
         AssignmentCreateForm assignmentCreateForm = AssignmentCreateForm.builder()
-                .studyRoomId(createdStudyRoomResponseDto.getId())
                 .startDate(testDateTime)
                 .dueDate(testDateTime)
                 .problemList(problemInfoRequestDtoList).

@@ -44,7 +44,7 @@ rebel.xml
 /example/
 
 # Gradle
-.gradle
 /build/
 .gradletasknamecache
 
+application-prod.yml
