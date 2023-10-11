@@ -38,6 +38,7 @@ build
 rebel.xml
 
 # Compliled files
+.gradle/
 /target/
 **/target
 
