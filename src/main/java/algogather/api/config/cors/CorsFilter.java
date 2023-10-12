@@ -10,7 +10,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-import static algogather.api.config.cors.CorsConst.frontendServer;
+import static algogather.api.config.cors.CorsConst.CLIENT_URL;
+
 
 /**
  * CORS 설정
@@ -31,12 +32,7 @@ public class CorsFilter implements Filter {
 
         String origin = ((HttpServletRequest) req).getHeader("origin");
 
-        for (String o : frontendServer) {
-            if(o.equals(origin)) {
-                response.setHeader("Access-Control-Allow-Origin", origin);
-                break;
-            }
-        }
+        response.setHeader("Access-Control-Allow-Origin", CLIENT_URL);
         response.setHeader("Access-Control-Allow-Credentials", "true");
         response.setHeader("Access-Control-Allow-Methods","*");
         response.setHeader("Access-Control-Max-Age", "3600");
