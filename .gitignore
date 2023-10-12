@@ -49,3 +49,4 @@ rebel.xml
 .gradletasknamecache
 
 application-prod.yml
+keystore.p12
