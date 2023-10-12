@@ -20,7 +20,6 @@ import static algogather.api.config.cors.CorsConst.CLIENT_URL;
 
 @Component
 @Order(Ordered.HIGHEST_PRECEDENCE)
-@Slf4j
 public class CorsFilter implements Filter {
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
@@ -31,9 +30,7 @@ public class CorsFilter implements Filter {
     public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain) throws IOException, ServletException {
         HttpServletRequest request = (HttpServletRequest) req;
         HttpServletResponse response = (HttpServletResponse) res;
-
-        String origin = ((HttpServletRequest) req).getHeader("origin");
-
+        
         response.setHeader("Access-Control-Allow-Origin", CLIENT_URL);
         response.setHeader("Access-Control-Allow-Credentials", "true");
         response.setHeader("Access-Control-Allow-Methods","*");
