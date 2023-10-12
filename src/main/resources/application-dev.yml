@@ -32,3 +32,5 @@ server:
         http-only: true
         same-site: None
         secure: true
+
+clientURL: http://localhost:3000
