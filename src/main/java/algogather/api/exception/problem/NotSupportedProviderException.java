@@ -1,4 +1,4 @@
-package algogather.api.exception;
+package algogather.api.exception.problem;
 
 public class NotSupportedProviderException extends RuntimeException{
     public NotSupportedProviderException() {

@@ -4,7 +4,7 @@ import algogather.api.dto.auth.SignUpForm;
 import algogather.api.domain.user.User;
 import algogather.api.domain.user.UserRepository;
 import algogather.api.domain.user.UserRole;
-import algogather.api.exception.AlreadyExistingUserException;
+import algogather.api.exception.user.AlreadyExistingUserException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

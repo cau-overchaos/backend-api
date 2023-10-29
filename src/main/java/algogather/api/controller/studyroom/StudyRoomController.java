@@ -83,4 +83,11 @@ public class StudyRoomController {
         AssignmentResponseDto assignmentList = assignmentService.getAssignmentList(userAdapter, studyRoomId);
         return ResponseEntity.status(HttpStatus.OK).body(ApiResponse.sucessWithDataAndMessage(assignmentList, "과제를 성공적으로 불러왔습니다."));
     }
+
+    @Operation(summary = "멤버 추가", description = "멤버 추가 API입니다.")
+    @PostMapping("/{studyRoomId}/members")
+    public ResponseEntity<ApiResponse<?>> addStudyMember(@AuthenticationPrincipal UserAdapter userAdapter, @PathVariable Long studyRoomId, @RequestBody AddStudyRoomMemberRequestDto addStudyRoomMemberRequestDto) {
+        AddStudyRoomMemberResponseDto addStudyRoomMemberResponseDto = studyRoomService.addStudyMember(userAdapter, studyRoomId, addStudyRoomMemberRequestDto);
+        return ResponseEntity.status(HttpStatus.OK).body(ApiResponse.sucessWithDataAndMessage(addStudyRoomMemberResponseDto, "멤버를 성공적으로 추가했습니다."));
+    }
 }

@@ -3,7 +3,7 @@ package algogather.api.config.security.custom;
 import algogather.api.domain.user.User;
 import algogather.api.domain.user.UserAdapter;
 import algogather.api.domain.user.UserRepository;
-import algogather.api.exception.UserNotFoundException;
+import algogather.api.exception.user.UserNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.userdetails.UserDetails;

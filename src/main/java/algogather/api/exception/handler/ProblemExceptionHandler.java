@@ -1,9 +1,9 @@
 package algogather.api.exception.handler;
 
 import algogather.api.dto.api.ApiResponse;
-import algogather.api.exception.DifficultyNotFoundException;
-import algogather.api.exception.ProblemNotFoundException;
-import algogather.api.exception.TagNotFoundException;
+import algogather.api.exception.problem.DifficultyNotFoundException;
+import algogather.api.exception.problem.ProblemNotFoundException;
+import algogather.api.exception.problem.TagNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

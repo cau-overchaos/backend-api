@@ -5,7 +5,7 @@ import algogather.api.domain.assignment.AssignmentProblem;
 import algogather.api.domain.assignment.AssignmentSolveRepository;
 import algogather.api.domain.problem.ProblemProvider;
 import algogather.api.domain.user.User;
-import algogather.api.exception.NotSupportedProviderException;
+import algogather.api.exception.problem.NotSupportedProviderException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Async;

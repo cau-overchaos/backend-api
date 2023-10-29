@@ -7,7 +7,7 @@ import algogather.api.domain.problem.ProblemProvider;
 import algogather.api.domain.problem.ProblemRepository;
 import algogather.api.domain.user.UserRepository;
 import algogather.api.domain.user.UserRole;
-import algogather.api.exception.AsyncException;
+import algogather.api.exception.aync.AsyncException;
 import lombok.extern.slf4j.Slf4j;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;

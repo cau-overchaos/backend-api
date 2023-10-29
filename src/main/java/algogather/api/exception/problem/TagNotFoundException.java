@@ -1,4 +1,4 @@
-package algogather.api.exception;
+package algogather.api.exception.problem;
 
 public class TagNotFoundException extends RuntimeException{
     public TagNotFoundException() {
