@@ -3,10 +3,7 @@ package algogather.api.service.studyroom;
 import algogather.api.domain.studyroom.*;
 import algogather.api.domain.user.UserAdapter;
 import algogather.api.dto.studyroom.*;
-import algogather.api.exception.studyroom.AlreadyExistingStudyRoomMemberException;
-import algogather.api.exception.studyroom.NotStudyRoomManagerException;
-import algogather.api.exception.studyroom.NotStudyRoomMemberException;
-import algogather.api.exception.studyroom.StudyRoomNotFoundException;
+import algogather.api.exception.studyroom.*;
 import algogather.api.service.user.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -50,7 +47,13 @@ public class StudyRoomService {
         if(!foundUserStudyRoom.getRole().getKey().equals("MANAGER")) {
             throw new NotStudyRoomManagerException();
         }
+    }
 
+    public UserStudyRoom findUserStudyRoomByUserAdapterAndStudyRoomId(UserAdapter userAdapter, Long studyRoomId) {
+        User user = userAdapter.getUser();
+        findById(studyRoomId);
+
+        return userStudyRoomRepository.findByUserIdAndStudyRoomId(user.getId(), studyRoomId).orElseThrow(() -> new NotStudyRoomMemberException());
     }
 
     @Transactional
@@ -110,5 +113,28 @@ public class StudyRoomService {
         UserStudyRoom savedUserStudyRoom = userStudyRoomRepository.save(newUserStudyRoom);
 
         return new AddStudyRoomMemberResponseDto(savedUserStudyRoom.getStudyRoom().getId(), savedUserStudyRoom.getUser().getUserId());
+    }
+
+    @Transactional
+    public boolean changeStudyRoomAuthority(UserAdapter userAdapter, Long studyRoomId, ChangeStudyRoomAuthorityRequestDto changeStudyRoomAuthorityRequestDto) {
+        throwExceptionIfNotStudyRoomManager(userAdapter, studyRoomId); // 스터디룸 관리자만 스터디룸 권한을 변경할 수 있다.
+
+        StudyRoom foundStudyRoom = findById(studyRoomId);
+        UserAdapter foundUserAdaptor = userService.findByUserId(changeStudyRoomAuthorityRequestDto.getTargetUserId());
+
+        UserStudyRoom userStudyRoom = findUserStudyRoomByUserAdapterAndStudyRoomId(foundUserAdaptor, foundStudyRoom.getId());
+
+        if(userAdapter.getUser().getUserId().equals(foundUserAdaptor.getUser().getUserId())) { // 자기 자신의 권한을 변경할 수는 없다.
+            throw new ChangeMyStudyRoomException();
+        }
+
+        if(userStudyRoom.getRole() == StudyRoomRole.MANAGER) { // 스터디룸 관리자였으면 관리자에서 해제한다.
+            userStudyRoom.changeStudyRoomRole(StudyRoomRole.USER);
+            return false;
+        }
+        else{ // 일반 스터디룸 멤버였으면 관리자를 부여한다.
+            userStudyRoom.changeStudyRoomRole(StudyRoomRole.MANAGER);
+            return true;
+        }
     }
 }

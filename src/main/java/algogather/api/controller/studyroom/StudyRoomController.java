@@ -85,9 +85,36 @@ public class StudyRoomController {
     }
 
     @Operation(summary = "멤버 추가", description = "멤버 추가 API입니다.")
-    @PostMapping("/{studyRoomId}/members")
+    @PostMapping("/{studyRoomId}/members/add")
     public ResponseEntity<ApiResponse<?>> addStudyMember(@AuthenticationPrincipal UserAdapter userAdapter, @PathVariable Long studyRoomId, @RequestBody AddStudyRoomMemberRequestDto addStudyRoomMemberRequestDto) {
         AddStudyRoomMemberResponseDto addStudyRoomMemberResponseDto = studyRoomService.addStudyMember(userAdapter, studyRoomId, addStudyRoomMemberRequestDto);
         return ResponseEntity.status(HttpStatus.OK).body(ApiResponse.sucessWithDataAndMessage(addStudyRoomMemberResponseDto, "멤버를 성공적으로 추가했습니다."));
     }
+
+    @Operation(summary = "멤버 관리자로 설정", description = "멤버 관리자 설정 API입니다.")
+    @PostMapping("/{studyRoomId}/members/authority")
+    public ResponseEntity<ApiResponse<?>> changeStudyRoomAuthority(@AuthenticationPrincipal UserAdapter userAdapter, @PathVariable Long studyRoomId, @RequestBody ChangeStudyRoomAuthorityRequestDto changeStudyRoomAuthorityRequestDto) {
+        boolean isChangedToManagerAuthority = studyRoomService.changeStudyRoomAuthority(userAdapter, studyRoomId, changeStudyRoomAuthorityRequestDto);
+
+        if(isChangedToManagerAuthority){
+            return ResponseEntity.status(HttpStatus.OK).body(ApiResponse.sucess("성공적으로 관리자권한을 부여하였습니다."));
+        }
+        else {
+            return ResponseEntity.status(HttpStatus.OK).body(ApiResponse.sucess("성공적으로 관리자권한을 해제하였습니다."));
+        }
+    }
+
+    //TODO
+//    @Operation(summary = "스터디방 멤버 삭제 API", description = "스터디방 멤버 삭제 API입니다.")
+//    @PostMapping("/{studyRoomId}/members")
+//    public ResponseEntity<ApiResponse<?>> setStudyMemberToManager(@AuthenticationPrincipal UserAdapter userAdapter, @PathVariable Long studyRoomId, @RequestBody AddStudyRoomMemberRequestDto addStudyRoomMemberRequestDto) {
+//        return ResponseEntity.status(HttpStatus.OK).body(ApiResponse.sucessWithDataAndMessage(, "멤버를 성공적으로 추가했습니다."));
+//    }
+
+    //TODO solved API 써서 티어 정보 가져와야함.
+//    @Operation(summary = "스터디방 멤버 조회 API", description = "스터디방 멤버 조회 API입니다.")
+//    @PostMapping("/{studyRoomId}/members")
+//    public ResponseEntity<ApiResponse<?>> setStudyMemberToManager(@AuthenticationPrincipal UserAdapter userAdapter, @PathVariable Long studyRoomId, @RequestBody AddStudyRoomMemberRequestDto addStudyRoomMemberRequestDto) {
+//        return ResponseEntity.status(HttpStatus.OK).body(ApiResponse.sucessWithDataAndMessage(, "멤버를 성공적으로 추가했습니다."));
+//    }
 }

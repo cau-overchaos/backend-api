@@ -3,10 +3,7 @@ package algogather.api.exception.handler;
 import algogather.api.dto.api.ApiResponse;
 import algogather.api.exception.aync.AsyncException;
 import algogather.api.exception.problem.NotSupportedProviderException;
-import algogather.api.exception.studyroom.AlreadyExistingStudyRoomMemberException;
-import algogather.api.exception.studyroom.NotStudyRoomManagerException;
-import algogather.api.exception.studyroom.NotStudyRoomMemberException;
-import algogather.api.exception.studyroom.StudyRoomNotFoundException;
+import algogather.api.exception.studyroom.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -49,6 +46,12 @@ public class StudyRoomExceptionHandler {
     @ExceptionHandler(AlreadyExistingStudyRoomMemberException.class)
     public ResponseEntity<ApiResponse<?>> handleAlreadyExistingStudyRoomMemberException(AlreadyExistingStudyRoomMemberException exception) {
         log.debug("AlreadyExistingStudyRoomMemberException = {}", exception.getMessage());
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(ApiResponse.createError(exception.getMessage()));
+    }
+
+    @ExceptionHandler(ChangeMyStudyRoomException.class)
+    public ResponseEntity<ApiResponse<?>> handleChangeMyStudyRoomException(ChangeMyStudyRoomException exception) {
+        log.debug("ChangeMyStudyRoomException = {}", exception.getMessage());
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(ApiResponse.createError(exception.getMessage()));
     }
 }
