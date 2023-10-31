@@ -18,6 +18,8 @@ public class AssignmentResponseDto {
                             new AssignmentInfo(
                                     assignmentWithSolvedUserDto.getAssignmentProblem().getProblem().getPid(),
                                     assignmentWithSolvedUserDto.getAssignmentProblem().getProblem().getTitle(),
+                                    assignmentWithSolvedUserDto.getAssignmentProblem().getStartDate(),
+                                    assignmentWithSolvedUserDto.getAssignmentProblem().getDueDate(),
                                     assignmentWithSolvedUserDto.getAssignmentProblem().getProblem().getDifficulty().getLevel(),
                                     assignmentWithSolvedUserDto.getAssignmentProblem().getProblem().getDifficulty().getName(),
 
@@ -38,6 +40,8 @@ public class AssignmentResponseDto {
     static class AssignmentInfo {
         private Long problemPid;
         private String problemTitle;
+        private LocalDateTime startDate;
+        private LocalDateTime dueDate;
         private Long problemDifficultyLevel;
         private String problemDifficultyName;
         private List<SolvedUserInfo> solvedUserInfoList;
