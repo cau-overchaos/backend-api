@@ -114,7 +114,6 @@ public class StudyRoomController {
         }
     }
 
-    //TODO solved API 써서 티어 정보 가져와야함.
     @Operation(summary = "스터디방 멤버 조회 API", description = "스터디방 멤버 조회 API입니다.")
     @GetMapping("/{studyRoomId}/members")
     public ResponseEntity<ApiResponse<?>> setStudyMemberToManager(@AuthenticationPrincipal UserAdapter userAdapter, @PathVariable Long studyRoomId) throws ParseException {
@@ -122,18 +121,17 @@ public class StudyRoomController {
         return ResponseEntity.status(HttpStatus.OK).body(ApiResponse.sucessWithDataAndMessage(studyRoomMemberList, "멤버를 성공적으로 조회했습니다."));
     }
 
-    //TODO
-//    @Operation(summary = "스터디방 관리자 여부 확인 API", description = "스터디방 관리자 여부 확인 API입니다.")
-//    @PostMapping("/{studyRoomId}/members")
-//    public ResponseEntity<ApiResponse<?>> setStudyMemberToManager(@AuthenticationPrincipal UserAdapter userAdapter, @PathVariable Long studyRoomId, @Valid @RequestBody AddStudyRoomMemberRequestDto addStudyRoomMemberRequestDto) {
-//        return ResponseEntity.status(HttpStatus.OK).body(ApiResponse.sucessWithDataAndMessage(, "멤버를 성공적으로 추가했습니다."));
-//    }
+    @Operation(summary = "스터디방 멤버 여부 확인 API", description = "스터디방 멤버 여부 확인 API입니다.")
+    @PostMapping("/{studyRoomId}/is-member")
+    public ResponseEntity<ApiResponse<?>> checkIfStudyRoomMember(@AuthenticationPrincipal UserAdapter userAdapter, @PathVariable Long studyRoomId) {
+        studyRoomService.throwExceptionIfNotStudyRoomMember(userAdapter, studyRoomId);
+        return ResponseEntity.status(HttpStatus.OK).body(ApiResponse.sucess("현재 사용자는 스터디방 멤버입니다."));
+    }
 
-    //TODO
-//    @Operation(summary = "스터디방 멤버 여부 확인 API", description = "스터디방 멤버 여부 확인 API입니다.")
-//    @PostMapping("/{studyRoomId}/members")
-//    public ResponseEntity<ApiResponse<?>> setStudyMemberToManager(@AuthenticationPrincipal UserAdapter userAdapter, @PathVariable Long studyRoomId, @Valid @RequestBody AddStudyRoomMemberRequestDto addStudyRoomMemberRequestDto) {
-//        return ResponseEntity.status(HttpStatus.OK).body(ApiResponse.sucessWithDataAndMessage(, "멤버를 성공적으로 추가했습니다."));
-//    }
-
+    @Operation(summary = "스터디방 관리자 여부 확인 API", description = "스터디방 관리자 여부 확인 API입니다.")
+    @PostMapping("/{studyRoomId}/is-manager")
+    public ResponseEntity<ApiResponse<?>> checkIfStudyRoomManager(@AuthenticationPrincipal UserAdapter userAdapter, @PathVariable Long studyRoomId) {
+        studyRoomService.throwExceptionIfNotStudyRoomManager(userAdapter, studyRoomId);
+        return ResponseEntity.status(HttpStatus.OK).body(ApiResponse.sucess("현재 사용자는 스터디방 관리자 입니다."));
+    }
 }
