@@ -1,8 +1,8 @@
 package algogather.api.exception.handler;
 
 import algogather.api.dto.api.ApiResponse;
-import algogather.api.exception.AlreadyExistingUserException;
-import algogather.api.exception.UserNotFoundException;
+import algogather.api.exception.user.AlreadyExistingUserException;
+import algogather.api.exception.user.UserNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

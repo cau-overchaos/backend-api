@@ -38,4 +38,8 @@ public class UserStudyRoom extends BaseTimeEntity {
         this.user = user;
         this.studyRoom = studyRoom;
     }
+
+    public void changeStudyRoomRole(StudyRoomRole studyRoomRole) {
+        role = studyRoomRole;
+    }
 }

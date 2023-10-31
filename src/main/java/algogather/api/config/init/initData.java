@@ -1,8 +1,8 @@
 package algogather.api.config.init;
 
 import algogather.api.domain.problem.*;
-import algogather.api.exception.DifficultyNotFoundException;
-import algogather.api.exception.TagNotFoundException;
+import algogather.api.exception.problem.DifficultyNotFoundException;
+import algogather.api.exception.problem.TagNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.json.simple.JSONArray;

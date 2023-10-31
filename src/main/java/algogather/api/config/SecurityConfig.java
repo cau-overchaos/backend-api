@@ -59,7 +59,7 @@ public class SecurityConfig {
                 .csrf().disable()
                 .authorizeHttpRequests()
                 .antMatchers(POST, deploymentWhiteListPOST).permitAll() // POST 요청 하용
-                .antMatchers(GET, deploymentWhiteListPOST).permitAll() // GET 요청 허용
+                .antMatchers(GET, deploymentWhiteListGET).permitAll() // GET 요청 허용
                 .anyRequest().authenticated();
 
         http.exceptionHandling()

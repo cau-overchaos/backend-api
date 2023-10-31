@@ -1,4 +1,4 @@
-package algogather.api.exception;
+package algogather.api.exception.user;
 
 public class AlreadyExistingUserException extends RuntimeException{
     public AlreadyExistingUserException() {

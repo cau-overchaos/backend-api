@@ -1,4 +1,4 @@
-package algogather.api.exception;
+package algogather.api.exception.user;
 
 public class UserNotFoundException extends RuntimeException{
     public UserNotFoundException() {

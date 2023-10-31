@@ -1,4 +1,4 @@
-package algogather.api.exception;
+package algogather.api.exception.studyroom;
 
 public class StudyRoomNotFoundException extends RuntimeException{
     public StudyRoomNotFoundException() {
