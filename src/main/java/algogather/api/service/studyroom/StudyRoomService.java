@@ -7,12 +7,24 @@ import algogather.api.exception.studyroom.*;
 import algogather.api.service.user.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
+import org.springframework.http.RequestEntity;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import algogather.api.domain.user.User;
+import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.transaction.Transactional;
+import java.net.URI;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+
+import static algogather.api.config.init.initConst.solvedAcUrl;
 
 @Service
 @RequiredArgsConstructor
@@ -95,7 +107,7 @@ public class StudyRoomService {
         throwExceptionIfNotStudyRoomManager(userAdapter, studyRoomId); // 스터디룸 관리자만 스터디룸에 사람을 초대할 수 있다.
 
         StudyRoom foundStudyRoom = findById(studyRoomId);
-        UserAdapter foundUserAdaptor = userService.findByUserId(addStudyRoomMemberRequestDto.getInvitedUserId());
+        UserAdapter foundUserAdaptor = userService.findByUserId(addStudyRoomMemberRequestDto.getTargetUserId());
 
         // 해당 유저가 스터디방에 이미 존재하는지 검증
         Optional<UserStudyRoom> existingUserStudyRoom = userStudyRoomRepository.findByUserIdAndStudyRoomId(foundUserAdaptor.getUser().getId(), foundStudyRoom.getId());
@@ -134,6 +146,7 @@ public class StudyRoomService {
          userStudyRoomRepository.delete(userStudyRoom);
     }
 
+    //TODO changeStudyRoomAuthority -> changeStudyRoomMemberAuthority로 이름 바꾸기
     @Transactional
     public boolean changeStudyRoomAuthority(UserAdapter userAdapter, Long studyRoomId, ChangeStudyRoomAuthorityRequestDto changeStudyRoomAuthorityRequestDto) {
         throwExceptionIfNotStudyRoomManager(userAdapter, studyRoomId); // 스터디룸 관리자만 스터디룸 권한을 변경할 수 있다.
@@ -155,5 +168,59 @@ public class StudyRoomService {
             userStudyRoom.changeStudyRoomRole(StudyRoomRole.MANAGER);
             return true;
         }
+    }
+
+    public StudyRoomMemberListResponseDto getStudyRoomMemberList(UserAdapter userAdapter, Long studyRoomId) throws ParseException {
+        throwExceptionIfNotStudyRoomMember(userAdapter, studyRoomId); // 스터디룸 멤버만 멤버 조회가 가능하다.
+
+        List<UserWithStudyRoomAuthorityInfoDto> userWithStudyRoomAuthorityInfoDtos = userStudyRoomRepository.findUsersWithStudyRoomInfo(studyRoomId);
+        List<StudyRoomMemberInfoDto> studyRoomMemberInfoDtoList = getStudyRoomMemberInfoDtoList(userAdapter, userWithStudyRoomAuthorityInfoDtos);
+
+        return new StudyRoomMemberListResponseDto(studyRoomMemberInfoDtoList);
+    }
+
+    private static List<StudyRoomMemberInfoDto> getStudyRoomMemberInfoDtoList(UserAdapter userAdapter, List<UserWithStudyRoomAuthorityInfoDto> userWithStudyRoomAuthorityInfoDtos) throws ParseException {
+        List<StudyRoomMemberInfoDto> studyRoomMemberInfoDtoList = new ArrayList<>();
+
+        for (UserWithStudyRoomAuthorityInfoDto userWithStudyRoomAuthorityInfoDto : userWithStudyRoomAuthorityInfoDtos) {
+            URI uri = UriComponentsBuilder.fromHttpUrl(solvedAcUrl)
+                    .path("/api/v3/user/show")
+                    .queryParam("handle", userWithStudyRoomAuthorityInfoDto.getJudgeAccount())
+                    .encode()
+                    .build()
+                    .toUri();
+            RestTemplate restTemplate = new RestTemplate();
+
+            RequestEntity<Void> req = RequestEntity
+                    .get(uri)
+                    .build();
+
+            Long tierLevel = 0L; // solved.AC 사용자 정보를 찾으면 1이상의 값이 들어 가고, 못 찾으면 0이 들어 간다.
+            String studyRoomAuthorityName = userWithStudyRoomAuthorityInfoDto.getStudyRoomRole().equals(StudyRoomRole.USER) ? "일반 멤버" : "관리자";
+            boolean isValidJudgeAccount = true;
+            try {
+                ResponseEntity<String> response = restTemplate.exchange(req, String.class);
+
+                JSONParser jsonParser = new JSONParser();
+                JSONObject userInfo = (JSONObject) jsonParser.parse(response.getBody());
+
+                tierLevel = (Long) userInfo.get("tier");
+            }
+            catch (HttpClientErrorException e) { // 백준 계정이 잘못 되어서 404 NOT_FOUND 등이 반환되었을 때 예외처리
+                isValidJudgeAccount = false;
+            }
+
+            studyRoomMemberInfoDtoList.add(StudyRoomMemberInfoDto.builder()
+                    .userId(userWithStudyRoomAuthorityInfoDto.getUserId())
+                    .name(userWithStudyRoomAuthorityInfoDto.getName())
+                    .isValidJudgeAccount(isValidJudgeAccount)
+                    .judgeAccount(userWithStudyRoomAuthorityInfoDto.getJudgeAccount())
+                    .tierLevel(tierLevel)
+                    .studyRoomRole(userWithStudyRoomAuthorityInfoDto.getStudyRoomRole())
+                    .studyRoomRoleName(studyRoomAuthorityName)
+                    .isMe(userAdapter.getUser().getId().equals(userWithStudyRoomAuthorityInfoDto.getId())) // 현재 인원 페이지를 보고 있는, 로그인한 사용자이면 true, 아니면 false를 대입한다.
+                    .build());
+        }
+        return studyRoomMemberInfoDtoList;
     }
 }

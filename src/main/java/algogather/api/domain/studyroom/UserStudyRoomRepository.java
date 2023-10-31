@@ -1,5 +1,6 @@
 package algogather.api.domain.studyroom;
 
+import algogather.api.dto.studyroom.UserWithStudyRoomAuthorityInfoDto;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import algogather.api.domain.user.User;
@@ -16,4 +17,9 @@ public interface UserStudyRoomRepository extends JpaRepository<UserStudyRoom, Lo
             "WHERE usr.studyRoom.id = :studyRoomId")
     List<User> findUserByStudyRoomId(Long studyRoomId);
 
+    @Query("SELECT new algogather.api.dto.studyroom.UserWithStudyRoomAuthorityInfoDto(u.id, u.userId, u.name, u.judgeAccount, usr.role) " +
+            "FROM UserStudyRoom usr " +
+            "JOIN FETCH User u ON usr.user.id = u.id " +
+            "WHERE usr.studyRoom.id = :studyRoomId")
+    List<UserWithStudyRoomAuthorityInfoDto> findUsersWithStudyRoomInfo(Long studyRoomId);
 }
