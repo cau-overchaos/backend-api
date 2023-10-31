@@ -1,7 +1,7 @@
 package algogather.api.exception.handler;
 
 import algogather.api.dto.api.ApiResponse;
-import algogather.api.exception.aync.AsyncException;
+import algogather.api.exception.async.AsyncException;
 import algogather.api.exception.problem.NotSupportedProviderException;
 import algogather.api.exception.studyroom.*;
 import lombok.extern.slf4j.Slf4j;
@@ -49,9 +49,9 @@ public class StudyRoomExceptionHandler {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ApiResponse.createError(exception.getMessage()));
     }
 
-    @ExceptionHandler(ChangeMyStudyRoomException.class)
-    public ResponseEntity<ApiResponse<?>> handleChangeMyStudyRoomException(ChangeMyStudyRoomException exception) {
-        log.debug("ChangeMyStudyRoomException = {}", exception.getMessage());
+    @ExceptionHandler(ChangeMyStudyRoomAuthorityException.class)
+    public ResponseEntity<ApiResponse<?>> handleChangeMyStudyRoomAuthorityException(ChangeMyStudyRoomAuthorityException exception) {
+        log.debug("ChangeMyStudyRoomAuthorityException = {}", exception.getMessage());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ApiResponse.createError(exception.getMessage()));
     }
 

@@ -1,4 +1,4 @@
-package algogather.api.exception.aync;
+package algogather.api.exception.async;
 
 public class AsyncException extends RuntimeException{
     public AsyncException(String message) {

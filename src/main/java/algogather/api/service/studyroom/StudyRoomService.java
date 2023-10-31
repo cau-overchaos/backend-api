@@ -157,7 +157,7 @@ public class StudyRoomService {
         UserStudyRoom userStudyRoom = findUserStudyRoomByUserAdapterAndStudyRoomId(foundUserAdaptor, foundStudyRoom.getId());
 
         if(userAdapter.getUser().getUserId().equals(userStudyRoom.getUser().getUserId())) { // 자기 자신의 권한을 변경할 수는 없다.
-            throw new ChangeMyStudyRoomException();
+            throw new ChangeMyStudyRoomAuthorityException();
         }
 
         if(userStudyRoom.getRole() == StudyRoomRole.MANAGER) { // 스터디룸 관리자였으면 관리자에서 해제한다.
