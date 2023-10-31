@@ -8,12 +8,13 @@ import javax.validation.constraints.NotNull;
 
 @Getter
 @NoArgsConstructor
-public class ChangeStudyRoomAuthorityRequestDto {
-    
+public class DeleteStudyRoomMemberRequestDto {
+
     @NotEmpty
     private String targetUserId;
 
-    public ChangeStudyRoomAuthorityRequestDto(String targetUserId) {
+
+    public DeleteStudyRoomMemberRequestDto(String targetUserId) {
         this.targetUserId = targetUserId;
     }
 }

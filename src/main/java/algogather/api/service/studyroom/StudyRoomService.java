@@ -29,9 +29,9 @@ public class StudyRoomService {
     public void throwExceptionIfNotStudyRoomMember(UserAdapter userAdapter, Long studyRoomId) {
         User user = userAdapter.getUser();
 
-        findById(studyRoomId);
+        StudyRoom studyRoom = findById(studyRoomId);
 
-        userStudyRoomRepository.findByUserIdAndStudyRoomId(user.getId(), studyRoomId).orElseThrow(() -> new NotStudyRoomMemberException());
+        userStudyRoomRepository.findByUserIdAndStudyRoomId(user.getId(), studyRoom.getId()).orElseThrow(() -> new NotStudyRoomMemberException());
     }
 
     /**
@@ -40,9 +40,9 @@ public class StudyRoomService {
     public void throwExceptionIfNotStudyRoomManager(UserAdapter userAdapter, Long studyRoomId) {
         User user = userAdapter.getUser();
 
-        findById(studyRoomId);
+        StudyRoom studyRoom = findById(studyRoomId);
 
-        UserStudyRoom foundUserStudyRoom = userStudyRoomRepository.findByUserIdAndStudyRoomId(user.getId(), studyRoomId).orElseThrow(() -> new NotStudyRoomMemberException());
+        UserStudyRoom foundUserStudyRoom = userStudyRoomRepository.findByUserIdAndStudyRoomId(user.getId(), studyRoom.getId()).orElseThrow(() -> new NotStudyRoomMemberException());
 
         if(!foundUserStudyRoom.getRole().getKey().equals("MANAGER")) {
             throw new NotStudyRoomManagerException();
@@ -51,9 +51,9 @@ public class StudyRoomService {
 
     public UserStudyRoom findUserStudyRoomByUserAdapterAndStudyRoomId(UserAdapter userAdapter, Long studyRoomId) {
         User user = userAdapter.getUser();
-        findById(studyRoomId);
+        StudyRoom studyRoom = findById(studyRoomId);
 
-        return userStudyRoomRepository.findByUserIdAndStudyRoomId(user.getId(), studyRoomId).orElseThrow(() -> new NotStudyRoomMemberException());
+        return userStudyRoomRepository.findByUserIdAndStudyRoomId(user.getId(), studyRoom.getId()).orElseThrow(() -> new NotStudyRoomMemberException());
     }
 
     @Transactional
@@ -97,7 +97,6 @@ public class StudyRoomService {
         StudyRoom foundStudyRoom = findById(studyRoomId);
         UserAdapter foundUserAdaptor = userService.findByUserId(addStudyRoomMemberRequestDto.getInvitedUserId());
 
-
         // 해당 유저가 스터디방에 이미 존재하는지 검증
         Optional<UserStudyRoom> existingUserStudyRoom = userStudyRoomRepository.findByUserIdAndStudyRoomId(foundUserAdaptor.getUser().getId(), foundStudyRoom.getId());
         if(existingUserStudyRoom.isPresent()) {
@@ -116,6 +115,26 @@ public class StudyRoomService {
     }
 
     @Transactional
+    public void deleteStudyMember(UserAdapter userAdapter, Long studyRoomId, DeleteStudyRoomMemberRequestDto deleteStudyRoomMemberRequestDto) {
+        throwExceptionIfNotStudyRoomManager(userAdapter, studyRoomId); // 스터디룸 관리자만 스터디룸의 멤버를 삭제할 수 있다.
+
+        StudyRoom foundStudyRoom = findById(studyRoomId);
+        UserAdapter foundUserAdaptor = userService.findByUserId(deleteStudyRoomMemberRequestDto.getTargetUserId());
+
+        UserStudyRoom userStudyRoom = findUserStudyRoomByUserAdapterAndStudyRoomId(foundUserAdaptor, foundStudyRoom.getId());
+
+        if(userAdapter.getUser().getUserId().equals(userStudyRoom.getUser().getUserId())) { // 자기 자신을 삭제할 수 없다.
+            throw new DeleteMeFromStudyRoomException();
+        }
+
+        if(userStudyRoom.getRole().equals(StudyRoomRole.MANAGER)) { // 관리자를 삭제할 수 없다.
+            throw new DeleteManagerFromStudyRoomException();
+        }
+
+         userStudyRoomRepository.delete(userStudyRoom);
+    }
+
+    @Transactional
     public boolean changeStudyRoomAuthority(UserAdapter userAdapter, Long studyRoomId, ChangeStudyRoomAuthorityRequestDto changeStudyRoomAuthorityRequestDto) {
         throwExceptionIfNotStudyRoomManager(userAdapter, studyRoomId); // 스터디룸 관리자만 스터디룸 권한을 변경할 수 있다.
 
@@ -124,7 +143,7 @@ public class StudyRoomService {
 
         UserStudyRoom userStudyRoom = findUserStudyRoomByUserAdapterAndStudyRoomId(foundUserAdaptor, foundStudyRoom.getId());
 
-        if(userAdapter.getUser().getUserId().equals(foundUserAdaptor.getUser().getUserId())) { // 자기 자신의 권한을 변경할 수는 없다.
+        if(userAdapter.getUser().getUserId().equals(userStudyRoom.getUser().getUserId())) { // 자기 자신의 권한을 변경할 수는 없다.
             throw new ChangeMyStudyRoomException();
         }
 

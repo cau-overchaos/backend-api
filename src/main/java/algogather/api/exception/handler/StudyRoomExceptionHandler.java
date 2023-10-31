@@ -46,12 +46,24 @@ public class StudyRoomExceptionHandler {
     @ExceptionHandler(AlreadyExistingStudyRoomMemberException.class)
     public ResponseEntity<ApiResponse<?>> handleAlreadyExistingStudyRoomMemberException(AlreadyExistingStudyRoomMemberException exception) {
         log.debug("AlreadyExistingStudyRoomMemberException = {}", exception.getMessage());
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(ApiResponse.createError(exception.getMessage()));
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ApiResponse.createError(exception.getMessage()));
     }
 
     @ExceptionHandler(ChangeMyStudyRoomException.class)
     public ResponseEntity<ApiResponse<?>> handleChangeMyStudyRoomException(ChangeMyStudyRoomException exception) {
         log.debug("ChangeMyStudyRoomException = {}", exception.getMessage());
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(ApiResponse.createError(exception.getMessage()));
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ApiResponse.createError(exception.getMessage()));
+    }
+
+    @ExceptionHandler(DeleteMeFromStudyRoomException.class)
+    public ResponseEntity<ApiResponse<?>> handleDeleteMeFromStudyRoomException(DeleteMeFromStudyRoomException exception) {
+        log.debug("DeleteMeFromStudyRoomException = {}", exception.getMessage());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ApiResponse.createError(exception.getMessage()));
+    }
+
+    @ExceptionHandler(DeleteManagerFromStudyRoomException.class)
+    public ResponseEntity<ApiResponse<?>> handleDeleteManagerFromStudyRoomException(DeleteManagerFromStudyRoomException exception) {
+        log.debug("DeleteManagerFromStudyRoomException = {}", exception.getMessage());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ApiResponse.createError(exception.getMessage()));
     }
 }

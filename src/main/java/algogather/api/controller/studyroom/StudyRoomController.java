@@ -86,14 +86,23 @@ public class StudyRoomController {
 
     @Operation(summary = "멤버 추가", description = "멤버 추가 API입니다.")
     @PostMapping("/{studyRoomId}/members/add")
-    public ResponseEntity<ApiResponse<?>> addStudyMember(@AuthenticationPrincipal UserAdapter userAdapter, @PathVariable Long studyRoomId, @RequestBody AddStudyRoomMemberRequestDto addStudyRoomMemberRequestDto) {
+    public ResponseEntity<ApiResponse<?>> addStudyMember(@AuthenticationPrincipal UserAdapter userAdapter, @PathVariable Long studyRoomId, @Valid @RequestBody AddStudyRoomMemberRequestDto addStudyRoomMemberRequestDto) {
         AddStudyRoomMemberResponseDto addStudyRoomMemberResponseDto = studyRoomService.addStudyMember(userAdapter, studyRoomId, addStudyRoomMemberRequestDto);
-        return ResponseEntity.status(HttpStatus.OK).body(ApiResponse.sucessWithDataAndMessage(addStudyRoomMemberResponseDto, "멤버를 성공적으로 추가했습니다."));
+        return ResponseEntity.status(HttpStatus.CREATED).body(ApiResponse.sucessWithDataAndMessage(addStudyRoomMemberResponseDto, "멤버를 성공적으로 추가했습니다."));
+    }
+
+
+    @Operation(summary = "스터디방 멤버 삭제", description = "스터디방 멤버 삭제 API입니다.")
+    @PostMapping("/{studyRoomId}/members/delete")
+    public ResponseEntity<ApiResponse<?>> deleteStudyMember(@AuthenticationPrincipal UserAdapter userAdapter, @PathVariable Long studyRoomId, @Valid @RequestBody DeleteStudyRoomMemberRequestDto deleteStudyRoomMemberRequestDto) {
+        studyRoomService.deleteStudyMember(userAdapter, studyRoomId, deleteStudyRoomMemberRequestDto);
+
+        return ResponseEntity.status(HttpStatus.OK).body(ApiResponse.sucess("멤버를 성공적으로 삭제했습니다."));
     }
 
     @Operation(summary = "멤버 관리자로 설정", description = "멤버 관리자 설정 API입니다.")
     @PostMapping("/{studyRoomId}/members/authority")
-    public ResponseEntity<ApiResponse<?>> changeStudyRoomAuthority(@AuthenticationPrincipal UserAdapter userAdapter, @PathVariable Long studyRoomId, @RequestBody ChangeStudyRoomAuthorityRequestDto changeStudyRoomAuthorityRequestDto) {
+    public ResponseEntity<ApiResponse<?>> changeStudyRoomAuthority(@AuthenticationPrincipal UserAdapter userAdapter, @PathVariable Long studyRoomId, @Valid @RequestBody ChangeStudyRoomAuthorityRequestDto changeStudyRoomAuthorityRequestDto) {
         boolean isChangedToManagerAuthority = studyRoomService.changeStudyRoomAuthority(userAdapter, studyRoomId, changeStudyRoomAuthorityRequestDto);
 
         if(isChangedToManagerAuthority){
@@ -104,17 +113,10 @@ public class StudyRoomController {
         }
     }
 
-    //TODO
-//    @Operation(summary = "스터디방 멤버 삭제 API", description = "스터디방 멤버 삭제 API입니다.")
-//    @PostMapping("/{studyRoomId}/members")
-//    public ResponseEntity<ApiResponse<?>> setStudyMemberToManager(@AuthenticationPrincipal UserAdapter userAdapter, @PathVariable Long studyRoomId, @RequestBody AddStudyRoomMemberRequestDto addStudyRoomMemberRequestDto) {
-//        return ResponseEntity.status(HttpStatus.OK).body(ApiResponse.sucessWithDataAndMessage(, "멤버를 성공적으로 추가했습니다."));
-//    }
-
     //TODO solved API 써서 티어 정보 가져와야함.
 //    @Operation(summary = "스터디방 멤버 조회 API", description = "스터디방 멤버 조회 API입니다.")
 //    @PostMapping("/{studyRoomId}/members")
-//    public ResponseEntity<ApiResponse<?>> setStudyMemberToManager(@AuthenticationPrincipal UserAdapter userAdapter, @PathVariable Long studyRoomId, @RequestBody AddStudyRoomMemberRequestDto addStudyRoomMemberRequestDto) {
+//    public ResponseEntity<ApiResponse<?>> setStudyMemberToManager(@AuthenticationPrincipal UserAdapter userAdapter, @PathVariable Long studyRoomId, @Valid @RequestBody AddStudyRoomMemberRequestDto addStudyRoomMemberRequestDto) {
 //        return ResponseEntity.status(HttpStatus.OK).body(ApiResponse.sucessWithDataAndMessage(, "멤버를 성공적으로 추가했습니다."));
 //    }
 }
