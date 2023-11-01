@@ -22,5 +22,5 @@ public class FeedbackBoard extends BaseTimeEntity {
 
     @JoinColumn(name = "source_code_id")
     @ManyToOne(fetch = FetchType.LAZY)
-    private SourceCode sourceCode;
+    private SharedSourceCode sharedSourceCode;
 }
