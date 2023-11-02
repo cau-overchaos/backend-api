@@ -3,6 +3,8 @@ package algogather.api.domain.feedback;
 import algogather.api.domain.BaseTimeEntity;
 import algogather.api.domain.problem.Problem;
 import algogather.api.domain.programminglanguage.ProgrammingLanguage;
+import algogather.api.domain.studyroom.StudyRoom;
+import algogather.api.domain.user.User;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,20 +16,28 @@ import javax.persistence.*;
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @EntityListeners(AuditingEntityListener.class)
-public class SourceCode extends BaseTimeEntity {
+public class SharedSourceCode extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "source_code_text")
+    @Column(name = "shared_source_code_text")
     private String text;
 
-    @Column(name = "source_code_title")
+    @Column(name = "shared_source_code_title")
     private String title;
 
     @JoinColumn(name = "problem_id")
     @ManyToOne(fetch = FetchType.LAZY)
     private Problem problem;
+
+    @JoinColumn(name = "user_id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    private User user;
+
+    @JoinColumn(name = "study_room_id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    private StudyRoom studyRoom;
 
     @JoinColumn(name = "programming_language_id")
     @ManyToOne(fetch = FetchType.LAZY)
