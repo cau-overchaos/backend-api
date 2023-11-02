@@ -3,6 +3,7 @@ package algogather.api.domain.feedback;
 import algogather.api.domain.BaseTimeEntity;
 import algogather.api.domain.problem.Problem;
 import algogather.api.domain.programminglanguage.ProgrammingLanguage;
+import algogather.api.domain.user.User;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -28,6 +29,10 @@ public class SharedSourceCode extends BaseTimeEntity {
     @JoinColumn(name = "problem_id")
     @ManyToOne(fetch = FetchType.LAZY)
     private Problem problem;
+
+    @JoinColumn(name = "user_id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    private User user;
 
     @JoinColumn(name = "programming_language_id")
     @ManyToOne(fetch = FetchType.LAZY)
