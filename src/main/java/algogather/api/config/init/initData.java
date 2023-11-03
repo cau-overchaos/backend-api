@@ -1,6 +1,8 @@
 package algogather.api.config.init;
 
 import algogather.api.domain.problem.*;
+import algogather.api.domain.programminglanguage.ProgrammingLanguage;
+import algogather.api.domain.programminglanguage.ProgrammingLanguageRepository;
 import algogather.api.exception.problem.DifficultyNotFoundException;
 import algogather.api.exception.problem.TagNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -23,7 +25,7 @@ import java.net.URI;
 import static algogather.api.config.init.initConst.solvedAcUrl;
 import static algogather.api.domain.problem.ProblemProvider.*;
 
-@Profile("prod")
+@Profile("dev")
 @RequiredArgsConstructor
 @Component
 @Slf4j
@@ -32,6 +34,7 @@ public class initData {
     public final TagRepository tagRepository;
     private final ProblemRepository problemRepository;
     private final ProblemTagRepository problemTagRepository;
+    private final ProgrammingLanguageRepository programmingLanguageRepository;
 
     /*
         난이도, 태그, 문제들 초기화 하는 부분
@@ -46,6 +49,8 @@ public class initData {
 //        initDifficulties();
 //        initTags();
 //        initProblems();
+        log.info("!!!!!!!!!!!!");
+        initProgrammingLanguage();
 //        log.debug("초기 데이터 채우기 끝!!!!초기 데이터 채우기 끝!!!!초기 데이터 채우기 끝!!!!");
     }
 
@@ -244,5 +249,21 @@ public class initData {
         ResponseEntity<String> response = restTemplate.exchange(req, String.class);
         log.info("{}", response.getBody());
         return response;
+    }
+
+    public void initProgrammingLanguage() {
+        /**
+         * 프로그래밍 언어 초기화
+         */
+        programmingLanguageRepository.save(ProgrammingLanguage.builder().name("C 99").nickname("c99").build());
+        programmingLanguageRepository.save(ProgrammingLanguage.builder().name("C 11").nickname("c11").build());
+        programmingLanguageRepository.save(ProgrammingLanguage.builder().name("C 17").nickname("c17").build());
+        programmingLanguageRepository.save(ProgrammingLanguage.builder().name("C++ 98").nickname("cpp98").build());
+        programmingLanguageRepository.save(ProgrammingLanguage.builder().name("C++ 11").nickname("cpp11").build());
+        programmingLanguageRepository.save(ProgrammingLanguage.builder().name("C++ 14").nickname("cpp14").build());
+        programmingLanguageRepository.save(ProgrammingLanguage.builder().name("C++ 17").nickname("cpp17").build());
+        programmingLanguageRepository.save(ProgrammingLanguage.builder().name("C++ 20").nickname("cpp20").build());
+        programmingLanguageRepository.save(ProgrammingLanguage.builder().name("C++ 2a").nickname("cpp2a").build());
+        programmingLanguageRepository.save(ProgrammingLanguage.builder().name("Python 3").nickname("python3").build());
     }
 }
