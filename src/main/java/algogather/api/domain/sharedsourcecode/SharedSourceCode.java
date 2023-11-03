@@ -1,4 +1,4 @@
-package algogather.api.domain.feedback;
+package algogather.api.domain.sharedsourcecode;
 
 import algogather.api.domain.BaseTimeEntity;
 import algogather.api.domain.problem.Problem;
