@@ -29,7 +29,7 @@ public class AuthController {
     private final AuthService authService;
     @Operation(summary = "로그인", description = "로그인 API입니다.")
     @ApiResponses(value = {
-            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "성공", content = @Content(schema = @Schema(implementation = ApiResponse.class))),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "성공"),
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "400", description = "실패", content = @Content(schema = @Schema(implementation = ApiResponse.class)))
     })
     @PostMapping("/login")
@@ -39,6 +39,10 @@ public class AuthController {
     }
 
     @Operation(summary = "회원가입", description = "회원가입 메서드입니다.")
+    @ApiResponses(value = {
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "성공"),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "400", description = "실패", content = @Content(schema = @Schema(implementation = ApiResponse.class)))
+    })
     @PostMapping("/signup")
     public ResponseEntity<ApiResponse<?>> registerUser(@Valid @RequestBody SignUpForm signUpForm) {
 
