@@ -39,12 +39,11 @@ public class SharedSourceCodeController {
     })
     @PostMapping("/{studyRoomId}/shared-sourcecodes")
     public ResponseEntity<ApiResponse<SharedSourceCodeResponseDto>> saveSharedSourceCode(@PathVariable Long studyRoomId, @Valid @RequestBody CreateSharedSourceCodeRequestForm createSharedSourceCodeRequestForm, @Parameter(hidden = true) @AuthenticationPrincipal UserAdapter userAdapter) {
-        SharedSourceCodeResponseDto sharedSourceCodeResponseDto = sharedSourceCodeService.saveSharedSourceCode(studyRoomId, createSharedSourceCodeRequestForm, userAdapter);
+        SharedSourceCodeResponseDto sharedSourceCodeResponseDto = sharedSourceCodeService.save(studyRoomId, createSharedSourceCodeRequestForm, userAdapter);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(ApiResponse.sucessWithDataAndMessage(sharedSourceCodeResponseDto, "공유 소스코드를 성공적으로 저장하였습니다."));
     }
 
-    //TODO
     @Operation(summary = "스터디방 공유 소스코드 목록 조회 API", description = "스터디방 공유 소스코드 목록 조회 API입니다.")
     @ApiResponses(value = {
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "성공"),
@@ -54,19 +53,22 @@ public class SharedSourceCodeController {
     })
     @GetMapping("/{studyRoomId}/shared-sourcecodes")
     public ResponseEntity<ApiResponse<SharedSourceCodeListResponseDto>> findAllSharedSourceCodeByStudyRoomId(@PathVariable Long studyRoomId, @Parameter(hidden = true) @AuthenticationPrincipal UserAdapter userAdapter) {
-        SharedSourceCodeListResponseDto sharedSourceCodeListResponseDto = sharedSourceCodeService.findAllSharedSourceCodeByStudyRoomId(studyRoomId, userAdapter);
+        SharedSourceCodeListResponseDto sharedSourceCodeListResponseDto = sharedSourceCodeService.findAllByStudyRoomId(studyRoomId, userAdapter);
 
         return ResponseEntity.status(HttpStatus.OK).body(ApiResponse.sucessWithDataAndMessage(sharedSourceCodeListResponseDto, "공유 소스코드 목록을 성공적으로 조회하였습니다."));
     }
 
-    //TODO
-//    @Operation(summary = "특정 공유 소스코드 내용 조회 API", description = "특정 공유 소스코드 내용 조회 API입니다.")
-//    @ApiResponses(value = {
-//            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "성공"),
-//            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "400", description = "실패", content = @Content(schema = @Schema(implementation = ApiResponse.class)))
-//    })
-//    @GetMapping("/{sourcecodeId}")
-//    public ResponseEntity<ApiResponse</**/?>> saveSharedSourceCode(Long sourcecodeId, @Parameter(hidden = true) @AuthenticationPrincipal UserAdapter userAdapter) {
-//
-//    }
+    @Operation(summary = "특정 공유 소스코드 내용 조회 API", description = "특정 공유 소스코드 내용 조회 API입니다.")
+    @ApiResponses(value = {
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "성공"),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "400", description = "실패", content = @Content(schema = @Schema(implementation = ApiResponse.class))),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "401", description = "인증 실패", content = @Content(schema = @Schema(implementation = ApiResponse.class))),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "403", description = "접근 실패", content = @Content(schema = @Schema(implementation = ApiResponse.class)))
+    })
+    @GetMapping("/{studyRoomId}/shared-sourcecodes/{sourceCodeId}")
+    public ResponseEntity<ApiResponse<SharedSourceCodeResponseDto>> findSharedSourceCodeById(@PathVariable Long studyRoomId, @PathVariable Long sourceCodeId, @Parameter(hidden = true) @AuthenticationPrincipal UserAdapter userAdapter) {
+        SharedSourceCodeResponseDto sharedSourceCodeResponseDto = sharedSourceCodeService.findById(studyRoomId, sourceCodeId, userAdapter);
+
+        return ResponseEntity.status(HttpStatus.OK).body(ApiResponse.sucessWithDataAndMessage(sharedSourceCodeResponseDto, "공유 소스코드 목록을 성공적으로 조회하였습니다."));
+    }
 }

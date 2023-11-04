@@ -2,6 +2,7 @@ package algogather.api.exception.handler;
 
 import algogather.api.dto.api.ApiResponse;
 import algogather.api.exception.problem.DifficultyNotFoundException;
+import algogather.api.exception.problem.NotSupportedProviderException;
 import algogather.api.exception.problem.ProblemNotFoundException;
 import algogather.api.exception.problem.TagNotFoundException;
 import lombok.extern.slf4j.Slf4j;
@@ -19,15 +20,21 @@ public class ProblemExceptionHandler {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ApiResponse.createError(exception.getMessage()));
     }
 
-    @ExceptionHandler(TagNotFoundException.class)
-    public ResponseEntity<ApiResponse<?>> handleTagNotFoundException(TagNotFoundException exception) {
-        log.debug("TagNotFoundException = {}", exception.getMessage());
+    @ExceptionHandler(NotSupportedProviderException.class)
+    public ResponseEntity<ApiResponse<?>> handleNotSupportedProviderException(NotSupportedProviderException exception) {
+        log.debug("NotSupportedProviderException = {}", exception.getMessage());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ApiResponse.createError(exception.getMessage()));
     }
 
     @ExceptionHandler(ProblemNotFoundException.class)
     public ResponseEntity<ApiResponse<?>> handleProblemNotFoundException(ProblemNotFoundException exception) {
         log.debug("ProblemNotFoundException = {}", exception.getMessage());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ApiResponse.createError(exception.getMessage()));
+    }
+
+    @ExceptionHandler(TagNotFoundException.class)
+    public ResponseEntity<ApiResponse<?>> handleTagNotFoundException(TagNotFoundException exception) {
+        log.debug("TagNotFoundException = {}", exception.getMessage());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ApiResponse.createError(exception.getMessage()));
     }
 }

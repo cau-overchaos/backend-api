@@ -9,6 +9,8 @@ import algogather.api.domain.user.UserAdapter;
 import algogather.api.dto.sharedsourcecode.CreateSharedSourceCodeRequestForm;
 import algogather.api.dto.sharedsourcecode.SharedSourceCodeListResponseDto;
 import algogather.api.dto.sharedsourcecode.SharedSourceCodeResponseDto;
+import algogather.api.exception.sharedsourcecode.SharedSourceCodeAndStudyRoomNotMatchingException;
+import algogather.api.exception.sharedsourcecode.SharedSourceCodeNotFoundException;
 import algogather.api.service.programmingllanguage.ProgrammingLanguageService;
 import algogather.api.service.studyroom.ProblemService;
 import algogather.api.service.studyroom.StudyRoomService;
@@ -25,7 +27,7 @@ public class SharedSourceCodeService {
     private final ProgrammingLanguageService programmingLanguageService;
     private final SharedSourceCodeRepository sharedSourceCodeRepository;
 
-    public SharedSourceCodeResponseDto saveSharedSourceCode(Long studyRoomId, CreateSharedSourceCodeRequestForm createSharedSourceCodeRequestForm, UserAdapter userAdapter) {
+    public SharedSourceCodeResponseDto save(Long studyRoomId, CreateSharedSourceCodeRequestForm createSharedSourceCodeRequestForm, UserAdapter userAdapter) {
         studyRoomService.throwExceptionIfNotStudyRoomMember(userAdapter, studyRoomId); // 스터디룸 멤버만 공유 소스코드를 작성할 수 있다.
 
         StudyRoom studyRoom = studyRoomService.findById(studyRoomId);
@@ -55,11 +57,38 @@ public class SharedSourceCodeService {
                 .build();
     }
 
-    public SharedSourceCodeListResponseDto findAllSharedSourceCodeByStudyRoomId(Long studyRoomId, UserAdapter userAdapter) {
+    public SharedSourceCodeListResponseDto findAllByStudyRoomId(Long studyRoomId, UserAdapter userAdapter) {
         studyRoomService.throwExceptionIfNotStudyRoomMember(userAdapter, studyRoomId); // 스터디룸 멤버만 공유 소스코드 목록을 볼 수 있다.
 
-        List<SharedSourceCode> sharedSourceCodeList = sharedSourceCodeRepository.findByStudyRoomIdOrderByCreatedAt(studyRoomId);
+        StudyRoom studyRoom = studyRoomService.findById(studyRoomId);
+
+        List<SharedSourceCode> sharedSourceCodeList = sharedSourceCodeRepository.findByStudyRoomIdOrderByCreatedAt(studyRoom.getId());
 
         return new SharedSourceCodeListResponseDto(sharedSourceCodeList);
+    }
+
+    public SharedSourceCodeResponseDto findById(Long studyRoomId, Long sourceCodeId, UserAdapter userAdapter) {
+        studyRoomService.throwExceptionIfNotStudyRoomMember(userAdapter, studyRoomId); // 스터디룸 멤버만 특정 공유 소스코드를 조회할 수 있다.
+
+        StudyRoom studyRoom = studyRoomService.findById(studyRoomId);
+
+        SharedSourceCode sharedSourceCode = sharedSourceCodeRepository.findById(sourceCodeId).orElseThrow(SharedSourceCodeNotFoundException::new);
+
+        validateSharedSourceMatchingWithStudyRoom(sharedSourceCode, studyRoom); // 해당 스터디방의 소스코드인지 검증
+
+        return SharedSourceCodeResponseDto.builder()
+                .id(sharedSourceCode.getId())
+                .sharedSourceCodeTitle(sharedSourceCode.getTitle())
+                .problemDifficultyLevel(sharedSourceCode.getProblem().getDifficulty().getLevel())
+                .problemTitle(sharedSourceCode.getProblem().getTitle())
+                .writerName(sharedSourceCode.getUser().getName())
+                .sourceCodeText(sharedSourceCode.getSourceCodeText())
+                .programmingLanguage(sharedSourceCode.getProgrammingLanguage().getName())
+                .createdAt(sharedSourceCode.getCreatedAt())
+                .build();
+    }
+
+    private void validateSharedSourceMatchingWithStudyRoom(SharedSourceCode sharedSourceCode, StudyRoom studyRoom) {
+        sharedSourceCodeRepository.findByIdAndStudyRoomId(sharedSourceCode.getId(), studyRoom.getId()).orElseThrow(SharedSourceCodeAndStudyRoomNotMatchingException::new);
     }
 }
