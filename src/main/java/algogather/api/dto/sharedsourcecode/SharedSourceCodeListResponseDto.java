@@ -19,21 +19,25 @@ public class SharedSourceCodeListResponseDto {
 
     @Getter
     static class SharedSourceCodeInfoDto {
-        private Long id;
+        private Long sharedSourceCodeId;
         private String sharedSourceCodeTitle;
         private Long problemDifficultyLevel;
         private String problemTitle;
+        private String writerUserId;
         private String writerName;
-        private String programmingLanguage;
+        private Long programmingLanguageId;
+        private String programmingLanguageName;
         private LocalDateTime createdAt;
 
         public SharedSourceCodeInfoDto(SharedSourceCode sourceCode) {
-            this.id = sourceCode.getId();
+            this.sharedSourceCodeId = sourceCode.getId();
             this.sharedSourceCodeTitle = sourceCode.getTitle();
             this.problemDifficultyLevel = sourceCode.getProblem().getDifficulty().getLevel();
             this.problemTitle = sourceCode.getProblem().getTitle();
+            this.writerUserId = sourceCode.getUser().getUserId();
             this.writerName = sourceCode.getUser().getName();
-            this.programmingLanguage = sourceCode.getProgrammingLanguage().getName();
+            this.programmingLanguageId = sourceCode.getProgrammingLanguage().getId();
+            this.programmingLanguageName = sourceCode.getProgrammingLanguage().getName();
             this.createdAt = sourceCode.getCreatedAt();
         }
     }

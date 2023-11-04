@@ -46,13 +46,15 @@ public class SharedSourceCodeService {
         SharedSourceCode savedSharedSourceCode = sharedSourceCodeRepository.save(newSharedSourceCode);
 
         return SharedSourceCodeResponseDto.builder()
-                .id(savedSharedSourceCode.getId())
+                .sharedSourceCodeId(savedSharedSourceCode.getId())
                 .sharedSourceCodeTitle(savedSharedSourceCode.getTitle())
                 .problemDifficultyLevel(savedSharedSourceCode.getProblem().getDifficulty().getLevel())
                 .problemTitle(savedSharedSourceCode.getProblem().getTitle())
+                .writerUserId(savedSharedSourceCode.getUser().getUserId())
                 .writerName(savedSharedSourceCode.getUser().getName())
                 .sourceCodeText(savedSharedSourceCode.getSourceCodeText())
-                .programmingLanguage(savedSharedSourceCode.getProgrammingLanguage().getName())
+                .programmingLanguageId(savedSharedSourceCode.getProgrammingLanguage().getId())
+                .programmingLanguageName(savedSharedSourceCode.getProgrammingLanguage().getName())
                 .createdAt(savedSharedSourceCode.getCreatedAt())
                 .build();
     }
@@ -77,13 +79,15 @@ public class SharedSourceCodeService {
         validateSharedSourceMatchingWithStudyRoom(sharedSourceCode, studyRoom); // 해당 스터디방의 소스코드인지 검증
 
         return SharedSourceCodeResponseDto.builder()
-                .id(sharedSourceCode.getId())
+                .sharedSourceCodeId(sharedSourceCode.getId())
                 .sharedSourceCodeTitle(sharedSourceCode.getTitle())
                 .problemDifficultyLevel(sharedSourceCode.getProblem().getDifficulty().getLevel())
                 .problemTitle(sharedSourceCode.getProblem().getTitle())
+                .writerUserId(sharedSourceCode.getUser().getUserId())
                 .writerName(sharedSourceCode.getUser().getName())
                 .sourceCodeText(sharedSourceCode.getSourceCodeText())
-                .programmingLanguage(sharedSourceCode.getProgrammingLanguage().getName())
+                .programmingLanguageId(sharedSourceCode.getProgrammingLanguage().getId())
+                .programmingLanguageName(sharedSourceCode.getProgrammingLanguage().getName())
                 .createdAt(sharedSourceCode.getCreatedAt())
                 .build();
     }

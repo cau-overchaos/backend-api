@@ -49,7 +49,6 @@ public class initData {
 //        initDifficulties();
 //        initTags();
 //        initProblems();
-        log.info("!!!!!!!!!!!!");
         initProgrammingLanguage();
 //        log.debug("초기 데이터 채우기 끝!!!!초기 데이터 채우기 끝!!!!초기 데이터 채우기 끝!!!!");
     }
