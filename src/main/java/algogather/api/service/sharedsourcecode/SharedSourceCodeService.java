@@ -7,12 +7,15 @@ import algogather.api.domain.sharedsourcecode.SharedSourceCodeRepository;
 import algogather.api.domain.studyroom.StudyRoom;
 import algogather.api.domain.user.UserAdapter;
 import algogather.api.dto.sharedsourcecode.CreateSharedSourceCodeRequestForm;
+import algogather.api.dto.sharedsourcecode.SharedSourceCodeListResponseDto;
 import algogather.api.dto.sharedsourcecode.SharedSourceCodeResponseDto;
 import algogather.api.service.programmingllanguage.ProgrammingLanguageService;
 import algogather.api.service.studyroom.ProblemService;
 import algogather.api.service.studyroom.StudyRoomService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -50,5 +53,13 @@ public class SharedSourceCodeService {
                 .programmingLanguage(savedSharedSourceCode.getProgrammingLanguage().getName())
                 .createdAt(savedSharedSourceCode.getCreatedAt())
                 .build();
+    }
+
+    public SharedSourceCodeListResponseDto findAllSharedSourceCodeByStudyRoomId(Long studyRoomId, UserAdapter userAdapter) {
+        studyRoomService.throwExceptionIfNotStudyRoomMember(userAdapter, studyRoomId); // 스터디룸 멤버만 공유 소스코드 목록을 볼 수 있다.
+
+        List<SharedSourceCode> sharedSourceCodeList = sharedSourceCodeRepository.findByStudyRoomIdOrderByCreatedAt(studyRoomId);
+
+        return new SharedSourceCodeListResponseDto(sharedSourceCodeList);
     }
 }
