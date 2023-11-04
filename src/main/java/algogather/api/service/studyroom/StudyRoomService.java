@@ -6,7 +6,6 @@ import algogather.api.dto.studyroom.*;
 import algogather.api.exception.studyroom.*;
 import algogather.api.service.user.UserService;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -28,7 +27,6 @@ import static algogather.api.config.init.initConst.solvedAcUrl;
 
 @Service
 @RequiredArgsConstructor
-@Slf4j
 public class StudyRoomService {
     private final UserService userService;
 
