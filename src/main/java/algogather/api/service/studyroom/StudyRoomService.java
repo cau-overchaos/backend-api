@@ -28,7 +28,6 @@ import static algogather.api.config.init.initConst.solvedAcUrl;
 
 @Service
 @RequiredArgsConstructor
-@Slf4j
 public class StudyRoomService {
     private final UserService userService;
 

@@ -15,7 +15,6 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.concurrent.CompletableFuture;
 
-@Slf4j
 @Service
 @RequiredArgsConstructor
 public class CrawlingService {
@@ -27,7 +26,6 @@ public class CrawlingService {
             BojCrawler crawler = new BojCrawler();
 
             try {
-                //TODO 과제 기간 정보도 보내기
                 LocalDateTime localDateTime = crawler.GetAcceptedDates(user.getJudgeAccount(), assignmentProblem.getProblem().getPid(), assignmentProblem.getStartDate(), assignmentProblem.getDueDate());
 
                 return CompletableFuture.completedFuture(localDateTime); // 푼 날짜가 없으면 null을 보낸다.
