@@ -69,6 +69,6 @@ public class SharedSourceCodeController {
     public ResponseEntity<ApiResponse<SharedSourceCodeResponseDto>> findSharedSourceCodeById(@PathVariable Long studyRoomId, @PathVariable Long sourceCodeId, @Parameter(hidden = true) @AuthenticationPrincipal UserAdapter userAdapter) {
         SharedSourceCodeResponseDto sharedSourceCodeResponseDto = sharedSourceCodeService.findById(studyRoomId, sourceCodeId, userAdapter);
 
-        return ResponseEntity.status(HttpStatus.OK).body(ApiResponse.sucessWithDataAndMessage(sharedSourceCodeResponseDto, "공유 소스코드 목록을 성공적으로 조회하였습니다."));
+        return ResponseEntity.status(HttpStatus.OK).body(ApiResponse.sucessWithDataAndMessage(sharedSourceCodeResponseDto, "공유 소스코드를 성공적으로 조회하였습니다."));
     }
 }
