@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/programming-language")
+@RequestMapping("/programming-languages")
 @Tag(name = "프로그래밍 언어", description = "프로그래밍 언어 관련 API 입니다.")
 public class ProgrammingLanguageController {
 
