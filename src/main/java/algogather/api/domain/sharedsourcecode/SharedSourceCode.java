@@ -6,6 +6,7 @@ import algogather.api.domain.programminglanguage.ProgrammingLanguage;
 import algogather.api.domain.studyroom.StudyRoom;
 import algogather.api.domain.user.User;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -22,7 +23,7 @@ public class SharedSourceCode extends BaseTimeEntity {
     private Long id;
 
     @Column(name = "shared_source_code_text")
-    private String text;
+    private String sourceCodeText;
 
     @Column(name = "shared_source_code_title")
     private String title;
@@ -42,4 +43,15 @@ public class SharedSourceCode extends BaseTimeEntity {
     @JoinColumn(name = "programming_language_id")
     @ManyToOne(fetch = FetchType.LAZY)
     private ProgrammingLanguage programmingLanguage;
+
+    @Builder
+    public SharedSourceCode(Long id, String sourceCodeText, String title, Problem problem, User user, StudyRoom studyRoom, ProgrammingLanguage programmingLanguage) {
+        this.id = id;
+        this.sourceCodeText = sourceCodeText;
+        this.title = title;
+        this.problem = problem;
+        this.user = user;
+        this.studyRoom = studyRoom;
+        this.programmingLanguage = programmingLanguage;
+    }
 }
