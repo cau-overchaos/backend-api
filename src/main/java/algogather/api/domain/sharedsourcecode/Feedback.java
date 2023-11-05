@@ -18,11 +18,21 @@ public class Feedback extends BaseTimeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @JoinColumn(name = "feedback_board_id")
-    @ManyToOne(fetch = FetchType.LAZY)
-    private FeedbackBoard feedbackBoard;
+    @Column(name = "feedback_text")
+    private String text;
+
+    @Column(name = "feedback_source_code_line_number")
+    private Long sourceCodeLineNumber;
 
     @JoinColumn(name = "user_id")
     @ManyToOne(fetch = FetchType.LAZY)
     private User user;
+
+    @JoinColumn(name = "shared_source_code_id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    private SharedSourceCode sharedSourceCode;
+
+    @JoinColumn(name = "reply_parent_feedback_id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Feedback replyParentFeedback;
 }
