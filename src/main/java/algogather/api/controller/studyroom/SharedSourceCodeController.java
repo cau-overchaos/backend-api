@@ -81,13 +81,29 @@ public class SharedSourceCodeController {
 
     })
     @PostMapping("/{studyRoomId}/shared-sourcecodes/{sharedSourceCodeId}/feedbacks")
-    public ResponseEntity<ApiResponse<FeedbackResponseDto>> saveFeedback(@PathVariable Long studyRoomId, @PathVariable Long sharedSourceCodeId, @Valid @RequestBody CreateFeedbackFormRequestDtoForm createFeedbackFormRequestDtoForm, @Parameter(hidden = true) @AuthenticationPrincipal UserAdapter userAdapter) {
-        FeedbackResponseDto feedbackResponseDto = feedbackService.saveFeedback(studyRoomId, sharedSourceCodeId, createFeedbackFormRequestDtoForm, userAdapter);
-        return ResponseEntity.status(HttpStatus.CREATED).body(ApiResponse.sucessWithDataAndMessage(feedbackResponseDto, "피드백을 성공적으로 저장하였습니다."));
+    public ResponseEntity<ApiResponse<CreatedFeedbackResponseDto>> saveFeedback(@PathVariable Long studyRoomId, @PathVariable Long sharedSourceCodeId, @Valid @RequestBody CreateFeedbackFormRequestDtoForm createFeedbackFormRequestDtoForm, @Parameter(hidden = true) @AuthenticationPrincipal UserAdapter userAdapter) {
+        CreatedFeedbackResponseDto createdFeedbackResponseDto = feedbackService.saveFeedback(studyRoomId, sharedSourceCodeId, createFeedbackFormRequestDtoForm, userAdapter);
+        return ResponseEntity.status(HttpStatus.CREATED).body(ApiResponse.sucessWithDataAndMessage(createdFeedbackResponseDto, "피드백을 성공적으로 저장하였습니다."));
     }
 
-    //TODO
-//    @Operation(summary = "피드백 조회 API", description = "피드백 조회 API입니다.")
+    @Operation(summary = "특정 코드 라인 피드백 목록 조회 API", description = "특정 코드 라인 피드백 목록 조회 API입니다.")
+    @ApiResponses(value = {
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "성공"),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "400", description = "실패", content = @Content(schema = @Schema(implementation = ApiResponse.class))),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "401", description = "인증 실패", content = @Content(schema = @Schema(implementation = ApiResponse.class))),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "403", description = "접근 실패", content = @Content(schema = @Schema(implementation = ApiResponse.class)))
+
+
+    })
+    @GetMapping("/{studyRoomId}/shared-sourcecodes/{sharedSourceCodeId}/feedbacks")
+    public ResponseEntity<ApiResponse<FeedbackListByLineNumberResponseDto>> findFeedbackListByLineNumber(@PathVariable Long studyRoomId, @PathVariable Long sharedSourceCodeId, @RequestParam Long lineNumber,  @Parameter(hidden = true) @AuthenticationPrincipal UserAdapter userAdapter) {
+        FeedbackListByLineNumberResponseDto feedbackListByLineNumberResponseDto = feedbackService.findFeedbackListByLineNumber(studyRoomId, sharedSourceCodeId, lineNumber, userAdapter);
+
+        return ResponseEntity.status(HttpStatus.OK).body(ApiResponse.sucessWithDataAndMessage(feedbackListByLineNumberResponseDto, "피드백을 성공적으로 조회하였습니다."));
+    }
+
+    //TODO 라인별로 피드백 개수 몇개 달려있는지 API 만들기
+//    @Operation(summary = "라인별 피드백 개수 API", description = "라인별 피드백 개수 API입니다.")
 //    @ApiResponses(value = {
 //            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "성공"),
 //            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "400", description = "실패", content = @Content(schema = @Schema(implementation = ApiResponse.class))),
@@ -96,12 +112,11 @@ public class SharedSourceCodeController {
 //
 //
 //    })
-//    @GetMapping("/{studyRoomId}/shared-sourcecodes/{sharedSourceCodeId}/feedbacks")
-//    public ResponseEntity<ApiResponse</**/?>> saveFeedback(@PathVariable Long studyRoomId, @PathVariable Long sharedSourceCodeId, @Valid @RequestBody  , @Parameter(hidden = true) @AuthenticationPrincipal UserAdapter userAdapter) {
+//    @DeleteMapping("/{studyRoomId}/shared-sourcecodes/{sharedSourceCodeId}/feedbacks/{feedbackId}")
+//    public ResponseEntity<ApiResponse</**/?>> countFeedbackByLine(@PathVariable Long studyRoomId, @PathVariable Long sharedSourceCodeId, @PathVariable Long feedbackId, @Valid @RequestBody  , @Parameter(hidden = true) @AuthenticationPrincipal UserAdapter userAdapter) {
 //
-//        return ResponseEntity.status(HttpStatus.CREATED).body(ApiResponse.sucessWithDataAndMessage(, "피드백을 성공적으로 조회하였습니다."));
+//        return ResponseEntity.status(HttpStatus.OK).body(ApiResponse.sucessWithDataAndMessage(, "피드백을 성공적으로 삭제하였습니다."));
 //    }
-
     //TODO
 //    @Operation(summary = "피드백 삭제 API", description = "피드백 삭제 API입니다.")
 //    @ApiResponses(value = {
