@@ -103,20 +103,23 @@ public class SharedSourceCodeController {
     }
 
     //TODO 라인별로 피드백 개수 몇개 달려있는지 API 만들기
-//    @Operation(summary = "라인별 피드백 개수 API", description = "라인별 피드백 개수 API입니다.")
-//    @ApiResponses(value = {
-//            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "성공"),
-//            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "400", description = "실패", content = @Content(schema = @Schema(implementation = ApiResponse.class))),
-//            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "401", description = "인증 실패", content = @Content(schema = @Schema(implementation = ApiResponse.class))),
-//            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "403", description = "접근 실패", content = @Content(schema = @Schema(implementation = ApiResponse.class)))
-//
-//
-//    })
-//    @DeleteMapping("/{studyRoomId}/shared-sourcecodes/{sharedSourceCodeId}/feedbacks/{feedbackId}")
-//    public ResponseEntity<ApiResponse</**/?>> countFeedbackByLine(@PathVariable Long studyRoomId, @PathVariable Long sharedSourceCodeId, @PathVariable Long feedbackId, @Valid @RequestBody  , @Parameter(hidden = true) @AuthenticationPrincipal UserAdapter userAdapter) {
-//
-//        return ResponseEntity.status(HttpStatus.OK).body(ApiResponse.sucessWithDataAndMessage(, "피드백을 성공적으로 삭제하였습니다."));
-//    }
+    @Operation(summary = "라인별 피드백 개수 API", description = "라인별 피드백 개수 API입니다.")
+    @ApiResponses(value = {
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "성공"),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "400", description = "실패", content = @Content(schema = @Schema(implementation = ApiResponse.class))),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "401", description = "인증 실패", content = @Content(schema = @Schema(implementation = ApiResponse.class))),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "403", description = "접근 실패", content = @Content(schema = @Schema(implementation = ApiResponse.class)))
+
+
+    })
+    @GetMapping("/{studyRoomId}/shared-sourcecodes/{sharedSourceCodeId}/feedbacks/count")
+    public ResponseEntity<ApiResponse</**/?>> countFeedbackByLine(@PathVariable Long studyRoomId, @PathVariable Long sharedSourceCodeId, @Parameter(hidden = true) @AuthenticationPrincipal UserAdapter userAdapter) {
+
+        CountFeedbackByLineListResponseDto countFeedbackByLineListResponseDto = feedbackService.countFeedbackOfSourceCodeLines(studyRoomId, sharedSourceCodeId, userAdapter);
+
+        return ResponseEntity.status(HttpStatus.OK).body(ApiResponse.sucessWithDataAndMessage(countFeedbackByLineListResponseDto, "피드백 수를 성공적으로 불러왔습니다."));
+    }
+
     @Operation(summary = "피드백 삭제 API", description = "피드백 삭제 API입니다.")
     @ApiResponses(value = {
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "성공"),
@@ -127,13 +130,11 @@ public class SharedSourceCodeController {
 
     })
     @DeleteMapping("/{studyRoomId}/shared-sourcecodes/{sharedSourceCodeId}/feedbacks/{feedbackId}")
-    public ResponseEntity<ApiResponse</**/?>> deleteFeedback(@PathVariable Long studyRoomId, @PathVariable Long sharedSourceCodeId, @PathVariable Long feedbackId, @Valid @RequestBody EditFeedbackRequestForm editFeedbackRequestForm, @Parameter(hidden = true) @AuthenticationPrincipal UserAdapter userAdapter) {
-        feedbackService.delete(studyRoomId,sharedSourceCodeId, feedbackId, new EditFeedbackRequestForm(), userAdapter);
+    public ResponseEntity<ApiResponse<?>> deleteFeedback(@PathVariable Long studyRoomId, @PathVariable Long sharedSourceCodeId, @PathVariable Long feedbackId, @Parameter(hidden = true) @AuthenticationPrincipal UserAdapter userAdapter) {
+        feedbackService.delete(studyRoomId,sharedSourceCodeId, feedbackId, userAdapter);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(ApiResponse.sucess("피드백을 성공적으로 삭제하였습니다."));
     }
-
-    //TODO
     @Operation(summary = "피드백 수정 API", description = "피드백 수정 API입니다.")
     @ApiResponses(value = {
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "성공"),

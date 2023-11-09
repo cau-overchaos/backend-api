@@ -67,7 +67,6 @@ public class FeedbackService {
                 .build();
     }
 
-
     //TODO 예외 경우가 있을 수 있으니 테스트 코드 작성 권장
     public FeedbackListByLineNumberResponseDto findFeedbackListByLineNumber(Long studyRoomId, Long sharedSourceCodeId, Long lineNumber, UserAdapter userAdapter) {
         studyRoomService.throwExceptionIfNotStudyRoomMember(userAdapter, studyRoomId); // 스터디방 멤버만 피드백을 조회할 수 있다.
@@ -117,7 +116,7 @@ public class FeedbackService {
     }
 
     @Transactional
-    public void delete(Long studyRoomId, Long sharedSourceCodeId, Long feedbackId, EditFeedbackRequestForm editFeedbackRequestForm, UserAdapter userAdapter) {
+    public void delete(Long studyRoomId, Long sharedSourceCodeId, Long feedbackId, UserAdapter userAdapter) {
         studyRoomService.throwExceptionIfNotStudyRoomMember(userAdapter, studyRoomId); // 스터디룸 멤버만 특정 공유 소스코드를 삭제할 수 있다.
 
         StudyRoom studyRoom = studyRoomService.findById(studyRoomId);
@@ -134,8 +133,37 @@ public class FeedbackService {
             throw  new AlreadyDeletedFeedback();
         }
         else {
-            targetFeedback.changeIsDeletedToTrue();
+            targetFeedback.changeIsDeletedToTrue(); // 삭제된 메시지는 DB에서 실제로 삭제되지는 않고 isDeleted만 바꾸어 유저애게 '삭제된 메시지입니다.'라고 보이도록 한다.
         }
+    }
+
+    public CountFeedbackByLineListResponseDto countFeedbackOfSourceCodeLines(Long studyRoomId, Long sharedSourceCodeId, UserAdapter userAdapter) {
+        studyRoomService.throwExceptionIfNotStudyRoomMember(userAdapter, studyRoomId); // 스터디룸 멤버만 특정 공유 소스코드의 특정 라인의 피드백 개수를 확인할 수 있다.
+
+        StudyRoom studyRoom = studyRoomService.findById(studyRoomId);
+
+        SharedSourceCode sharedSourceCode = sharedSourceCodeService.findById(studyRoom.getId(), sharedSourceCodeId, userAdapter);
+
+//        throwExceptionIfRequestLineNumberExceedTotalLineCount(lineNumber, sharedSourceCode); // 소스코드의 줄 수를 확인하고 lineNumber가 코드의 줄 수보다 작거나 같은지 검증한다.
+
+        long sourceCodeTotalLineCount = getSourceCodeTotalLineCount(sharedSourceCode);
+
+        List<CountFeedbackByLineResponseDto> countFeedbackByLineResponseDtoList = new ArrayList<>();
+
+        for(long line = 1; line <= sourceCodeTotalLineCount; line++) {
+            Long feedbackCountByLine = feedbackRepository.countBySharedSourceCodeIdAndSourceCodeLineNumberAndIsDeletedIsFalse(sharedSourceCode.getId(), line);
+
+            countFeedbackByLineResponseDtoList.add(CountFeedbackByLineResponseDto.builder()
+                    .lineNumber(line)
+                    .feedbackCount(feedbackCountByLine)
+                    .build());
+        }
+
+        return CountFeedbackByLineListResponseDto.builder()
+                .sharedSourceCodeId(sharedSourceCode.getId())
+                .countFeedbackByLineResponseDtoList(countFeedbackByLineResponseDtoList)
+                .build();
+
     }
 
     private static void validateFeedbackAndSharedSourceCodeMatching(Feedback feedback, SharedSourceCode sharedSourceCode) {
@@ -217,13 +245,21 @@ public class FeedbackService {
     }
 
 
-    private static void throwExceptionIfRequestLineNumberExceedTotalLineCount(Long requestLineNumber, SharedSourceCode sharedSourceCode) {
-        String sourceCodeText = sharedSourceCode.getSourceCodeText();
-        long totalLineCount = sourceCodeText.length() - sourceCodeText.replace(String.valueOf('\n'), "").length();
-        totalLineCount++;
+    private void throwExceptionIfRequestLineNumberExceedTotalLineCount(Long requestLineNumber, SharedSourceCode sharedSourceCode) {
+        long totalLineCount = getSourceCodeTotalLineCount(sharedSourceCode);
 
         if(requestLineNumber > totalLineCount) {
             throw new LineNumberExceedTotalLineCountException();
         }
     }
+
+    private long getSourceCodeTotalLineCount(SharedSourceCode sharedSourceCode) {
+        String sourceCodeText = sharedSourceCode.getSourceCodeText();
+        long totalLineCount = sourceCodeText.length() - sourceCodeText.replace(String.valueOf('\n'), "").length();
+        totalLineCount++;
+
+        return totalLineCount;
+    }
+
+
 }
