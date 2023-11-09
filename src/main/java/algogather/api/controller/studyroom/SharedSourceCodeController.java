@@ -118,20 +118,21 @@ public class SharedSourceCodeController {
 //        return ResponseEntity.status(HttpStatus.OK).body(ApiResponse.sucessWithDataAndMessage(, "피드백을 성공적으로 삭제하였습니다."));
 //    }
     //TODO
-//    @Operation(summary = "피드백 삭제 API", description = "피드백 삭제 API입니다.")
-//    @ApiResponses(value = {
-//            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "성공"),
-//            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "400", description = "실패", content = @Content(schema = @Schema(implementation = ApiResponse.class))),
-//            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "401", description = "인증 실패", content = @Content(schema = @Schema(implementation = ApiResponse.class))),
-//            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "403", description = "접근 실패", content = @Content(schema = @Schema(implementation = ApiResponse.class)))
-//
-//
-//    })
-//    @DeleteMapping("/{studyRoomId}/shared-sourcecodes/{sharedSourceCodeId}/feedbacks/{feedbackId}")
-//    public ResponseEntity<ApiResponse</**/?>> saveFeedback(@PathVariable Long studyRoomId, @PathVariable Long sharedSourceCodeId, @PathVariable Long feedbackId, @Valid @RequestBody  , @Parameter(hidden = true) @AuthenticationPrincipal UserAdapter userAdapter) {
-//
-//        return ResponseEntity.status(HttpStatus.CREATED).body(ApiResponse.sucessWithDataAndMessage(, "피드백을 성공적으로 삭제하였습니다."));
-//    }
+    @Operation(summary = "피드백 삭제 API", description = "피드백 삭제 API입니다.")
+    @ApiResponses(value = {
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "성공"),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "400", description = "실패", content = @Content(schema = @Schema(implementation = ApiResponse.class))),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "401", description = "인증 실패", content = @Content(schema = @Schema(implementation = ApiResponse.class))),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "403", description = "접근 실패", content = @Content(schema = @Schema(implementation = ApiResponse.class)))
+
+
+    })
+    @DeleteMapping("/{studyRoomId}/shared-sourcecodes/{sharedSourceCodeId}/feedbacks/{feedbackId}")
+    public ResponseEntity<ApiResponse</**/?>> deleteFeedback(@PathVariable Long studyRoomId, @PathVariable Long sharedSourceCodeId, @PathVariable Long feedbackId, @Valid @RequestBody EditFeedbackRequestForm editFeedbackRequestForm, @Parameter(hidden = true) @AuthenticationPrincipal UserAdapter userAdapter) {
+        feedbackService.delete(studyRoomId,sharedSourceCodeId, feedbackId, new EditFeedbackRequestForm(), userAdapter);
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(ApiResponse.sucess("피드백을 성공적으로 삭제하였습니다."));
+    }
 
     //TODO
     @Operation(summary = "피드백 수정 API", description = "피드백 수정 API입니다.")
@@ -144,7 +145,7 @@ public class SharedSourceCodeController {
 
     })
     @PostMapping("/{studyRoomId}/shared-sourcecodes/{sharedSourceCodeId}/feedbacks/{feedbackId}")
-    public ResponseEntity<ApiResponse</**/?>> saveFeedback(@PathVariable Long studyRoomId, @PathVariable Long sharedSourceCodeId, @PathVariable Long feedbackId, @Valid @RequestBody EditFeedbackRequestForm editFeedbackRequestForm, @Parameter(hidden = true) @AuthenticationPrincipal UserAdapter userAdapter) {
+    public ResponseEntity<ApiResponse<EditedFeedbackResponseDto>> editFeedback(@PathVariable Long studyRoomId, @PathVariable Long sharedSourceCodeId, @PathVariable Long feedbackId, @Valid @RequestBody EditFeedbackRequestForm editFeedbackRequestForm, @Parameter(hidden = true) @AuthenticationPrincipal UserAdapter userAdapter) {
         EditedFeedbackResponseDto editedFeedbackResponseDto = feedbackService.edit(studyRoomId, sharedSourceCodeId, feedbackId, editFeedbackRequestForm, userAdapter);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(ApiResponse.sucessWithDataAndMessage(editedFeedbackResponseDto, "피드백을 성공적으로 수정하였습니다."));

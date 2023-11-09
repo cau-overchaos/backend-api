@@ -44,6 +44,10 @@ public class Feedback extends BaseTimeEntity {
         this.comment = comment;
     }
 
+    public void changeIsDeletedToTrue() {
+        this.isDeleted = true;
+    }
+
     @Builder
     public Feedback(Long id, String comment, Long sourceCodeLineNumber, Boolean isDeleted, User user, SharedSourceCode sharedSourceCode, Feedback replyParentFeedback) {
         this.id = id;

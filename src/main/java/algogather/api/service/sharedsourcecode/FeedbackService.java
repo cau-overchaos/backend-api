@@ -116,6 +116,23 @@ public class FeedbackService {
                 .build();
     }
 
+    @Transactional
+    public void delete(Long studyRoomId, Long sharedSourceCodeId, Long feedbackId, EditFeedbackRequestForm editFeedbackRequestForm, UserAdapter userAdapter) {
+        studyRoomService.throwExceptionIfNotStudyRoomMember(userAdapter, studyRoomId); // 스터디룸 멤버만 특정 공유 소스코드를 삭제할 수 있다.
+
+        StudyRoom studyRoom = studyRoomService.findById(studyRoomId);
+
+        SharedSourceCode sharedSourceCode = sharedSourceCodeService.findById(studyRoom.getId(), sharedSourceCodeId, userAdapter);
+
+        Feedback targetFeedback = feedbackRepository.findById(feedbackId).orElseThrow(FeedbackNotFoundException::new);
+
+        validateFeedbackAndSharedSourceCodeMatching(targetFeedback, sharedSourceCode); // 그 피드백이 해당 소스코드에 속하는지 검증
+
+        validateFeedbackWriter(userAdapter, targetFeedback); // 현재 로그인한 유저가 피드백을 쓴 사람인지 검증
+
+        targetFeedback.changeIsDeletedToTrue();
+    }
+
     private static void validateFeedbackAndSharedSourceCodeMatching(Feedback feedback, SharedSourceCode sharedSourceCode) {
         if(!Objects.equals(feedback.getSharedSourceCode().getId(), sharedSourceCode.getId())) {
             throw new SharedSourceCodeAndFeedbackNotMatchingException();
