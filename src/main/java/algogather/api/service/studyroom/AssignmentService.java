@@ -9,11 +9,11 @@ import algogather.api.domain.user.UserAdapter;
 import algogather.api.dto.problem.ProblemInfoRequestDto;
 import algogather.api.dto.studyroom.*;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import algogather.api.domain.user.User;
 
 
+import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
@@ -30,6 +30,7 @@ public class AssignmentService {
     private final StudyRoomService studyRoomService;
     private final CrawlingService crawlingService;
 
+    @Transactional
     public CreatedAssignmentResponseDto createAssignment(UserAdapter userAdapter, Long studyRoomId, AssignmentCreateForm assignmentCreateForm) {
 
         List<ProblemInfoRequestDto> problemInfoRequestDtoList = assignmentCreateForm.getProblemList();

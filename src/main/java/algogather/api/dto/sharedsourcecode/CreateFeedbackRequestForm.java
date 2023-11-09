@@ -9,7 +9,7 @@ import javax.validation.constraints.NotNull;
 
 @Getter
 @NoArgsConstructor
-public class CreateFeedbackFormRequestDtoForm {
+public class CreateFeedbackRequestForm {
 
     @NotNull
     @Min(value = 1, message = "코드 줄 번호는 1부터 시작해야 합니다.")

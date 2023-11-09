@@ -17,6 +17,7 @@ import algogather.api.service.studyroom.StudyRoomService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 @Service
@@ -27,6 +28,7 @@ public class SharedSourceCodeService {
     private final ProgrammingLanguageService programmingLanguageService;
     private final SharedSourceCodeRepository sharedSourceCodeRepository;
 
+    @Transactional
     public SharedSourceCodeResponseDto save(Long studyRoomId, CreateSharedSourceCodeRequestForm createSharedSourceCodeRequestForm, UserAdapter userAdapter) {
         studyRoomService.throwExceptionIfNotStudyRoomMember(userAdapter, studyRoomId); // 스터디룸 멤버만 공유 소스코드를 작성할 수 있다.
 

@@ -40,6 +40,10 @@ public class Feedback extends BaseTimeEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     private Feedback replyParentFeedback;
 
+    public void changeComment(String comment) {
+        this.comment = comment;
+    }
+
     @Builder
     public Feedback(Long id, String comment, Long sourceCodeLineNumber, Boolean isDeleted, User user, SharedSourceCode sharedSourceCode, Feedback replyParentFeedback) {
         this.id = id;

@@ -22,6 +22,13 @@ public class SharedSourceCodeExceptionHandler {
         log.debug("SharedSourceCodeAndStudyRoomNotMatchingException = {}", exception.getMessage());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ApiResponse.createError(exception.getMessage()));
     }
+
+    @ExceptionHandler(SharedSourceCodeAndFeedbackNotMatchingException.class)
+    public ResponseEntity<ApiResponse<?>> handleSharedSourceCodeAndFeedbackNotMatchingException(SharedSourceCodeAndFeedbackNotMatchingException exception) {
+        log.debug("SharedSourceCodeAndFeedbackNotMatchingException = {}", exception.getMessage());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ApiResponse.createError(exception.getMessage()));
+    }
+
     @ExceptionHandler(LineNumberExceedTotalLineCountException.class)
     public ResponseEntity<ApiResponse<?>> handleLineNumberExceedTotalLineCountException(LineNumberExceedTotalLineCountException exception) {
         log.debug("LineNumberExceedTotalLineCountException = {}", exception.getMessage());
@@ -43,6 +50,12 @@ public class SharedSourceCodeExceptionHandler {
     @ExceptionHandler(NotSameLineNumberException.class)
     public ResponseEntity<ApiResponse<?>> handleNotSameLineNumberException(NotSameLineNumberException exception) {
         log.debug("NotSameLineNumberException = {}", exception.getMessage());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ApiResponse.createError(exception.getMessage()));
+    }
+
+    @ExceptionHandler(NotFeedbackWriterException.class)
+    public ResponseEntity<ApiResponse<?>> handleNotFeedbackWriterException(NotFeedbackWriterException exception) {
+        log.debug("NotFeedbackWriterException = {}", exception.getMessage());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ApiResponse.createError(exception.getMessage()));
     }
 }

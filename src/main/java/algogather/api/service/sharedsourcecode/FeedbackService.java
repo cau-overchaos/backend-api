@@ -3,17 +3,16 @@ package algogather.api.service.sharedsourcecode;
 import algogather.api.domain.sharedsourcecode.Feedback;
 import algogather.api.domain.sharedsourcecode.FeedbackRepository;
 import algogather.api.domain.sharedsourcecode.SharedSourceCode;
+import algogather.api.domain.studyroom.StudyRoom;
 import algogather.api.domain.user.UserAdapter;
 import algogather.api.dto.sharedsourcecode.*;
-import algogather.api.exception.sharedsourcecode.FeedbackNotFoundException;
-import algogather.api.exception.sharedsourcecode.LineNumberExceedTotalLineCountException;
-import algogather.api.exception.sharedsourcecode.NotSameLineNumberException;
-import algogather.api.exception.sharedsourcecode.NotSameSourceCodeException;
+import algogather.api.exception.sharedsourcecode.*;
 import algogather.api.service.studyroom.StudyRoomService;
 import algogather.api.service.user.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -28,22 +27,26 @@ public class FeedbackService {
 
     private final FeedbackRepository feedbackRepository;
 
-    public CreatedFeedbackResponseDto saveFeedback(Long studyRoomId, Long sharedSourceCodeId, CreateFeedbackFormRequestDtoForm createFeedbackFormRequestDtoForm, UserAdapter userAdapter) {
+    @Transactional
+    public CreatedFeedbackResponseDto saveFeedback(Long studyRoomId, Long sharedSourceCodeId, CreateFeedbackRequestForm createFeedbackRequestForm, UserAdapter userAdapter) {
 
         studyRoomService.throwExceptionIfNotStudyRoomMember(userAdapter, studyRoomId); // 스터디방 멤버만 피드백을 작성할 수 있다.
-        SharedSourceCode sharedSourceCode = sharedSourceCodeService.findById(studyRoomId, sharedSourceCodeId, userAdapter);
 
-        throwExceptionIfRequestLineNumberExceedTotalLineCount(createFeedbackFormRequestDtoForm.getLineNumber(), sharedSourceCode); // 소스코드의 줄 수를 확인하고 lineNumber가 코드의 줄 수보다 작거나 같은지 검증한다.
+        StudyRoom studyRoom = studyRoomService.findById(studyRoomId);
+
+        SharedSourceCode sharedSourceCode = sharedSourceCodeService.findById(studyRoom.getId(), sharedSourceCodeId, userAdapter);
+
+        throwExceptionIfRequestLineNumberExceedTotalLineCount(createFeedbackRequestForm.getLineNumber(), sharedSourceCode); // 소스코드의 줄 수를 확인하고 lineNumber가 코드의 줄 수보다 작거나 같은지 검증한다.
 
         /**
          * 요청 폼에서 parent id가 null이라면, 부모 피드백을 작성하여 저장하는 것이므로 replayParentFeedback에 null로 저장한다.
          * 요청 폼에서 parent id가 null이 아니라면, 대댓글을 작성하는 것이므로, replyParentFeedback에 해당 요청 parent로 저장한다.
          */
-        Feedback replyParentFeedback = getReplyParentFeedback(createFeedbackFormRequestDtoForm, sharedSourceCode);
+        Feedback replyParentFeedback = getReplyParentFeedback(createFeedbackRequestForm, sharedSourceCode);
 
         Feedback newFeedback = Feedback.builder()
-                .comment(createFeedbackFormRequestDtoForm.getComment())
-                .sourceCodeLineNumber(createFeedbackFormRequestDtoForm.getLineNumber())
+                .comment(createFeedbackRequestForm.getComment())
+                .sourceCodeLineNumber(createFeedbackRequestForm.getLineNumber())
                 .isDeleted(false)
                 .sharedSourceCode(sharedSourceCode)
                 .user(userAdapter.getUser())
@@ -69,7 +72,9 @@ public class FeedbackService {
     public FeedbackListByLineNumberResponseDto findFeedbackListByLineNumber(Long studyRoomId, Long sharedSourceCodeId, Long lineNumber, UserAdapter userAdapter) {
         studyRoomService.throwExceptionIfNotStudyRoomMember(userAdapter, studyRoomId); // 스터디방 멤버만 피드백을 조회할 수 있다.
 
-        SharedSourceCode sharedSourceCode = sharedSourceCodeService.findById(studyRoomId, sharedSourceCodeId, userAdapter);
+        StudyRoom studyRoom = studyRoomService.findById(studyRoomId);
+
+        SharedSourceCode sharedSourceCode = sharedSourceCodeService.findById(studyRoom.getId(), sharedSourceCodeId, userAdapter);
 
         throwExceptionIfRequestLineNumberExceedTotalLineCount(lineNumber, sharedSourceCode); // 소스코드의 줄 수를 확인하고 lineNumber가 코드의 줄 수보다 작거나 같은지 검증한다.
 
@@ -81,6 +86,46 @@ public class FeedbackService {
                 .feedbackGroupByParentResponseDtoList(feedbackGroupByParentResponseDtoList)
                 .build();
 
+    }
+
+    @Transactional
+    public EditedFeedbackResponseDto edit(Long studyRoomId, Long sharedSourceCodeId, Long feedbackId, EditFeedbackRequestForm editFeedbackRequestForm, UserAdapter userAdapter) {
+        studyRoomService.throwExceptionIfNotStudyRoomMember(userAdapter, studyRoomId); // 스터디룸 멤버만 특정 공유 소스코드를 수정할 수 있다.
+
+        StudyRoom studyRoom = studyRoomService.findById(studyRoomId);
+
+        SharedSourceCode sharedSourceCode = sharedSourceCodeService.findById(studyRoom.getId(), sharedSourceCodeId, userAdapter);
+
+        Feedback targetFeedback = feedbackRepository.findById(feedbackId).orElseThrow(FeedbackNotFoundException::new);
+
+        validateFeedbackAndSharedSourceCodeMatching(targetFeedback, sharedSourceCode); // 그 피드백이 해당 소스코드에 속하는지 검증
+
+        validateFeedbackWriter(userAdapter, targetFeedback); // 현재 로그인한 유저가 피드백을 쓴 사람인지 검증
+
+        targetFeedback.changeComment(editFeedbackRequestForm.getComment());
+
+        return EditedFeedbackResponseDto.builder()
+                .feedbackId(targetFeedback.getId())
+                .comment(targetFeedback.getComment())
+                .writerUserId(targetFeedback.getUser().getUserId())
+                .writerName(targetFeedback.getUser().getName())
+                .createdAt(targetFeedback.getCreatedAt())
+                .updatedAt(targetFeedback.getUpdatedAt())
+                .sourceCodeId(targetFeedback.getSharedSourceCode().getId())
+                .lineNumber(targetFeedback.getSourceCodeLineNumber())
+                .build();
+    }
+
+    private static void validateFeedbackAndSharedSourceCodeMatching(Feedback feedback, SharedSourceCode sharedSourceCode) {
+        if(!Objects.equals(feedback.getSharedSourceCode().getId(), sharedSourceCode.getId())) {
+            throw new SharedSourceCodeAndFeedbackNotMatchingException();
+        }
+    }
+
+    private static void validateFeedbackWriter(UserAdapter userAdapter, Feedback feedback) {
+        if(!Objects.equals(userAdapter.getUser().getId(), feedback.getUser().getId())) {
+            throw new NotFeedbackWriterException();
+        }
     }
 
     private List<FeedbackGroupByParentResponseDto> getFeedbackGroupByParentResponseDtoList(Long sharedSourceCodeId, Long lineNumber) {
@@ -122,11 +167,11 @@ public class FeedbackService {
                 .build();
     }
 
-    private Feedback getReplyParentFeedback(CreateFeedbackFormRequestDtoForm createFeedbackFormRequestDtoForm, SharedSourceCode sharedSourceCode) {
+    private Feedback getReplyParentFeedback(CreateFeedbackRequestForm createFeedbackRequestForm, SharedSourceCode sharedSourceCode) {
         Feedback replyParentFeedback = null;
 
-        if(createFeedbackFormRequestDtoForm.getReplyParentFeedbackId() != null) {
-            Feedback foundReplyParentFeedback = findById(createFeedbackFormRequestDtoForm.getReplyParentFeedbackId());
+        if(createFeedbackRequestForm.getReplyParentFeedbackId() != null) {
+            Feedback foundReplyParentFeedback = findById(createFeedbackRequestForm.getReplyParentFeedbackId());
 
             if(foundReplyParentFeedback.getReplyParentFeedback() != null) { // 대댓글을 단 피드백이 루트 피드백이 아니라면
                 foundReplyParentFeedback = findById(foundReplyParentFeedback.getReplyParentFeedback().getId()); // 루트 피드백을 가져온다.
@@ -136,7 +181,7 @@ public class FeedbackService {
                 throw new NotSameSourceCodeException();
             }
 
-            if(!Objects.equals(foundReplyParentFeedback.getSourceCodeLineNumber(), createFeedbackFormRequestDtoForm.getLineNumber())) { // 부모 피드백이 같은 소스코드 라인에 속하는지 검증한다.
+            if(!Objects.equals(foundReplyParentFeedback.getSourceCodeLineNumber(), createFeedbackRequestForm.getLineNumber())) { // 부모 피드백이 같은 소스코드 라인에 속하는지 검증한다.
                 throw new NotSameLineNumberException();
             }
 
