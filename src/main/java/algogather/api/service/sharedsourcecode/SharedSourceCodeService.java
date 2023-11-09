@@ -17,6 +17,7 @@ import algogather.api.service.studyroom.StudyRoomService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 @Service
@@ -27,6 +28,7 @@ public class SharedSourceCodeService {
     private final ProgrammingLanguageService programmingLanguageService;
     private final SharedSourceCodeRepository sharedSourceCodeRepository;
 
+    @Transactional
     public SharedSourceCodeResponseDto save(Long studyRoomId, CreateSharedSourceCodeRequestForm createSharedSourceCodeRequestForm, UserAdapter userAdapter) {
         studyRoomService.throwExceptionIfNotStudyRoomMember(userAdapter, studyRoomId); // 스터디룸 멤버만 공유 소스코드를 작성할 수 있다.
 
@@ -69,7 +71,7 @@ public class SharedSourceCodeService {
         return new SharedSourceCodeListResponseDto(sharedSourceCodeList);
     }
 
-    public SharedSourceCodeResponseDto findById(Long studyRoomId, Long sourceCodeId, UserAdapter userAdapter) {
+    public SharedSourceCodeResponseDto findByIdAndReturnResponseDto(Long studyRoomId, Long sourceCodeId, UserAdapter userAdapter) {
         studyRoomService.throwExceptionIfNotStudyRoomMember(userAdapter, studyRoomId); // 스터디룸 멤버만 특정 공유 소스코드를 조회할 수 있다.
 
         StudyRoom studyRoom = studyRoomService.findById(studyRoomId);
@@ -90,6 +92,18 @@ public class SharedSourceCodeService {
                 .programmingLanguageName(sharedSourceCode.getProgrammingLanguage().getName())
                 .createdAt(sharedSourceCode.getCreatedAt())
                 .build();
+    }
+
+    public SharedSourceCode findById(Long studyRoomId, Long sourceCodeId, UserAdapter userAdapter) {
+        studyRoomService.throwExceptionIfNotStudyRoomMember(userAdapter, studyRoomId); // 스터디룸 멤버만 특정 공유 소스코드를 조회할 수 있다.
+
+        StudyRoom studyRoom = studyRoomService.findById(studyRoomId);
+
+        SharedSourceCode sharedSourceCode = sharedSourceCodeRepository.findById(sourceCodeId).orElseThrow(SharedSourceCodeNotFoundException::new);
+
+        validateSharedSourceMatchingWithStudyRoom(sharedSourceCode, studyRoom); // 해당 스터디방의 소스코드인지 검증
+
+        return sharedSourceCode;
     }
 
     private void validateSharedSourceMatchingWithStudyRoom(SharedSourceCode sharedSourceCode, StudyRoom studyRoom) {
