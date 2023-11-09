@@ -130,7 +130,12 @@ public class FeedbackService {
 
         validateFeedbackWriter(userAdapter, targetFeedback); // 현재 로그인한 유저가 피드백을 쓴 사람인지 검증
 
-        targetFeedback.changeIsDeletedToTrue();
+        if(targetFeedback.getIsDeleted()) {
+            throw  new AlreadyDeletedFeedback();
+        }
+        else {
+            targetFeedback.changeIsDeletedToTrue();
+        }
     }
 
     private static void validateFeedbackAndSharedSourceCodeMatching(Feedback feedback, SharedSourceCode sharedSourceCode) {

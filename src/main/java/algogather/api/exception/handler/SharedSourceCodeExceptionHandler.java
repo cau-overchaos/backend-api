@@ -58,4 +58,10 @@ public class SharedSourceCodeExceptionHandler {
         log.debug("NotFeedbackWriterException = {}", exception.getMessage());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ApiResponse.createError(exception.getMessage()));
     }
+
+    @ExceptionHandler(AlreadyDeletedFeedback.class)
+    public ResponseEntity<ApiResponse<?>> handleAlreadyDeletedFeedback(AlreadyDeletedFeedback exception) {
+        log.debug("AlreadyDeletedFeedback = {}", exception.getMessage());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ApiResponse.createError(exception.getMessage()));
+    }
 }
