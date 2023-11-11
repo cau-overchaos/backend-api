@@ -31,7 +31,7 @@ public class AssignmentService {
     private final CrawlingService crawlingService;
 
     @Transactional
-    public CreatedAssignmentResponseDto createAssignment(UserAdapter userAdapter, Long studyRoomId, AssignmentCreateForm assignmentCreateForm) {
+    public CreatedAssignmentListResponseDto createAssignment(UserAdapter userAdapter, Long studyRoomId, AssignmentCreateForm assignmentCreateForm) {
 
         List<ProblemInfoRequestDto> problemInfoRequestDtoList = assignmentCreateForm.getProblemList();
         List<AssignmentProblem> results = new ArrayList<>();
@@ -52,7 +52,7 @@ public class AssignmentService {
             results.add(assignmentProblemRepository.save(createdAssignmentProblem));
         }
 
-        return new CreatedAssignmentResponseDto(results);
+        return new CreatedAssignmentListResponseDto(results);
     }
 
     //TODO 컨트롤러 만들고 테스트하기

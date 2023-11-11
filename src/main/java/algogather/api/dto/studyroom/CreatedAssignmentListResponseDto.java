@@ -1,7 +1,6 @@
 package algogather.api.dto.studyroom;
 
 import algogather.api.domain.assignment.AssignmentProblem;
-import algogather.api.dto.problem.ProblemInfoRequestDto;
 import algogather.api.dto.problem.ProblemResponseDto;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
@@ -11,11 +10,11 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Getter
-public class CreatedAssignmentResponseDto {
+public class CreatedAssignmentListResponseDto {
 
     private List<CreatedAssignment> createdAssignmentList;
 
-    public CreatedAssignmentResponseDto(List<AssignmentProblem> createdAssignmentList) {
+    public CreatedAssignmentListResponseDto(List<AssignmentProblem> createdAssignmentList) {
         this.createdAssignmentList = createdAssignmentList.stream()
                 .map(createdAssignment -> new CreatedAssignment(createdAssignment)).collect(Collectors.toList());
     }

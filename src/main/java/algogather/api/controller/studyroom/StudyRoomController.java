@@ -95,11 +95,11 @@ public class StudyRoomController {
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "403", description = "접근 실패", content = @Content(schema = @Schema(implementation = ApiResponse.class)))
     })
     @PostMapping("/{studyRoomId}/assignments")
-    public ResponseEntity<ApiResponse<CreatedAssignmentResponseDto>> createAssignment(@PathVariable Long studyRoomId, @Valid @RequestBody AssignmentCreateForm assignmentCreateForm, @Parameter(hidden = true) @AuthenticationPrincipal UserAdapter userAdapter) {
+    public ResponseEntity<ApiResponse<CreatedAssignmentListResponseDto>> createAssignment(@PathVariable Long studyRoomId, @Valid @RequestBody AssignmentCreateForm assignmentCreateForm, @Parameter(hidden = true) @AuthenticationPrincipal UserAdapter userAdapter) {
 
-        CreatedAssignmentResponseDto createdAssignmentResponseDto = assignmentService.createAssignment(userAdapter, studyRoomId, assignmentCreateForm);
+        CreatedAssignmentListResponseDto createdAssignmentListResponseDto = assignmentService.createAssignment(userAdapter, studyRoomId, assignmentCreateForm);
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(ApiResponse.sucessWithDataAndMessage(createdAssignmentResponseDto, "과제가 성공적으로 생성되었습니다."));
+        return ResponseEntity.status(HttpStatus.CREATED).body(ApiResponse.sucessWithDataAndMessage(createdAssignmentListResponseDto, "과제가 성공적으로 생성되었습니다."));
     }
 
     @Operation(summary = "과제 목록", description = "과제 목록 API입니다.")
