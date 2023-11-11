@@ -9,10 +9,10 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Getter
-public class StudyRoomResponseDto {
+public class StudyRoomListResponseDto {
     private List<StudyRoomDto> studyRoomList;
 
-    public StudyRoomResponseDto(List<StudyRoom> studyRoomList) {
+    public StudyRoomListResponseDto(List<StudyRoom> studyRoomList) {
         this.studyRoomList = studyRoomList.stream()
                 .map(studyRoom -> new StudyRoomDto(studyRoom)).collect(Collectors.toList());
     }

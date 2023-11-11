@@ -11,7 +11,7 @@ public class CreatedStudyRoomResponseDto {
     private String description;
     private StudyRoomVisibility studyRoomVisibility;
     private Integer maxUserCnt;
-    private String managerUserId;
+    private String originalManagerUserId;
 
     public CreatedStudyRoomResponseDto(StudyRoom studyRoom, String managerUserId) {
         this.id = studyRoom.getId();
@@ -19,6 +19,6 @@ public class CreatedStudyRoomResponseDto {
         this.description = studyRoom.getDescription();
         this.studyRoomVisibility = studyRoom.getStudyRoomVisibility();
         this.maxUserCnt = studyRoom.getMaxUserCnt();
-        this.managerUserId = managerUserId;
+        this.originalManagerUserId = managerUserId;
     }
 }

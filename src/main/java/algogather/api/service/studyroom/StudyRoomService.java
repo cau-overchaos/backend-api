@@ -22,6 +22,7 @@ import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import static algogather.api.config.init.initConst.solvedAcUrl;
 
@@ -86,18 +87,33 @@ public class StudyRoomService {
         return new CreatedStudyRoomResponseDto(createdStudyRoom, createdUserStudyRoom.getUser().getUserId());
     }
 
+    public StudyRoomInfoResponseDto getStudyRoomInfo(Long studyRoomId, UserAdapter userAdapter) {
+        StudyRoom studyRoom = findById(studyRoomId);
+
+        List<User> managers = userStudyRoomRepository.findManagerByStudyRoomId(studyRoom.getId());
+        List<String> managerUserIds = managers.stream().map(manager -> manager.getUserId()).collect(Collectors.toList());
+
+        return StudyRoomInfoResponseDto.builder()
+                .id(studyRoom.getId())
+                .title(studyRoom.getTitle())
+                .description(studyRoom.getDescription())
+                .maxUserCnt(studyRoom.getMaxUserCnt())
+                .managerUserIdList(managerUserIds)
+                .build();
+    }
+
     public StudyRoom findById(Long studyRoomId) {
         return studyRoomRepository.findById(studyRoomId).orElseThrow(() -> new StudyRoomNotFoundException());
     }
 
-    public StudyRoomResponseDto findAll() {
+    public StudyRoomListResponseDto findAll() {
         List<StudyRoom> allStudyRooms = studyRoomRepository.findAll();
-        return new StudyRoomResponseDto(allStudyRooms);
+        return new StudyRoomListResponseDto(allStudyRooms);
     }
 
-    public StudyRoomResponseDto findMyStudyRooms(UserAdapter userAdapter) {
+    public StudyRoomListResponseDto findMyStudyRooms(UserAdapter userAdapter) {
         List<StudyRoom> myStudyRooms = studyRoomRepository.findStudyRoomsByUserId(userAdapter.getUser().getId());
-        return new StudyRoomResponseDto(myStudyRooms);
+        return new StudyRoomListResponseDto(myStudyRooms);
     }
 
     @Transactional
