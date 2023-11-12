@@ -1,5 +1,7 @@
 package algogather.api.controller.studyroom;
 
+import algogather.api.domain.studyroom.StudyRoom;
+import algogather.api.domain.studyroom.StudyRoomRole;
 import algogather.api.domain.user.UserAdapter;
 import algogather.api.dto.api.ApiResponse;
 import algogather.api.dto.programminglanguage.ProgrammingLanguageListResponseDto;
@@ -20,6 +22,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -41,6 +44,20 @@ public class StudyRoomController {
         StudyRoomListResponseDto allStudyRoomList = studyRoomService.findAll();
 
         return ResponseEntity.status(HttpStatus.OK).body(ApiResponse.sucessWithDataAndMessage(allStudyRoomList, "스터디방 목록을 성공적으로 불러왔습니다."));
+    }
+
+    @Operation(summary = "자신이 관리자인 스터디방 목록 조회", description = "자신이 관리자인 스터디방 목록 조회 API입니다.")
+    @ApiResponses(value = {
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "성공"),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "400", description = "실패", content = @Content(schema = @Schema(implementation = ApiResponse.class))),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "401", description = "인증 실패", content = @Content(schema = @Schema(implementation = ApiResponse.class))),
+    })
+    @GetMapping("/i-am-manager")
+    public ResponseEntity<ApiResponse<StudyRoomListResponseDto>> getStudyRoomListWhichIsCurrentUserIsManager(@Parameter(hidden = true) @AuthenticationPrincipal UserAdapter userAdapter) {
+        StudyRoomListResponseDto studyRoomListWhichIsCurrentUserIsManager = studyRoomService.getStudyRoomListWhichIsCurrentUserIsManager(userAdapter);
+
+        return ResponseEntity.status(HttpStatus.OK).body(ApiResponse.sucessWithDataAndMessage(studyRoomListWhichIsCurrentUserIsManager, "현재 유저가 관리자인 스터디방 목록을 성공적으로 불러왔습니다."));
+
     }
 
     @Operation(summary = "내 스터디방 목록", description = "내 스터디방 목록 불러오기 API입니다.")

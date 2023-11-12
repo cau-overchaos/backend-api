@@ -5,24 +5,34 @@ import algogather.api.domain.programminglanguage.StudyRoomProgrammingLanguage;
 import algogather.api.domain.programminglanguage.StudyRoomProgrammingLanguageRepository;
 import algogather.api.domain.studyroom.*;
 import algogather.api.domain.user.UserAdapter;
+import algogather.api.dto.api.ApiResponse;
 import algogather.api.dto.programminglanguage.ProgrammingLanguageListResponseDto;
 import algogather.api.dto.studyroom.*;
 import algogather.api.exception.studyroom.*;
 import algogather.api.service.programmingllanguage.ProgrammingLanguageService;
 import algogather.api.service.user.UserService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Service;
 import algogather.api.domain.user.User;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.transaction.Transactional;
+import javax.validation.Valid;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
@@ -268,5 +278,11 @@ public class StudyRoomService {
                     .build());
         }
         return studyRoomMemberInfoDtoList;
+    }
+
+    public StudyRoomListResponseDto getStudyRoomListWhichIsCurrentUserIsManager(UserAdapter userAdapter) {
+        List<StudyRoom> studyRoomList = userStudyRoomRepository.findStudyRoomByUserIdAndRoleIsManager(userAdapter.getUser().getId());
+
+        return new StudyRoomListResponseDto(studyRoomList);
     }
 }
