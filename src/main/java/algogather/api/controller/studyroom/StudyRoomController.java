@@ -35,9 +35,9 @@ public class StudyRoomController {
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "400", description = "실패", content = @Content(schema = @Schema(implementation = ApiResponse.class)))
     })
     @GetMapping
-    public ResponseEntity<ApiResponse<StudyRoomResponseDto>> findAllStudyRoom() {
+    public ResponseEntity<ApiResponse<StudyRoomListResponseDto>> findAllStudyRoom() {
 
-        StudyRoomResponseDto allStudyRoomList = studyRoomService.findAll();
+        StudyRoomListResponseDto allStudyRoomList = studyRoomService.findAll();
 
         return ResponseEntity.status(HttpStatus.OK).body(ApiResponse.sucessWithDataAndMessage(allStudyRoomList, "스터디방 목록을 성공적으로 불러왔습니다."));
     }
@@ -49,9 +49,9 @@ public class StudyRoomController {
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "401", description = "인증 실패", content = @Content(schema = @Schema(implementation = ApiResponse.class)))
     })
     @GetMapping("/participated")
-    public ResponseEntity<ApiResponse<StudyRoomResponseDto>> findAllStudyRoom(@Parameter(hidden = true) @AuthenticationPrincipal UserAdapter userAdapter) {
+    public ResponseEntity<ApiResponse<StudyRoomListResponseDto>> findAllStudyRoom(@Parameter(hidden = true) @AuthenticationPrincipal UserAdapter userAdapter) {
 
-        StudyRoomResponseDto myStudyRoomList = studyRoomService.findMyStudyRooms(userAdapter);
+        StudyRoomListResponseDto myStudyRoomList = studyRoomService.findMyStudyRooms(userAdapter);
 
         return ResponseEntity.status(HttpStatus.OK).body(ApiResponse.sucessWithDataAndMessage(myStudyRoomList, "내 스터디방 목록을 성공적으로 불러왔습니다."));
     }
@@ -72,6 +72,21 @@ public class StudyRoomController {
 
     }
 
+    @Operation(summary = "스터디방 정보 조회", description = "스터디방 정보 조회 API입니다.")
+    @ApiResponses(value = {
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "성공"),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "400", description = "실패", content = @Content(schema = @Schema(implementation = ApiResponse.class))),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "401", description = "인증 실패", content = @Content(schema = @Schema(implementation = ApiResponse.class)))
+    })
+    @GetMapping("/{studyRoomId}")
+    public ResponseEntity<ApiResponse<StudyRoomInfoResponseDto>> createStudyRoom(@PathVariable Long studyRoomId, @Parameter(hidden = true) @AuthenticationPrincipal UserAdapter userAdapter) {
+
+        StudyRoomInfoResponseDto studyRoomInfo = studyRoomService.getStudyRoomInfo(studyRoomId, userAdapter);
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(ApiResponse.sucessWithDataAndMessage(studyRoomInfo, "스터디방 정보를 성공적으로 불러왔습니다."));
+
+    }
+
     @Operation(summary = "과제 생성", description = "과제 생성 API입니다.")
     @ApiResponses(value = {
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "성공"),
@@ -80,11 +95,11 @@ public class StudyRoomController {
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "403", description = "접근 실패", content = @Content(schema = @Schema(implementation = ApiResponse.class)))
     })
     @PostMapping("/{studyRoomId}/assignments")
-    public ResponseEntity<ApiResponse<CreatedAssignmentResponseDto>> createAssignment(@PathVariable Long studyRoomId, @Valid @RequestBody AssignmentCreateForm assignmentCreateForm, @Parameter(hidden = true) @AuthenticationPrincipal UserAdapter userAdapter) {
+    public ResponseEntity<ApiResponse<CreatedAssignmentListResponseDto>> createAssignment(@PathVariable Long studyRoomId, @Valid @RequestBody AssignmentCreateForm assignmentCreateForm, @Parameter(hidden = true) @AuthenticationPrincipal UserAdapter userAdapter) {
 
-        CreatedAssignmentResponseDto createdAssignmentResponseDto = assignmentService.createAssignment(userAdapter, studyRoomId, assignmentCreateForm);
+        CreatedAssignmentListResponseDto createdAssignmentListResponseDto = assignmentService.createAssignment(userAdapter, studyRoomId, assignmentCreateForm);
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(ApiResponse.sucessWithDataAndMessage(createdAssignmentResponseDto, "과제가 성공적으로 생성되었습니다."));
+        return ResponseEntity.status(HttpStatus.CREATED).body(ApiResponse.sucessWithDataAndMessage(createdAssignmentListResponseDto, "과제가 성공적으로 생성되었습니다."));
     }
 
     @Operation(summary = "과제 목록", description = "과제 목록 API입니다.")
