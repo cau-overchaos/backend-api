@@ -23,7 +23,6 @@ import java.util.Objects;
 public class FeedbackService {
     private final StudyRoomService studyRoomService;
     private final SharedSourceCodeService sharedSourceCodeService;
-    private final UserService userService;
 
     private final FeedbackRepository feedbackRepository;
 

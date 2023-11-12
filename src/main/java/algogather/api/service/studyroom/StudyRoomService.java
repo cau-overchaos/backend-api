@@ -112,12 +112,18 @@ public class StudyRoomService {
         List<User> managers = userStudyRoomRepository.findManagerByStudyRoomId(studyRoom.getId());
         List<String> managerUserIds = managers.stream().map(manager -> manager.getUserId()).collect(Collectors.toList());
 
+        List<User> usersListByStudyRoomId = userStudyRoomRepository.findUserByStudyRoomId(studyRoom.getId());
+
+        List<ProgrammingLanguage> programmingLanguagesByStudyRoomId = studyRoomProgrammingLanguageRepository.findProgrammingLanguagesByStudyRoomId(studyRoom.getId());
+
         return StudyRoomInfoResponseDto.builder()
                 .id(studyRoom.getId())
                 .title(studyRoom.getTitle())
                 .description(studyRoom.getDescription())
+                .curUserCnt(usersListByStudyRoomId.size())
                 .maxUserCnt(studyRoom.getMaxUserCnt())
                 .managerUserIdList(managerUserIds)
+                .programmingLanguageListResponseDto(new ProgrammingLanguageListResponseDto(programmingLanguagesByStudyRoomId))
                 .build();
     }
 
