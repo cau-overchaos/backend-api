@@ -151,8 +151,8 @@ public class StudyRoomController {
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "403", description = "접근 실패", content = @Content(schema = @Schema(implementation = ApiResponse.class)))
     })
     @PostMapping("/{studyRoomId}/members/authority")
-    public ResponseEntity<ApiResponse<?>> changeStudyRoomAuthority(@PathVariable Long studyRoomId, @Valid @RequestBody ChangeStudyRoomAuthorityRequestDto changeStudyRoomAuthorityRequestDto, @Parameter(hidden = true) @AuthenticationPrincipal UserAdapter userAdapter) {
-        boolean isChangedToManagerAuthority = studyRoomService.changeStudyRoomAuthority(userAdapter, studyRoomId, changeStudyRoomAuthorityRequestDto);
+    public ResponseEntity<ApiResponse<?>> changeStudyRoomMemberAuthority(@PathVariable Long studyRoomId, @Valid @RequestBody ChangeStudyRoomAuthorityRequestDto changeStudyRoomAuthorityRequestDto, @Parameter(hidden = true) @AuthenticationPrincipal UserAdapter userAdapter) {
+        boolean isChangedToManagerAuthority = studyRoomService.changeStudyRoomMemberAuthority(userAdapter, studyRoomId, changeStudyRoomAuthorityRequestDto);
 
         if(isChangedToManagerAuthority){
             return ResponseEntity.status(HttpStatus.OK).body(ApiResponse.sucess("성공적으로 관리자권한을 부여하였습니다."));

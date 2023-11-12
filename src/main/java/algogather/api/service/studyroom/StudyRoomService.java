@@ -179,9 +179,8 @@ public class StudyRoomService {
          userStudyRoomRepository.delete(userStudyRoom);
     }
 
-    //TODO changeStudyRoomAuthority -> changeStudyRoomMemberAuthority로 이름 바꾸기
     @Transactional
-    public boolean changeStudyRoomAuthority(UserAdapter userAdapter, Long studyRoomId, ChangeStudyRoomAuthorityRequestDto changeStudyRoomAuthorityRequestDto) {
+    public boolean changeStudyRoomMemberAuthority(UserAdapter userAdapter, Long studyRoomId, ChangeStudyRoomAuthorityRequestDto changeStudyRoomAuthorityRequestDto) {
         throwExceptionIfNotStudyRoomManager(userAdapter, studyRoomId); // 스터디룸 관리자만 스터디룸 권한을 변경할 수 있다.
 
         StudyRoom foundStudyRoom = findById(studyRoomId);
