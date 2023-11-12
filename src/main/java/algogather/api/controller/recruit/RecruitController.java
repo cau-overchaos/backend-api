@@ -4,6 +4,7 @@ import algogather.api.domain.user.UserAdapter;
 import algogather.api.dto.api.ApiResponse;
 import algogather.api.dto.recruit.CreateRecruitPostRequestForm;
 import algogather.api.dto.recruit.CreatedRecruitPostResponseDto;
+import algogather.api.dto.recruit.ExistingRecruitPostResponseDto;
 import algogather.api.dto.recruit.RecruitPostListResponseDto;
 import algogather.api.service.recruit.RecruitService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -51,6 +52,20 @@ public class RecruitController {
     public ResponseEntity<ApiResponse<RecruitPostListResponseDto>> getAllRecruitPostList() {
         RecruitPostListResponseDto allRecruitPostList = recruitService.getAllRecruitPostList();
         return ResponseEntity.status(HttpStatus.OK).body(ApiResponse.sucessWithDataAndMessage(allRecruitPostList, "전체 스터디방 모집글을 성공적으로 불러왔습니다."));
+
+    }
+
+    @Operation(summary = "특정 스터디방 모집글 조회", description = "전체 스터디방 모집글 조회 API입니다.")
+    @ApiResponses(value = {
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "성공"),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "400", description = "실패", content = @Content(schema = @Schema(implementation = ApiResponse.class))),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "401", description = "인증 실패", content = @Content(schema = @Schema(implementation = ApiResponse.class))),
+    })
+    @GetMapping("/{recruitPostId}")
+    public ResponseEntity<ApiResponse<ExistingRecruitPostResponseDto>> getExistingRecruitPostResponseDto(@PathVariable Long recruitPostId, @Parameter(hidden = true) @AuthenticationPrincipal UserAdapter userAdapter) {
+        ExistingRecruitPostResponseDto existingRecruitPostResponseDto = recruitService.getExistingRecruitPostResponseDto(recruitPostId);
+
+        return ResponseEntity.status(HttpStatus.OK).body(ApiResponse.sucessWithDataAndMessage(existingRecruitPostResponseDto, "특정 스터디방의 모집글을 성공적으로 불러왔습니다."));
 
     }
 }

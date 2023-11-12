@@ -5,10 +5,8 @@ import algogather.api.domain.recruit.RecruitPost;
 import algogather.api.domain.recruit.RecruitPostRepository;
 import algogather.api.domain.studyroom.StudyRoom;
 import algogather.api.domain.user.UserAdapter;
-import algogather.api.dto.recruit.CreateRecruitPostRequestForm;
-import algogather.api.dto.recruit.CreatedRecruitPostResponseDto;
-import algogather.api.dto.recruit.RecruitPostDto;
-import algogather.api.dto.recruit.RecruitPostListResponseDto;
+import algogather.api.dto.recruit.*;
+import algogather.api.exception.recruit.RecruitPostNotFoundException;
 import algogather.api.service.studyroom.StudyRoomService;
 import algogather.api.service.user.UserService;
 import lombok.RequiredArgsConstructor;
@@ -67,5 +65,23 @@ public class RecruitService {
         }
 
         return new RecruitPostListResponseDto(recruitPostDtoList);
+    }
+
+    public ExistingRecruitPostResponseDto getExistingRecruitPostResponseDto(Long recruitPostId) {
+        RecruitPost recruitPost = findById(recruitPostId);
+
+        return ExistingRecruitPostResponseDto.builder()
+                .title(recruitPost.getTitle())
+                .text(recruitPost.getText())
+                .dueDate(recruitPost.getDueDate())
+                .studyRoomInfoResponseDto(
+                        studyRoomService.getStudyRoomInfo(recruitPost.getStudyRoom().getId())
+                )
+                .createdAt(recruitPost.getCreatedAt())
+                .updatedAt(recruitPost.getUpdatedAt()).build();
+    }
+
+    private RecruitPost findById(Long recruitPostId) {
+        return recruitPostRepository.findById(recruitPostId).orElseThrow(RecruitPostNotFoundException::new);
     }
 }
