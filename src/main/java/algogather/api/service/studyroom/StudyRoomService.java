@@ -211,6 +211,14 @@ public class StudyRoomService {
         return new StudyRoomMemberListResponseDto(studyRoomMemberInfoDtoList);
     }
 
+    public ProgrammingLanguageListResponseDto getStudyRoomProgrammingLanguageList(Long studyRoomId) {
+        StudyRoom studyRoom = findById(studyRoomId);
+
+        List<ProgrammingLanguage> programmingLanguagesByStudyRoomId = studyRoomProgrammingLanguageRepository.findProgrammingLanguagesByStudyRoomId(studyRoom.getId());
+
+        return new ProgrammingLanguageListResponseDto(programmingLanguagesByStudyRoomId);
+    }
+
     private static List<StudyRoomMemberInfoDto> getStudyRoomMemberInfoDtoList(UserAdapter userAdapter, List<UserWithStudyRoomAuthorityInfoDto> userWithStudyRoomAuthorityInfoDtos) throws ParseException {
         List<StudyRoomMemberInfoDto> studyRoomMemberInfoDtoList = new ArrayList<>();
 

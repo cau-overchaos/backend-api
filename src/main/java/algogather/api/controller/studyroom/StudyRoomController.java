@@ -2,6 +2,7 @@ package algogather.api.controller.studyroom;
 
 import algogather.api.domain.user.UserAdapter;
 import algogather.api.dto.api.ApiResponse;
+import algogather.api.dto.programminglanguage.ProgrammingLanguageListResponseDto;
 import algogather.api.dto.studyroom.*;
 import algogather.api.service.studyroom.AssignmentService;
 import algogather.api.service.studyroom.StudyRoomService;
@@ -195,9 +196,24 @@ public class StudyRoomController {
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "401", description = "인증 실패", content = @Content(schema = @Schema(implementation = ApiResponse.class))),
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "403", description = "접근 실패", content = @Content(schema = @Schema(implementation = ApiResponse.class)))
     })
+
     @PostMapping("/{studyRoomId}/is-manager")
     public ResponseEntity<ApiResponse<?>> checkIfStudyRoomManager(@PathVariable Long studyRoomId, @Parameter(hidden = true) @AuthenticationPrincipal UserAdapter userAdapter) {
         studyRoomService.throwExceptionIfNotStudyRoomManager(userAdapter, studyRoomId);
         return ResponseEntity.status(HttpStatus.OK).body(ApiResponse.sucess("현재 사용자는 스터디방 관리자 입니다."));
+    }
+
+    @Operation(summary = "스터디방 사용 언어 조회 API", description = "스터디방 사용 언어 조회 API입니다.")
+    @ApiResponses(value = {
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "성공"),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "400", description = "실패", content = @Content(schema = @Schema(implementation = ApiResponse.class))),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "401", description = "인증 실패", content = @Content(schema = @Schema(implementation = ApiResponse.class))),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "403", description = "접근 실패", content = @Content(schema = @Schema(implementation = ApiResponse.class)))
+    })
+    @GetMapping("/{studyRoomId}/programming-languages")
+    public ResponseEntity<ApiResponse<ProgrammingLanguageListResponseDto>> getStudyRoomProgrammingLanguage(@PathVariable Long studyRoomId, @Parameter(hidden = true) @AuthenticationPrincipal UserAdapter userAdapter) throws ParseException {
+        ProgrammingLanguageListResponseDto studyRoomProgrammingLanguageList = studyRoomService.getStudyRoomProgrammingLanguageList(studyRoomId);
+
+        return ResponseEntity.status(HttpStatus.OK).body(ApiResponse.sucessWithDataAndMessage(studyRoomProgrammingLanguageList, "스터디방의 사용 언어 목록을 성공적으로 조회했습니다."));
     }
 }
