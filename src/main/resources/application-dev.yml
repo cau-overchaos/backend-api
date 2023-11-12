@@ -39,3 +39,4 @@ server:
 
 
 clientURL: http://localhost:3000
+compilerURL: #컴파일러 서버 주소 입력

@@ -2,8 +2,10 @@ package algogather.api.controller.studyroom;
 
 import algogather.api.domain.user.UserAdapter;
 import algogather.api.dto.api.ApiResponse;
+import algogather.api.dto.compile.CompileSourceCodeRequestForm;
 import algogather.api.dto.studyroom.*;
 import algogather.api.service.studyroom.AssignmentService;
+import algogather.api.service.studyroom.CompileService;
 import algogather.api.service.studyroom.StudyRoomService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -28,6 +30,7 @@ public class StudyRoomController {
 
     private final StudyRoomService studyRoomService;
     private final AssignmentService assignmentService;
+    private final CompileService compileService;
 
     @Operation(summary = "모든 스터디방 목록", description = "모든 스터디방 목록 불러오기 API입니다.")
     @ApiResponses(value = {
@@ -200,4 +203,18 @@ public class StudyRoomController {
         studyRoomService.throwExceptionIfNotStudyRoomManager(userAdapter, studyRoomId);
         return ResponseEntity.status(HttpStatus.OK).body(ApiResponse.sucess("현재 사용자는 스터디방 관리자 입니다."));
     }
+
+//    @Operation(summary = "스터디방 컴파일 API", description = "스터디방 컴파일 API입니다.")
+//    @ApiResponses(value = {
+//            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "성공"),
+//            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "400", description = "실패", content = @Content(schema = @Schema(implementation = ApiResponse.class))),
+//            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "401", description = "인증 실패", content = @Content(schema = @Schema(implementation = ApiResponse.class))),
+//            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "403", description = "접근 실패", content = @Content(schema = @Schema(implementation = ApiResponse.class)))
+//    })
+//    @PostMapping("/{studyRoomId}/compile")
+//    public ResponseEntity<ApiResponse<?>> compileSourceCode(@PathVariable Long studyRoomId, @Valid @RequestBody CompileSourceCodeRequestForm compileSourceCodeRequestForm, @Parameter(hidden = true) @AuthenticationPrincipal UserAdapter userAdapter) {
+//
+//        Object o = compileService.compileSourceCode(studyRoomId, compileSourceCodeRequestForm, userAdapter);
+//        return ResponseEntity.status(HttpStatus.OK).body(ApiResponse.sucessWithDataAndMessage(o, "테스트"));
+//    }
 }
