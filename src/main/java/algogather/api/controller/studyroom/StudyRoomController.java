@@ -82,7 +82,7 @@ public class StudyRoomController {
     @GetMapping("/{studyRoomId}")
     public ResponseEntity<ApiResponse<StudyRoomInfoResponseDto>> createStudyRoom(@PathVariable Long studyRoomId, @Parameter(hidden = true) @AuthenticationPrincipal UserAdapter userAdapter) {
 
-        StudyRoomInfoResponseDto studyRoomInfo = studyRoomService.getStudyRoomInfo(studyRoomId, userAdapter);
+        StudyRoomInfoResponseDto studyRoomInfo = studyRoomService.getStudyRoomInfo(studyRoomId);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(ApiResponse.sucessWithDataAndMessage(studyRoomInfo, "스터디방 정보를 성공적으로 불러왔습니다."));
 

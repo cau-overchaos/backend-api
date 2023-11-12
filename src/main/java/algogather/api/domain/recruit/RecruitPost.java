@@ -1,5 +1,6 @@
 package algogather.api.domain.recruit;
 
+import algogather.api.domain.BaseTimeEntity;
 import algogather.api.domain.studyroom.StudyRoom;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -14,7 +15,7 @@ import javax.persistence.*;
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @EntityListeners(AuditingEntityListener.class)
-public class RecruitPost {
+public class RecruitPost extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

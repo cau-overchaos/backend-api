@@ -106,7 +106,7 @@ public class StudyRoomService {
         return new CreatedStudyRoomResponseDto(createdStudyRoom, createdUserStudyRoom.getUser().getUserId(), new ProgrammingLanguageListResponseDto(programmingLanguageList));
     }
 
-    public StudyRoomInfoResponseDto getStudyRoomInfo(Long studyRoomId, UserAdapter userAdapter) {
+    public StudyRoomInfoResponseDto getStudyRoomInfo(Long studyRoomId) {
         StudyRoom studyRoom = findById(studyRoomId);
 
         List<User> managers = userStudyRoomRepository.findManagerByStudyRoomId(studyRoom.getId());
