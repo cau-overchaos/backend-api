@@ -36,6 +36,8 @@ public class SharedSourceCodeService {
         Problem problem = problemService.findByPidAndProvider(createSharedSourceCodeRequestForm.getProblemInfoRequestDto().getPid(), createSharedSourceCodeRequestForm.getProblemInfoRequestDto().getProvider());
         ProgrammingLanguage programmingLanguage = programmingLanguageService.findById(createSharedSourceCodeRequestForm.getProgrammingLanguageId());
 
+        programmingLanguageService.throwExceptionIfStudyRoomIdAndProgrammingLanguageIdNotMatching(studyRoom.getId(), programmingLanguage.getId()); // 스터디방 사용 언어로만 코드를 작성할 수 있다.
+
         SharedSourceCode newSharedSourceCode = SharedSourceCode.builder()
                 .title(createSharedSourceCodeRequestForm.getTitle())
                 .sourceCodeText(createSharedSourceCodeRequestForm.getSourceCode())
