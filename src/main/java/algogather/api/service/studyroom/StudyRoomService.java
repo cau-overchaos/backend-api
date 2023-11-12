@@ -1,9 +1,14 @@
 package algogather.api.service.studyroom;
 
+import algogather.api.domain.programminglanguage.ProgrammingLanguage;
+import algogather.api.domain.programminglanguage.StudyRoomProgrammingLanguage;
+import algogather.api.domain.programminglanguage.StudyRoomProgrammingLanguageRepository;
 import algogather.api.domain.studyroom.*;
 import algogather.api.domain.user.UserAdapter;
+import algogather.api.dto.programminglanguage.ProgrammingLanguageListResponseDto;
 import algogather.api.dto.studyroom.*;
 import algogather.api.exception.studyroom.*;
+import algogather.api.service.programmingllanguage.ProgrammingLanguageService;
 import algogather.api.service.user.UserService;
 import lombok.RequiredArgsConstructor;
 import org.json.simple.JSONObject;
@@ -30,9 +35,11 @@ import static algogather.api.config.init.initConst.solvedAcUrl;
 @RequiredArgsConstructor
 public class StudyRoomService {
     private final UserService userService;
+    private final ProgrammingLanguageService programmingLanguageService;
 
     private final UserStudyRoomRepository userStudyRoomRepository;
     private final StudyRoomRepository studyRoomRepository;
+    private final StudyRoomProgrammingLanguageRepository studyRoomProgrammingLanguageRepository;
 
     /**
      * 스터디방의 회원인지 확인한다.
@@ -84,7 +91,19 @@ public class StudyRoomService {
         StudyRoom createdStudyRoom = studyRoomRepository.save(newStudyRoom);
         UserStudyRoom createdUserStudyRoom = userStudyRoomRepository.save(newUserStudyRoom);
 
-        return new CreatedStudyRoomResponseDto(createdStudyRoom, createdUserStudyRoom.getUser().getUserId());
+        List<ProgrammingLanguage> programmingLanguageList = new ArrayList<>();
+        for (Long programmingLanguageId : studyRoomCreateForm.getProgrammingLanguageList()) {
+            ProgrammingLanguage programmingLanguage = programmingLanguageService.findById(programmingLanguageId);
+            programmingLanguageList.add(programmingLanguage);
+
+            StudyRoomProgrammingLanguage newStudyRoomProgrammingLanguage = StudyRoomProgrammingLanguage.builder()
+                    .studyRoom(newStudyRoom)
+                    .programmingLanguage(programmingLanguage)
+                    .build();
+            studyRoomProgrammingLanguageRepository.save(newStudyRoomProgrammingLanguage);
+        }
+
+        return new CreatedStudyRoomResponseDto(createdStudyRoom, createdUserStudyRoom.getUser().getUserId(), new ProgrammingLanguageListResponseDto(programmingLanguageList));
     }
 
     public StudyRoomInfoResponseDto getStudyRoomInfo(Long studyRoomId, UserAdapter userAdapter) {
