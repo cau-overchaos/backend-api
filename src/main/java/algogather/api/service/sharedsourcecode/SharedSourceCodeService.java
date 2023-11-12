@@ -68,7 +68,7 @@ public class SharedSourceCodeService {
 
         StudyRoom studyRoom = studyRoomService.findById(studyRoomId);
 
-        List<SharedSourceCode> sharedSourceCodeList = sharedSourceCodeRepository.findByStudyRoomIdOrderByCreatedAtDesc(studyRoom.getId());
+        List<SharedSourceCode> sharedSourceCodeList = sharedSourceCodeRepository.findByStudyRoomIdOrderByIdDesc(studyRoom.getId());
 
         return new SharedSourceCodeListResponseDto(sharedSourceCodeList);
     }

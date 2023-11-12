@@ -8,7 +8,6 @@ import algogather.api.domain.user.UserAdapter;
 import algogather.api.dto.sharedsourcecode.*;
 import algogather.api.exception.sharedsourcecode.*;
 import algogather.api.service.studyroom.StudyRoomService;
-import algogather.api.service.user.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
