@@ -1,5 +1,6 @@
 package algogather.api.service.recruit;
 
+import algogather.api.domain.recruit.RecruitComment;
 import algogather.api.domain.recruit.RecruitCommentRepository;
 import algogather.api.domain.recruit.RecruitPost;
 import algogather.api.domain.recruit.RecruitPostRepository;
@@ -68,7 +69,7 @@ public class RecruitService {
     }
 
     public ExistingRecruitPostResponseDto getExistingRecruitPostResponseDto(Long recruitPostId) {
-        RecruitPost recruitPost = findById(recruitPostId);
+        RecruitPost recruitPost = findRecruitPostById(recruitPostId);
 
         return ExistingRecruitPostResponseDto.builder()
                 .title(recruitPost.getTitle())
@@ -81,7 +82,30 @@ public class RecruitService {
                 .updatedAt(recruitPost.getUpdatedAt()).build();
     }
 
-    private RecruitPost findById(Long recruitPostId) {
+    public RecruitPost findRecruitPostById(Long recruitPostId) {
         return recruitPostRepository.findById(recruitPostId).orElseThrow(RecruitPostNotFoundException::new);
     }
+
+    public CreatedRecruitCommentResponseDto saveRecruitComment(Long recruitPostId, CreateRecruitCommentRequestForm createRecruitCommentRequestForm, UserAdapter userAdapter){
+        RecruitPost recruitPost = findRecruitPostById(recruitPostId);
+
+        RecruitComment newRecruitComment = RecruitComment.builder()
+                .text(createRecruitCommentRequestForm.getComment())
+                .recruitPost(recruitPost)
+                .user(userAdapter.getUser())
+                .build();
+
+        RecruitComment savedRecruitComment = recruitCommentRepository.save(newRecruitComment);
+
+        return CreatedRecruitCommentResponseDto.builder()
+                .id(savedRecruitComment.getId())
+                .comment(savedRecruitComment.getText())
+                .writerUserId(savedRecruitComment.getUser().getUserId())
+                .writerUserName(savedRecruitComment.getUser().getName())
+                .createdAt(savedRecruitComment.getCreatedAt())
+                .updatedAt(savedRecruitComment.getUpdatedAt())
+                .recruitPostId(savedRecruitComment.getRecruitPost().getId())
+                .build();
+    }
+
 }
