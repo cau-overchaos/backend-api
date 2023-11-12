@@ -26,4 +26,12 @@ public class UserService {
                 );
         return new UserAdapter(user);
     }
+
+    public User findById(Long userId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(
+                        () -> new UserNotFoundException()
+                );
+        return user;
+    }
 }

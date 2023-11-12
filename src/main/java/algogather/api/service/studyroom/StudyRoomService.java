@@ -67,11 +67,32 @@ public class StudyRoomService {
         }
     }
 
-    public UserStudyRoom findUserStudyRoomByUserAdapterAndStudyRoomId(UserAdapter userAdapter, Long studyRoomId) {
-        User user = userAdapter.getUser();
+    public UserStudyRoom findUserStudyRoomByUserIdAndStudyRoomId(Long userId, Long studyRoomId) {
+        User user = userService.findById(userId);
         StudyRoom studyRoom = findById(studyRoomId);
 
         return userStudyRoomRepository.findByUserIdAndStudyRoomId(user.getId(), studyRoom.getId()).orElseThrow(() -> new NotStudyRoomMemberException());
+    }
+
+    public boolean isUserStudyRoomMember(Long userId, Long studyRoomId) {
+        try {
+            findUserStudyRoomByUserIdAndStudyRoomId(userId, studyRoomId);
+
+            return true;
+        }catch(NotStudyRoomMemberException e) {
+            return false;
+        }
+    }
+
+    public boolean isCurrentUserStudyRoomManager(UserAdapter userAdapter, Long studyRoomId) {
+        try {
+            throwExceptionIfNotStudyRoomManager(userAdapter, studyRoomId);
+
+            return true;
+        }catch(NotStudyRoomMemberException e) {
+
+            return false;
+        }
     }
 
     @Transactional
@@ -172,7 +193,7 @@ public class StudyRoomService {
         StudyRoom foundStudyRoom = findById(studyRoomId);
         UserAdapter foundUserAdaptor = userService.findByUserId(deleteStudyRoomMemberRequestDto.getTargetUserId());
 
-        UserStudyRoom userStudyRoom = findUserStudyRoomByUserAdapterAndStudyRoomId(foundUserAdaptor, foundStudyRoom.getId());
+        UserStudyRoom userStudyRoom = findUserStudyRoomByUserIdAndStudyRoomId(foundUserAdaptor.getUser().getId(), foundStudyRoom.getId());
 
         if(userAdapter.getUser().getUserId().equals(userStudyRoom.getUser().getUserId())) { // 자기 자신을 삭제할 수 없다.
             throw new DeleteMeFromStudyRoomException();
@@ -192,7 +213,7 @@ public class StudyRoomService {
         StudyRoom foundStudyRoom = findById(studyRoomId);
         UserAdapter foundUserAdaptor = userService.findByUserId(changeStudyRoomAuthorityRequestDto.getTargetUserId());
 
-        UserStudyRoom userStudyRoom = findUserStudyRoomByUserAdapterAndStudyRoomId(foundUserAdaptor, foundStudyRoom.getId());
+        UserStudyRoom userStudyRoom = findUserStudyRoomByUserIdAndStudyRoomId(foundUserAdaptor.getUser().getId(), foundStudyRoom.getId());
 
         if(userAdapter.getUser().getUserId().equals(userStudyRoom.getUser().getUserId())) { // 자기 자신의 권한을 변경할 수는 없다.
             throw new ChangeMyStudyRoomAuthorityException();

@@ -79,4 +79,18 @@ public class RecruitController {
         return ResponseEntity.status(HttpStatus.OK).body(ApiResponse.sucessWithDataAndMessage(createdRecruitCommentResponseDto, "스터디방 모집글에 댓글을 정상적으로 작성하였습니다."));
 
     }
+
+    @Operation(summary = "스터디방 모집글 댓글 목록 반환", description = "스터디방 모집글 댓글 목록 반환 API입니다.")
+    @ApiResponses(value = {
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "성공"),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "400", description = "실패", content = @Content(schema = @Schema(implementation = ApiResponse.class))),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "401", description = "인증 실패", content = @Content(schema = @Schema(implementation = ApiResponse.class))),
+    })
+    @GetMapping("/{recruitPostId}/recruitComments")
+    public ResponseEntity<ApiResponse<RecruitCommentListResponseDto>> saveRecruitComment(@PathVariable Long recruitPostId, @Parameter(hidden = true) @AuthenticationPrincipal UserAdapter userAdapter) {
+        RecruitCommentListResponseDto recruitCommentListResponseDto = recruitService.getRecruitCommentListResponseDto(recruitPostId, userAdapter);
+
+        return ResponseEntity.status(HttpStatus.OK).body(ApiResponse.sucessWithDataAndMessage(recruitCommentListResponseDto, "스터디방 모집글의 댓글 목록을 정상적으로 반환하였습니다."));
+
+    }
 }

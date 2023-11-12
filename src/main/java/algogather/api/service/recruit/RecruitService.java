@@ -105,6 +105,38 @@ public class RecruitService {
                 .createdAt(savedRecruitComment.getCreatedAt())
                 .updatedAt(savedRecruitComment.getUpdatedAt())
                 .recruitPostId(savedRecruitComment.getRecruitPost().getId())
+                .isAlreadyStudyMember(
+                        studyRoomService.isUserStudyRoomMember(userAdapter.getUser().getId(), recruitPost.getStudyRoom().getId())
+                )
+                .build();
+    }
+
+    public RecruitCommentListResponseDto getRecruitCommentListResponseDto(Long recruitPostId, UserAdapter userAdapter) {
+        RecruitPost recruitPost = findRecruitPostById(recruitPostId);
+
+        List<RecruitComment> recruitCommentList = recruitCommentRepository.findByRecruitPostId(recruitPostId);
+        List<RecruitCommentResponseDto> recruitCommentResponseDtoList = new ArrayList<>();
+        for (RecruitComment recruitComment : recruitCommentList) {
+
+            RecruitCommentResponseDto newRecruitCommentResponseDto = RecruitCommentResponseDto.builder()
+                    .id(recruitComment.getId())
+                    .comment(recruitComment.getText())
+                    .writerUserId(recruitComment.getUser().getUserId())
+                    .writerUserName(recruitComment.getUser().getName())
+                    .recruitPostId(recruitComment.getRecruitPost().getId())
+                    .isAlreadyStudyMember(
+                            studyRoomService.isUserStudyRoomMember(recruitComment.getUser().getId(), recruitComment.getRecruitPost().getStudyRoom().getId())
+                    )
+                    .createdAt(recruitPost.getCreatedAt())
+                    .updatedAt(recruitPost.getUpdatedAt())
+                    .build();
+
+            recruitCommentResponseDtoList.add(newRecruitCommentResponseDto);
+        }
+
+        return RecruitCommentListResponseDto.builder()
+                .isCurrentUserStudyRoomManager(studyRoomService.isCurrentUserStudyRoomManager(userAdapter, recruitPost.getStudyRoom().getId()))
+                .recruitCommentResponseDtoList(recruitCommentResponseDtoList)
                 .build();
     }
 

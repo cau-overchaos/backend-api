@@ -2,13 +2,11 @@ package algogather.api.dto.recruit;
 
 import lombok.Builder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
 @Getter
-@NoArgsConstructor
-public class CreatedRecruitCommentResponseDto {
+public class RecruitCommentResponseDto {
     private Long id;
     private String comment;
     private String writerUserId;
@@ -20,7 +18,7 @@ public class CreatedRecruitCommentResponseDto {
 
     @Builder
 
-    public CreatedRecruitCommentResponseDto(Long id, String comment, String writerUserId, String writerUserName, Long recruitPostId, LocalDateTime createdAt, LocalDateTime updatedAt, boolean isAlreadyStudyMember) {
+    public RecruitCommentResponseDto(Long id, String comment, String writerUserId, String writerUserName, Long recruitPostId, LocalDateTime createdAt, LocalDateTime updatedAt, boolean isAlreadyStudyMember) {
         this.id = id;
         this.comment = comment;
         this.writerUserId = writerUserId;
