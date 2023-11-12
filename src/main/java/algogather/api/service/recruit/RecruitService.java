@@ -27,6 +27,7 @@ public class RecruitService {
         RecruitPost recruitPost = RecruitPost.builder()
                 .title(createRecruitPostRequestForm.getTitle())
                 .text(createRecruitPostRequestForm.getText())
+                .dueDate(createRecruitPostRequestForm.getDueDate())
                 .studyRoom(studyRoom)
                 .user(userAdapter.getUser())
                 .build();
@@ -36,6 +37,7 @@ public class RecruitService {
         return CreatedRecruitPostResponseDto.builder()
                 .title(savedRecruitPost.getTitle())
                 .text(savedRecruitPost.getText())
+                .dueDate(savedRecruitPost.getDueDate())
                 .studyRoomInfoResponseDto(
                         studyRoomService.getStudyRoomInfo(savedRecruitPost.getStudyRoom().getId())
                 )

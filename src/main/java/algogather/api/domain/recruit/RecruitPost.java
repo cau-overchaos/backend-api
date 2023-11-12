@@ -10,6 +10,8 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import algogather.api.domain.user.User;
 
 import javax.persistence.*;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Getter
 @Entity
@@ -26,6 +28,9 @@ public class RecruitPost extends BaseTimeEntity {
     @Column(name = "recruit_post_text")
     private String text;
 
+    @Column(name = "recruit_post_due_date")
+    private LocalDate dueDate;
+
     @JoinColumn(name = "study_room_id")
     @ManyToOne(fetch = FetchType.LAZY)
     private StudyRoom studyRoom;
@@ -35,11 +40,11 @@ public class RecruitPost extends BaseTimeEntity {
     private User user;
 
     @Builder
-
-    public RecruitPost(Long id, String title, String text, StudyRoom studyRoom, User user) {
+    public RecruitPost(Long id, String title, String text, LocalDate dueDate, StudyRoom studyRoom, User user) {
         this.id = id;
         this.title = title;
         this.text = text;
+        this.dueDate = dueDate;
         this.studyRoom = studyRoom;
         this.user = user;
     }
