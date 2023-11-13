@@ -1,12 +1,12 @@
-package algogather.api.domain.programminglanguage;
+package algogather.api.domain.recruit;
 
 import algogather.api.domain.BaseTimeEntity;
-import algogather.api.domain.studyroom.StudyRoom;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+import algogather.api.domain.user.User;
 
 import javax.persistence.*;
 
@@ -14,23 +14,29 @@ import javax.persistence.*;
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @EntityListeners(AuditingEntityListener.class)
-public class StudyRoomProgrammingLanguage extends BaseTimeEntity {
+public class RecruitComment extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @JoinColumn(name = "study_room_id")
-    @ManyToOne(fetch = FetchType.LAZY)
-    private StudyRoom studyRoom;
+    @Column(name = "comment_text")
+    private String text;
 
-    @JoinColumn(name = "programming_language_id")
+    @JoinColumn(name = "recruit_post_id")
     @ManyToOne(fetch = FetchType.LAZY)
-    private ProgrammingLanguage programmingLanguage;
+    private RecruitPost recruitPost;
+
+    @JoinColumn(name = "user_id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    private User user;
 
     @Builder
-    public StudyRoomProgrammingLanguage(Long id, StudyRoom studyRoom, ProgrammingLanguage programmingLanguage) {
+    public RecruitComment(Long id, String text, RecruitPost recruitPost, User user) {
         this.id = id;
-        this.studyRoom = studyRoom;
-        this.programmingLanguage = programmingLanguage;
+        this.text = text;
+        this.recruitPost = recruitPost;
+        this.user = user;
     }
 }
+
+

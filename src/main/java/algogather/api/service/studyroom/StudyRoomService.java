@@ -1,9 +1,14 @@
 package algogather.api.service.studyroom;
 
+import algogather.api.domain.programminglanguage.ProgrammingLanguage;
+import algogather.api.domain.programminglanguage.StudyRoomProgrammingLanguage;
+import algogather.api.domain.programminglanguage.StudyRoomProgrammingLanguageRepository;
 import algogather.api.domain.studyroom.*;
 import algogather.api.domain.user.UserAdapter;
+import algogather.api.dto.programminglanguage.ProgrammingLanguageListResponseDto;
 import algogather.api.dto.studyroom.*;
 import algogather.api.exception.studyroom.*;
+import algogather.api.service.programmingllanguage.ProgrammingLanguageService;
 import algogather.api.service.user.UserService;
 import lombok.RequiredArgsConstructor;
 import org.json.simple.JSONObject;
@@ -30,9 +35,11 @@ import static algogather.api.config.init.initConst.solvedAcUrl;
 @RequiredArgsConstructor
 public class StudyRoomService {
     private final UserService userService;
+    private final ProgrammingLanguageService programmingLanguageService;
 
     private final UserStudyRoomRepository userStudyRoomRepository;
     private final StudyRoomRepository studyRoomRepository;
+    private final StudyRoomProgrammingLanguageRepository studyRoomProgrammingLanguageRepository;
 
     /**
      * 스터디방의 회원인지 확인한다.
@@ -60,11 +67,32 @@ public class StudyRoomService {
         }
     }
 
-    public UserStudyRoom findUserStudyRoomByUserAdapterAndStudyRoomId(UserAdapter userAdapter, Long studyRoomId) {
-        User user = userAdapter.getUser();
+    public UserStudyRoom findUserStudyRoomByUserIdAndStudyRoomId(Long userId, Long studyRoomId) {
+        User user = userService.findById(userId);
         StudyRoom studyRoom = findById(studyRoomId);
 
         return userStudyRoomRepository.findByUserIdAndStudyRoomId(user.getId(), studyRoom.getId()).orElseThrow(() -> new NotStudyRoomMemberException());
+    }
+
+    public boolean isUserStudyRoomMember(Long userId, Long studyRoomId) {
+        try {
+            findUserStudyRoomByUserIdAndStudyRoomId(userId, studyRoomId);
+
+            return true;
+        }catch(NotStudyRoomMemberException e) {
+            return false;
+        }
+    }
+
+    public boolean isCurrentUserStudyRoomManager(UserAdapter userAdapter, Long studyRoomId) {
+        try {
+            throwExceptionIfNotStudyRoomManager(userAdapter, studyRoomId);
+
+            return true;
+        }catch(NotStudyRoomMemberException e) {
+
+            return false;
+        }
     }
 
     @Transactional
@@ -84,21 +112,39 @@ public class StudyRoomService {
         StudyRoom createdStudyRoom = studyRoomRepository.save(newStudyRoom);
         UserStudyRoom createdUserStudyRoom = userStudyRoomRepository.save(newUserStudyRoom);
 
-        return new CreatedStudyRoomResponseDto(createdStudyRoom, createdUserStudyRoom.getUser().getUserId());
+        List<ProgrammingLanguage> programmingLanguageList = new ArrayList<>();
+        for (Long programmingLanguageId : studyRoomCreateForm.getProgrammingLanguageList()) {
+            ProgrammingLanguage programmingLanguage = programmingLanguageService.findById(programmingLanguageId);
+            programmingLanguageList.add(programmingLanguage);
+
+            StudyRoomProgrammingLanguage newStudyRoomProgrammingLanguage = StudyRoomProgrammingLanguage.builder()
+                    .studyRoom(newStudyRoom)
+                    .programmingLanguage(programmingLanguage)
+                    .build();
+            studyRoomProgrammingLanguageRepository.save(newStudyRoomProgrammingLanguage);
+        }
+
+        return new CreatedStudyRoomResponseDto(createdStudyRoom, createdUserStudyRoom.getUser().getUserId(), new ProgrammingLanguageListResponseDto(programmingLanguageList));
     }
 
-    public StudyRoomInfoResponseDto getStudyRoomInfo(Long studyRoomId, UserAdapter userAdapter) {
+    public StudyRoomInfoResponseDto getStudyRoomInfo(Long studyRoomId) {
         StudyRoom studyRoom = findById(studyRoomId);
 
         List<User> managers = userStudyRoomRepository.findManagerByStudyRoomId(studyRoom.getId());
         List<String> managerUserIds = managers.stream().map(manager -> manager.getUserId()).collect(Collectors.toList());
 
+        List<User> usersListByStudyRoomId = userStudyRoomRepository.findUserByStudyRoomId(studyRoom.getId());
+
+        List<ProgrammingLanguage> programmingLanguagesByStudyRoomId = studyRoomProgrammingLanguageRepository.findProgrammingLanguagesByStudyRoomId(studyRoom.getId());
+
         return StudyRoomInfoResponseDto.builder()
                 .id(studyRoom.getId())
                 .title(studyRoom.getTitle())
                 .description(studyRoom.getDescription())
+                .curUserCnt(usersListByStudyRoomId.size())
                 .maxUserCnt(studyRoom.getMaxUserCnt())
                 .managerUserIdList(managerUserIds)
+                .programmingLanguageListResponseDto(new ProgrammingLanguageListResponseDto(programmingLanguagesByStudyRoomId))
                 .build();
     }
 
@@ -147,7 +193,7 @@ public class StudyRoomService {
         StudyRoom foundStudyRoom = findById(studyRoomId);
         UserAdapter foundUserAdaptor = userService.findByUserId(deleteStudyRoomMemberRequestDto.getTargetUserId());
 
-        UserStudyRoom userStudyRoom = findUserStudyRoomByUserAdapterAndStudyRoomId(foundUserAdaptor, foundStudyRoom.getId());
+        UserStudyRoom userStudyRoom = findUserStudyRoomByUserIdAndStudyRoomId(foundUserAdaptor.getUser().getId(), foundStudyRoom.getId());
 
         if(userAdapter.getUser().getUserId().equals(userStudyRoom.getUser().getUserId())) { // 자기 자신을 삭제할 수 없다.
             throw new DeleteMeFromStudyRoomException();
@@ -160,15 +206,14 @@ public class StudyRoomService {
          userStudyRoomRepository.delete(userStudyRoom);
     }
 
-    //TODO changeStudyRoomAuthority -> changeStudyRoomMemberAuthority로 이름 바꾸기
     @Transactional
-    public boolean changeStudyRoomAuthority(UserAdapter userAdapter, Long studyRoomId, ChangeStudyRoomAuthorityRequestDto changeStudyRoomAuthorityRequestDto) {
+    public boolean changeStudyRoomMemberAuthority(UserAdapter userAdapter, Long studyRoomId, ChangeStudyRoomAuthorityRequestDto changeStudyRoomAuthorityRequestDto) {
         throwExceptionIfNotStudyRoomManager(userAdapter, studyRoomId); // 스터디룸 관리자만 스터디룸 권한을 변경할 수 있다.
 
         StudyRoom foundStudyRoom = findById(studyRoomId);
         UserAdapter foundUserAdaptor = userService.findByUserId(changeStudyRoomAuthorityRequestDto.getTargetUserId());
 
-        UserStudyRoom userStudyRoom = findUserStudyRoomByUserAdapterAndStudyRoomId(foundUserAdaptor, foundStudyRoom.getId());
+        UserStudyRoom userStudyRoom = findUserStudyRoomByUserIdAndStudyRoomId(foundUserAdaptor.getUser().getId(), foundStudyRoom.getId());
 
         if(userAdapter.getUser().getUserId().equals(userStudyRoom.getUser().getUserId())) { // 자기 자신의 권한을 변경할 수는 없다.
             throw new ChangeMyStudyRoomAuthorityException();
@@ -191,6 +236,14 @@ public class StudyRoomService {
         List<StudyRoomMemberInfoDto> studyRoomMemberInfoDtoList = getStudyRoomMemberInfoDtoList(userAdapter, userWithStudyRoomAuthorityInfoDtos);
 
         return new StudyRoomMemberListResponseDto(studyRoomMemberInfoDtoList);
+    }
+
+    public ProgrammingLanguageListResponseDto getStudyRoomProgrammingLanguageList(Long studyRoomId) {
+        StudyRoom studyRoom = findById(studyRoomId);
+
+        List<ProgrammingLanguage> programmingLanguagesByStudyRoomId = studyRoomProgrammingLanguageRepository.findProgrammingLanguagesByStudyRoomId(studyRoom.getId());
+
+        return new ProgrammingLanguageListResponseDto(programmingLanguagesByStudyRoomId);
     }
 
     private static List<StudyRoomMemberInfoDto> getStudyRoomMemberInfoDtoList(UserAdapter userAdapter, List<UserWithStudyRoomAuthorityInfoDto> userWithStudyRoomAuthorityInfoDtos) throws ParseException {
@@ -236,5 +289,11 @@ public class StudyRoomService {
                     .build());
         }
         return studyRoomMemberInfoDtoList;
+    }
+
+    public StudyRoomListResponseDto getStudyRoomListWhichIsCurrentUserIsManager(UserAdapter userAdapter) {
+        List<StudyRoom> studyRoomList = userStudyRoomRepository.findStudyRoomByUserIdAndRoleIsManager(userAdapter.getUser().getId());
+
+        return new StudyRoomListResponseDto(studyRoomList);
     }
 }

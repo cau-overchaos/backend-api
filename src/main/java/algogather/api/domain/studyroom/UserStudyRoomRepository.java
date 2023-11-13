@@ -29,4 +29,11 @@ public interface UserStudyRoomRepository extends JpaRepository<UserStudyRoom, Lo
             "WHERE usr.studyRoom.id = :studyRoomId AND usr.role = 'MANAGER'")
     List<User> findManagerByStudyRoomId(Long studyRoomId);
 
+    @Query("SELECT sr " +
+            "FROM UserStudyRoom usr " +
+            "JOIN FETCH StudyRoom sr ON usr.studyRoom.id = sr.id " +
+            "JOIN User u ON usr.user.id = u.id " +
+            "WHERE usr.role = 'MANAGER' AND u.id = :userId")
+    List<StudyRoom> findStudyRoomByUserIdAndRoleIsManager(Long userId);
+
 }
