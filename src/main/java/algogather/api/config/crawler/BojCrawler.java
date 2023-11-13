@@ -35,6 +35,7 @@ public class BojCrawler {
 
             if((solvedLocalDateTime.isEqual(assignmentStartDate) || solvedLocalDateTime.isAfter(assignmentStartDate))
             && (solvedLocalDateTime.isEqual(assignmentDueDate) || solvedLocalDateTime.isBefore(assignmentDueDate))) { // 푼날짜가 과제 시작날짜보다 같거나 이후이고, 과제 종료날짜보다 같거나 이전이면 푼것으로 판단.
+                log.info("!!!!!!{}", solvedLocalDateTime);
                 return solvedLocalDateTime;
             }
             else if(solvedLocalDateTime.isBefore(assignmentStartDate)) { // 푼 날짜가 과제 시작 날짜 이전이면 과제 기간동안 과제를 풀지 않은 것이므로 크롤링 종료
