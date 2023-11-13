@@ -17,6 +17,7 @@ import java.util.concurrent.CompletableFuture;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class CrawlingService {
     private final AssignmentSolveRepository assignmentSolveRepository;
 
@@ -27,11 +28,12 @@ public class CrawlingService {
 
             try {
                 LocalDateTime localDateTime = crawler.GetAcceptedDates(user.getJudgeAccount(), assignmentProblem.getProblem().getPid(), assignmentProblem.getStartDate(), assignmentProblem.getDueDate());
-
+                log.info("!!!!!!{}", localDateTime);
                 return CompletableFuture.completedFuture(localDateTime); // 푼 날짜가 없으면 null을 보낸다.
 
 
             } catch (IOException e) {
+                log.info("Crawling IOException", e);
                 throw new RuntimeException(e);
             }
         }
