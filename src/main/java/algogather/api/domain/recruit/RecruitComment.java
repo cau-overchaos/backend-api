@@ -19,7 +19,7 @@ public class RecruitComment extends BaseTimeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "comment_text")
+    @Column(name = "comment_text", length = 150)
     private String text;
 
     @JoinColumn(name = "recruit_post_id")
