@@ -63,11 +63,8 @@ public class CompileService {
                 throw new CompilerException(apiResponseResponseEntity.getBody().getMessage());
             }
 
-        } catch(HttpClientErrorException e) {
-            throw new CompilerException("컴파일러 서버와 통신과정에서 오류가 발생하였습니다.");
-        } catch(HttpServerErrorException e) {
-            throw new CompilerException("컴파일러 서버와 통신과정에서 오류가 발생하였습니다.");
-        } catch (UnknownHttpStatusCodeException e) {
+        } catch(HttpClientErrorException | HttpServerErrorException |
+                UnknownHttpStatusCodeException e) {
             throw new CompilerException("컴파일러 서버와 통신과정에서 오류가 발생하였습니다.");
         }
     }
