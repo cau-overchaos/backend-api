@@ -18,10 +18,10 @@ public class StudyRoom extends BaseTimeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "study_room_title")
+    @Column(name = "study_room_title", length = 50)
     private String title;
 
-    @Column(name = "study_room_description")
+    @Column(name = "study_room_description", length = 500)
     private String description;
 
     @Enumerated(EnumType.STRING)

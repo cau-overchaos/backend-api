@@ -10,8 +10,11 @@ import java.util.Set;
 @Getter
 public class StudyRoomCreateForm {
     @NotEmpty(message = "스터디방 제목을 입력해주세요.")
+    @Size(max = 50, message = "제목은 50자 이하여야합니다.")
     private String title;
 
+
+    @Size(max = 500, message = "내용은 500자 이하여야합니다")
     private String description;
 
     @NotNull(message = "스터디방 공개 여부를 올바르게 선택해주세요.")
@@ -26,7 +29,6 @@ public class StudyRoomCreateForm {
     private Integer maxUserCnt;
 
     @Builder
-
     public StudyRoomCreateForm(String title, String description, StudyRoomVisibility studyRoomVisibility, Set<Long> programmingLanguageList, Integer maxUserCnt) {
         this.title = title;
         this.description = description;

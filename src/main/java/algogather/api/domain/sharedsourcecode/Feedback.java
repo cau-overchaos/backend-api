@@ -19,7 +19,7 @@ public class Feedback extends BaseTimeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "feedback_comment")
+    @Column(name = "feedback_comment", length = 150)
     private String comment;
 
     @Column(name = "feedback_source_code_line_number")

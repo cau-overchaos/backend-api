@@ -22,10 +22,10 @@ public class SharedSourceCode extends BaseTimeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "shared_source_code_text")
+    @Column(name = "shared_source_code_text", length = 5000)
     private String sourceCodeText;
 
-    @Column(name = "shared_source_code_title")
+    @Column(name = "shared_source_code_title", length = 50)
     private String title;
 
     @JoinColumn(name = "problem_id")

@@ -22,10 +22,10 @@ public class RecruitPost extends BaseTimeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "recruit_post_title")
+    @Column(name = "recruit_post_title", length = 50)
     private String title;
 
-    @Column(name = "recruit_post_text")
+    @Column(name = "recruit_post_text", length = 500)
     private String text;
 
     @Column(name = "recruit_post_due_date")
