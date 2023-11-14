@@ -10,11 +10,11 @@
 
 # 환경
 
-JDK 17
+- JDK 17
 
-Spring Boot 2.7.16
+- Spring Boot 2.7.16
 
-Gradle 8.2.1
+- Gradle 8.2.1
 
 # 주요 API
 
@@ -71,7 +71,7 @@ clientURL: # 클라이언트 서버 주소
 compilerURL: # 컴파일러 서버 주소
 ```
 
-1. src/main/resources/application.yml을 다음과 같이 변경합니다.
+2. src/main/resources/application.yml을 다음과 같이 변경합니다.
 
 ```jsx
 spring:
@@ -80,7 +80,7 @@ spring:
       - prod
 ```
 
-1. 다음 명령어를 사용하여 build합니다.
+3. 다음 명령어를 사용하여 build합니다.
 
 ```jsx
 gradle build --debug
