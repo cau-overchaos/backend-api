@@ -8,7 +8,6 @@ import algogather.api.domain.user.UserAdapter;
 import algogather.api.dto.sharedsourcecode.*;
 import algogather.api.exception.sharedsourcecode.*;
 import algogather.api.service.studyroom.StudyRoomService;
-import algogather.api.service.user.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -23,7 +22,6 @@ import java.util.Objects;
 public class FeedbackService {
     private final StudyRoomService studyRoomService;
     private final SharedSourceCodeService sharedSourceCodeService;
-    private final UserService userService;
 
     private final FeedbackRepository feedbackRepository;
 
