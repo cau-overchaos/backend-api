@@ -10,10 +10,10 @@ import java.util.stream.Collectors;
 @Getter
 public class ProgrammingLanguageListResponseDto {
 
-    private List<ProgrammingLanguageDto> problemResponseDtoList;
+    private List<ProgrammingLanguageDto> programmingLanguageResponseDtoList;
 
     public ProgrammingLanguageListResponseDto(List<ProgrammingLanguage> programmingLanguageList) {
-        this.problemResponseDtoList = programmingLanguageList.stream()
+        this.programmingLanguageResponseDtoList = programmingLanguageList.stream()
                 .map(programmingLanguage -> new ProgrammingLanguageDto(programmingLanguage)).collect(Collectors.toList());
     }
 
