@@ -38,5 +38,5 @@ server:
         enabled: true
 
 
-clientURL: http://localhost:3000
-compilerURL: #컴파일러 서버 주소 입력
+clientURL: http://localhost:3000 # 클라이언트 서버 주소 입력
+compilerURL: # 컴파일러 서버 주소 입력
