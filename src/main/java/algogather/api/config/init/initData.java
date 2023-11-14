@@ -22,7 +22,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
 
-import static algogather.api.config.init.initConst.solvedAcUrl;
+import static algogather.api.config.init.initConst.SOLVED_AC_URL;
 import static algogather.api.domain.problem.ProblemProvider.*;
 
 @Profile("dev")
@@ -106,8 +106,8 @@ public class initData {
     }
 
     private static ResponseEntity<String> getTagListResponseEntity() {
-        URI uri = UriComponentsBuilder.fromHttpUrl(solvedAcUrl)
-                .path("api/v3/tag/list")
+        URI uri = UriComponentsBuilder.fromHttpUrl(SOLVED_AC_URL)
+                .path("/api/v3/tag/list")
                 .encode()
                 .build()
                 .toUri();
@@ -232,8 +232,8 @@ public class initData {
     }
 
     private static ResponseEntity<String> getProblemListResponseEntity(RestTemplate restTemplate, int page) {
-        URI uri = UriComponentsBuilder.fromHttpUrl(solvedAcUrl)
-                .path("api/v3/search/problem")
+        URI uri = UriComponentsBuilder.fromHttpUrl(SOLVED_AC_URL)
+                .path("/api/v3/search/problem")
                 .queryParam("query", "")
                 .queryParam("sort", "id")
                 .queryParam("page", page)

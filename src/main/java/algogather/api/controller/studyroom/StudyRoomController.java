@@ -1,12 +1,14 @@
 package algogather.api.controller.studyroom;
 
-import algogather.api.domain.studyroom.StudyRoom;
-import algogather.api.domain.studyroom.StudyRoomRole;
+
 import algogather.api.domain.user.UserAdapter;
 import algogather.api.dto.api.ApiResponse;
+import algogather.api.dto.compile.CompileResultResponseDto;
+import algogather.api.dto.compile.CompileSourceCodeRequestForm;
 import algogather.api.dto.programminglanguage.ProgrammingLanguageListResponseDto;
 import algogather.api.dto.studyroom.*;
 import algogather.api.service.studyroom.AssignmentService;
+import algogather.api.service.studyroom.CompileService;
 import algogather.api.service.studyroom.StudyRoomService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -22,7 +24,6 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -32,6 +33,7 @@ public class StudyRoomController {
 
     private final StudyRoomService studyRoomService;
     private final AssignmentService assignmentService;
+    private final CompileService compileService;
 
     @Operation(summary = "모든 스터디방 목록", description = "모든 스터디방 목록 불러오기 API입니다.")
     @ApiResponses(value = {
@@ -219,7 +221,6 @@ public class StudyRoomController {
         studyRoomService.throwExceptionIfNotStudyRoomManager(userAdapter, studyRoomId);
         return ResponseEntity.status(HttpStatus.OK).body(ApiResponse.sucess("현재 사용자는 스터디방 관리자 입니다."));
     }
-
     @Operation(summary = "스터디방 사용 언어 조회 API", description = "스터디방 사용 언어 조회 API입니다.")
     @ApiResponses(value = {
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "성공"),
@@ -232,5 +233,19 @@ public class StudyRoomController {
         ProgrammingLanguageListResponseDto studyRoomProgrammingLanguageList = studyRoomService.getStudyRoomProgrammingLanguageList(studyRoomId);
 
         return ResponseEntity.status(HttpStatus.OK).body(ApiResponse.sucessWithDataAndMessage(studyRoomProgrammingLanguageList, "스터디방의 사용 언어 목록을 성공적으로 조회했습니다."));
+    }
+
+    @Operation(summary = "스터디방 컴파일 API", description = "스터디방 컴파일 API입니다.")
+    @ApiResponses(value = {
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "성공"),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "400", description = "실패", content = @Content(schema = @Schema(implementation = ApiResponse.class))),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "401", description = "인증 실패", content = @Content(schema = @Schema(implementation = ApiResponse.class))),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "403", description = "접근 실패", content = @Content(schema = @Schema(implementation = ApiResponse.class)))
+    })
+    @PostMapping("/{studyRoomId}/compile")
+    public ResponseEntity<ApiResponse<CompileResultResponseDto>> compileSourceCode(@PathVariable Long studyRoomId, @Valid @RequestBody CompileSourceCodeRequestForm compileSourceCodeRequestForm, @Parameter(hidden = true) @AuthenticationPrincipal UserAdapter userAdapter) {
+        CompileResultResponseDto compileResultResponseDto = compileService.compileSourceCode(studyRoomId, compileSourceCodeRequestForm, userAdapter);
+
+        return ResponseEntity.status(HttpStatus.OK).body(ApiResponse.sucessWithDataAndMessage(compileResultResponseDto, "성공적으로 컴파일 결과를 불러왔습니다."));
     }
 }

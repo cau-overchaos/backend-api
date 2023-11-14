@@ -29,7 +29,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import static algogather.api.config.init.initConst.solvedAcUrl;
+import static algogather.api.config.init.initConst.SOLVED_AC_URL;
 
 @Service
 @RequiredArgsConstructor
@@ -250,7 +250,7 @@ public class StudyRoomService {
         List<StudyRoomMemberInfoDto> studyRoomMemberInfoDtoList = new ArrayList<>();
 
         for (UserWithStudyRoomAuthorityInfoDto userWithStudyRoomAuthorityInfoDto : userWithStudyRoomAuthorityInfoDtos) {
-            URI uri = UriComponentsBuilder.fromHttpUrl(solvedAcUrl)
+            URI uri = UriComponentsBuilder.fromHttpUrl(SOLVED_AC_URL)
                     .path("/api/v3/user/show")
                     .queryParam("handle", userWithStudyRoomAuthorityInfoDto.getJudgeAccount())
                     .encode()
