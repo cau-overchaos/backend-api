@@ -10,19 +10,19 @@ import java.util.stream.Collectors;
 @Getter
 public class ProgrammingLanguageListResponseDto {
 
-    private List<ProgrammingLanguageDto> problemResponseDtoList;
+    private List<ProgrammingLanguageResponseDto> programmingLanguageResponseDtoList;
 
     public ProgrammingLanguageListResponseDto(List<ProgrammingLanguage> programmingLanguageList) {
-        this.problemResponseDtoList = programmingLanguageList.stream()
-                .map(programmingLanguage -> new ProgrammingLanguageDto(programmingLanguage)).collect(Collectors.toList());
+        this.programmingLanguageResponseDtoList = programmingLanguageList.stream()
+                .map(programmingLanguage -> new ProgrammingLanguageResponseDto(programmingLanguage)).collect(Collectors.toList());
     }
 
     @Getter
-    static class ProgrammingLanguageDto {
+    static class ProgrammingLanguageResponseDto {
         private Long id;
         private String name;
 
-        public ProgrammingLanguageDto(ProgrammingLanguage programmingLanguage) {
+        public ProgrammingLanguageResponseDto(ProgrammingLanguage programmingLanguage) {
             this.id = programmingLanguage.getId();
             this.name = programmingLanguage.getName();
         }

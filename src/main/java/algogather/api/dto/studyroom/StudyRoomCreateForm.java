@@ -20,7 +20,7 @@ public class StudyRoomCreateForm {
     @NotNull(message = "스터디방 공개 여부를 올바르게 선택해주세요.")
     private StudyRoomVisibility studyRoomVisibility;
 
-    @NotNull(message = "프로그래밍 언어를 선택해주세요.")
+    @NotEmpty(message = "프로그래밍 언어를 선택해주세요.")
     private Set<Long> programmingLanguageList;
 
     @NotNull(message = "유저 수를 입력해주세요.")
