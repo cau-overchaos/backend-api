@@ -108,6 +108,11 @@ public class SharedSourceCodeService {
         return sharedSourceCode;
     }
 
+    public SharedSourceCode findById(Long sourceCodeId) {
+
+        return sharedSourceCodeRepository.findById(sourceCodeId).orElseThrow(SharedSourceCodeNotFoundException::new);
+    }
+
     private void validateSharedSourceMatchingWithStudyRoom(SharedSourceCode sharedSourceCode, StudyRoom studyRoom) {
         sharedSourceCodeRepository.findByIdAndStudyRoomId(sharedSourceCode.getId(), studyRoom.getId()).orElseThrow(SharedSourceCodeAndStudyRoomNotMatchingException::new);
     }
