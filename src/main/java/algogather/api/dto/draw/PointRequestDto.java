@@ -8,16 +8,16 @@ import javax.validation.constraints.NotNull;
 @Getter
 @Setter
 public class PointRequestDto {
-    public enum IsDelete {
-        YES, NO
-    }
-
     @NotNull
-    private IsDelete isDelete;
+    private boolean isDelete;
     @NotNull
-    private Long x;
+    private Long startX;
     @NotNull
-    private Long y;
+    private Long startY;
+    @NotNull
+    private Long endX;
+    @NotNull
+    private Long endY;
     @NotNull
     private String color;
 }

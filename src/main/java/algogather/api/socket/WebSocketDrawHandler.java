@@ -70,7 +70,7 @@ public class WebSocketDrawHandler extends TextWebSocketHandler {
             messageRequestDto.setMessageText(principal.getUsername() + " 님이 나가셨습니다.");
         }
         else {
-            messageRequestDto.setMessageText(principal.getUsername() + " 좌표를 전송하였습니다");
+            messageRequestDto.setMessageText(principal.getUsername() + " 님이 좌표를 전송하였습니다");
         }
 
         if(sharedSourceCodeSession.size()>=3) {
