@@ -2,7 +2,7 @@ package algogather.api.config;
 
 public class FilterPath {
     public static final String[] deploymentWhiteListPOST = {"/signup", "/login", "/logout"};
-    public static final String[] deploymentWhiteListGET = {"/studyrooms", "/problems", "/recruits"};
+    public static final String[] deploymentWhiteListGET = {"/studyrooms", "/problems", "/recruits", "/ws/draw"};
     public static final String[] developmentWhiteList = {"/h2-console/**"};
 
     /**
