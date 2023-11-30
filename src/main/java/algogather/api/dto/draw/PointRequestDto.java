@@ -9,6 +9,8 @@ import javax.validation.constraints.NotNull;
 @Setter
 public class PointRequestDto {
     @NotNull
+    private boolean isDeleteAll;
+    @NotNull
     private boolean isDelete;
     @NotNull
     private Long startX;
