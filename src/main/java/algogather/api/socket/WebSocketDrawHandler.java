@@ -77,7 +77,7 @@ public class WebSocketDrawHandler extends TextWebSocketHandler {
             removeClosedSession(sharedSourceCodeSession);
         }
 
-        sendMessageToChatRoom(messageRequestDto, sharedSourceCodeSession);
+        sendMessageToChatRoom(messageRequestDto, sharedSourceCodeSession, session);
     }
 
     @Override
@@ -95,8 +95,10 @@ public class WebSocketDrawHandler extends TextWebSocketHandler {
         chatRoomSession.removeIf(sess -> !sessions.contains(sess));
     }
 
-    private void sendMessageToChatRoom(MessageRequestDto chatMessageRequestDto, Set<WebSocketSession> chatRoomSession) {
-        chatRoomSession.parallelStream().forEach(sess -> sendMessage(sess, chatMessageRequestDto));
+    private void sendMessageToChatRoom(MessageRequestDto chatMessageRequestDto, Set<WebSocketSession> chatRoomSession, WebSocketSession mySession) {
+        chatRoomSession.parallelStream()
+                .filter(sess -> { return sess.getId() != mySession.getId(); })
+                .forEach(sess -> sendMessage(sess, chatMessageRequestDto));
     }
 
     public <T> void sendMessage(WebSocketSession session, T message) {
