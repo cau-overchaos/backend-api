@@ -13,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
@@ -45,6 +46,10 @@ public class NotificationService {
 
     public NotificationDto readNotification(NotificationReadRequestDto notificationReadRequestDto, UserAdapter userAdapter) {
         Notification notification = findById(notificationReadRequestDto.getNotificationId());
+
+        if(!Objects.equals(userAdapter.getUser().getId(), notification.getUser().getId())) { // 해당 알림의 주인만 알림을 읽을 수 있음
+
+        }
 
         notification.changeIsNewToFalse();
 

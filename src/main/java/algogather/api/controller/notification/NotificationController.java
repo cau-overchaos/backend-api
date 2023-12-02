@@ -2,6 +2,7 @@ package algogather.api.controller.notification;
 
 import algogather.api.domain.user.UserAdapter;
 import algogather.api.dto.api.ApiResponse;
+import algogather.api.dto.notification.NotificationDto;
 import algogather.api.dto.notification.NotificationListResponseDto;
 import algogather.api.dto.notification.NotificationReadRequestDto;
 import algogather.api.dto.programminglanguage.ProgrammingLanguageListResponseDto;
@@ -55,16 +56,16 @@ public class NotificationController {
         return ResponseEntity.status(HttpStatus.OK).body(ApiResponse.sucessWithDataAndMessage(existsNew, "새 알림 존재 여부를 정상적으로 조회했습니다."));
     }
 
-//    @Operation(summary = "알림 읽기 API", description = "알림 읽기 API입니다.")
-//    @ApiResponses(value = {
-//            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "성공"),
-//            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "400", description = "실패", content = @Content(schema = @Schema(implementation = ApiResponse.class))),
-//            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "401", description = "인증 실패", content = @Content(schema = @Schema(implementation = ApiResponse.class)))
-//    })
-//    @PostMapping("/read")
-//    public ResponseEntity<ApiResponse<Boolean>> readNotification(@Valid @RequestBody NotificationReadRequestDto notificationReadRequestDto, @Parameter(hidden = true) @AuthenticationPrincipal UserAdapter userAdapter) {
-//
-//
-//        return ResponseEntity.status(HttpStatus.OK).body(ApiResponse.sucessWithDataAndMessage(, "새 알림 존재 여부를 정상적으로 조회했습니다."));
-//    }
+    @Operation(summary = "알림 읽기 API", description = "알림 읽기 API입니다.")
+    @ApiResponses(value = {
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "성공"),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "400", description = "실패", content = @Content(schema = @Schema(implementation = ApiResponse.class))),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "401", description = "인증 실패", content = @Content(schema = @Schema(implementation = ApiResponse.class)))
+    })
+    @PostMapping("/read")
+    public ResponseEntity<ApiResponse<NotificationDto>> readNotification(@Valid @RequestBody NotificationReadRequestDto notificationReadRequestDto, @Parameter(hidden = true) @AuthenticationPrincipal UserAdapter userAdapter) {
+        NotificationDto notificationDto = notificationService.readNotification(notificationReadRequestDto, userAdapter);
+
+        return ResponseEntity.status(HttpStatus.OK).body(ApiResponse.sucessWithDataAndMessage(notificationDto, "알림을 정상적으로 읽었습니다."));
+    }
 }
