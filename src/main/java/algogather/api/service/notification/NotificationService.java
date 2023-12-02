@@ -5,9 +5,12 @@ import algogather.api.domain.notification.NotificationRepository;
 import algogather.api.domain.user.User;
 import algogather.api.domain.user.UserAdapter;
 import algogather.api.domain.user.UserRepository;
+import algogather.api.dto.notification.NotificationListResponseDto;
 import algogather.api.service.user.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -27,5 +30,12 @@ public class NotificationService {
         Notification savedNotification = notificationRepository.save(newNotification);
 
         return savedNotification;
+    }
+
+    public NotificationListResponseDto getNotificationListResponseDto(UserAdapter userAdapter) {
+
+        List<Notification> notificationList = notificationRepository.findByUserId(userAdapter.getUser().getId());
+
+        return new NotificationListResponseDto(notificationList);
     }
 }
