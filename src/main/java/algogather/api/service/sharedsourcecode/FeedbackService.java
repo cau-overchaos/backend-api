@@ -7,6 +7,7 @@ import algogather.api.domain.studyroom.StudyRoom;
 import algogather.api.domain.user.UserAdapter;
 import algogather.api.dto.sharedsourcecode.*;
 import algogather.api.exception.sharedsourcecode.*;
+import algogather.api.service.notification.NotificationService;
 import algogather.api.service.studyroom.StudyRoomService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -22,6 +23,7 @@ import java.util.Objects;
 public class FeedbackService {
     private final StudyRoomService studyRoomService;
     private final SharedSourceCodeService sharedSourceCodeService;
+    private final NotificationService notificationService;
 
     private final FeedbackRepository feedbackRepository;
 
@@ -52,6 +54,11 @@ public class FeedbackService {
                 .build();
 
         Feedback savedFeedback = feedbackRepository.save(newFeedback);
+
+        if(newFeedback.getUser().getId() != sharedSourceCode.getUser().getId()) { // 다른 사람이 피드백을 달았을 때만 알림이 온다.
+            String content =  "\"" + newFeedback.getUser().getName() + "\" 님이 \"" + sharedSourceCode.getTitle() + "\" 풀이에 피드백을 달았습니다.";
+            notificationService.addNotification(content, sharedSourceCode.getUser());
+        }
 
         return CreatedFeedbackResponseDto.builder()
                 .feedbackId(savedFeedback.getId())
