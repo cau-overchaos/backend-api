@@ -39,4 +39,18 @@ public class NotificationController {
 
         return ResponseEntity.status(HttpStatus.OK).body(ApiResponse.sucessWithDataAndMessage(notificationListResponseDto, "현재 유저의 알림 목록을 정상적으로 조회했습니다."));
     }
+
+    @Operation(summary = "새 알림 확인 API", description = "새 알림 확인 API입니다.")
+    @ApiResponses(value = {
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "성공"),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "400", description = "실패", content = @Content(schema = @Schema(implementation = ApiResponse.class))),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "401", description = "인증 실패", content = @Content(schema = @Schema(implementation = ApiResponse.class)))
+    })
+    @GetMapping("/exist-new")
+    public ResponseEntity<ApiResponse<Boolean>> existsNewNotification(@Parameter(hidden = true) @AuthenticationPrincipal UserAdapter userAdapter) {
+
+        Boolean existsNew = notificationService.existsNewNotification(userAdapter);
+
+        return ResponseEntity.status(HttpStatus.OK).body(ApiResponse.sucessWithDataAndMessage(existsNew, "새 알림 존재 여부를 정상적으로 조회했습니다."));
+    }
 }

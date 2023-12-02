@@ -35,4 +35,8 @@ public class NotificationService {
 
         return new NotificationListResponseDto(notificationList);
     }
+
+    public Boolean existsNewNotification(UserAdapter userAdapter) {
+        return notificationRepository.existsByUserIdAndIsNewIsTrue(userAdapter.getUser().getId());
+    }
 }
