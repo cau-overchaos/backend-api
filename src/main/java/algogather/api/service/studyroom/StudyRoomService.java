@@ -8,6 +8,7 @@ import algogather.api.domain.user.UserAdapter;
 import algogather.api.dto.programminglanguage.ProgrammingLanguageListResponseDto;
 import algogather.api.dto.studyroom.*;
 import algogather.api.exception.studyroom.*;
+import algogather.api.service.notification.NotificationService;
 import algogather.api.service.programmingllanguage.ProgrammingLanguageService;
 import algogather.api.service.user.UserService;
 import lombok.RequiredArgsConstructor;
@@ -36,6 +37,7 @@ import static algogather.api.config.init.initConst.SOLVED_AC_URL;
 public class StudyRoomService {
     private final UserService userService;
     private final ProgrammingLanguageService programmingLanguageService;
+    private final NotificationService notificationService;
 
     private final UserStudyRoomRepository userStudyRoomRepository;
     private final StudyRoomRepository studyRoomRepository;
@@ -183,7 +185,8 @@ public class StudyRoomService {
 
         UserStudyRoom savedUserStudyRoom = userStudyRoomRepository.save(newUserStudyRoom);
 
-        //TODO Notificaiton Service 추가
+        String notificationContent = "\"" + foundStudyRoom.getTitle() + "\"" + " 스터디룸에 초대되었습니다.";
+        notificationService.addNotification(notificationContent, foundUserAdaptor);
 
         return new AddStudyRoomMemberResponseDto(savedUserStudyRoom.getStudyRoom().getId(), savedUserStudyRoom.getUser().getUserId());
     }
