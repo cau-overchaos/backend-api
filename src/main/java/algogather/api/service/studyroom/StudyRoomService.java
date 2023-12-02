@@ -186,7 +186,7 @@ public class StudyRoomService {
         UserStudyRoom savedUserStudyRoom = userStudyRoomRepository.save(newUserStudyRoom);
 
         String notificationContent = "\"" + foundStudyRoom.getTitle() + "\"" + " 스터디룸에 초대되었습니다.";
-        notificationService.addNotification(notificationContent, foundUserAdaptor);
+        notificationService.addNotification(notificationContent, foundUserAdaptor.getUser());
 
         return new AddStudyRoomMemberResponseDto(savedUserStudyRoom.getStudyRoom().getId(), savedUserStudyRoom.getUser().getUserId());
     }
