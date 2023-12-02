@@ -13,6 +13,7 @@ import algogather.api.service.user.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Objects;
 
@@ -45,6 +46,7 @@ public class NotificationService {
         return notificationRepository.existsByUserIdAndIsNewIsTrue(userAdapter.getUser().getId());
     }
 
+    @Transactional
     public NotificationDto readNotification(NotificationReadRequestDto notificationReadRequestDto, UserAdapter userAdapter) {
         Notification notification = findById(notificationReadRequestDto.getNotificationId());
 
