@@ -183,6 +183,8 @@ public class StudyRoomService {
 
         UserStudyRoom savedUserStudyRoom = userStudyRoomRepository.save(newUserStudyRoom);
 
+        //TODO Notificaiton Service 추가
+
         return new AddStudyRoomMemberResponseDto(savedUserStudyRoom.getStudyRoom().getId(), savedUserStudyRoom.getUser().getUserId());
     }
 

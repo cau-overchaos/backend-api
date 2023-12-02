@@ -2,6 +2,7 @@ package algogather.api.domain.notification;
 
 import algogather.api.domain.BaseTimeEntity;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -27,6 +28,13 @@ public class Notification extends BaseTimeEntity {
 
     @JoinColumn(name = "user_id")
     @ManyToOne(fetch = FetchType.LAZY)
-    private User user
-            ;
+    private User user;
+
+    @Builder
+    public Notification(Long id, String content, Boolean isNew, User user) {
+        this.id = id;
+        this.content = content;
+        this.isNew = isNew;
+        this.user = user;
+    }
 }
