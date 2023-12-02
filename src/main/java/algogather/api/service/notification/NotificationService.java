@@ -7,6 +7,7 @@ import algogather.api.domain.user.UserAdapter;
 import algogather.api.dto.notification.NotificationDto;
 import algogather.api.dto.notification.NotificationListResponseDto;
 import algogather.api.dto.notification.NotificationReadRequestDto;
+import algogather.api.exception.notification.NotNotificationReaderException;
 import algogather.api.exception.notification.NotificationNotFoundException;
 import algogather.api.service.user.UserService;
 import lombok.RequiredArgsConstructor;
@@ -48,7 +49,7 @@ public class NotificationService {
         Notification notification = findById(notificationReadRequestDto.getNotificationId());
 
         if(!Objects.equals(userAdapter.getUser().getId(), notification.getUser().getId())) { // 해당 알림의 주인만 알림을 읽을 수 있음
-
+            throw new NotNotificationReaderException();
         }
 
         notification.changeIsNewToFalse();
