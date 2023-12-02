@@ -4,7 +4,10 @@ import algogather.api.domain.notification.Notification;
 import algogather.api.domain.notification.NotificationRepository;
 import algogather.api.domain.user.User;
 import algogather.api.domain.user.UserAdapter;
+import algogather.api.dto.notification.NotificationDto;
 import algogather.api.dto.notification.NotificationListResponseDto;
+import algogather.api.dto.notification.NotificationReadRequestDto;
+import algogather.api.exception.notification.NotificationNotFoundException;
 import algogather.api.service.user.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -38,5 +41,20 @@ public class NotificationService {
 
     public Boolean existsNewNotification(UserAdapter userAdapter) {
         return notificationRepository.existsByUserIdAndIsNewIsTrue(userAdapter.getUser().getId());
+    }
+
+    public NotificationDto readNotification(NotificationReadRequestDto notificationReadRequestDto, UserAdapter userAdapter) {
+        Notification notification = findById(notificationReadRequestDto.getNotificationId());
+
+        notification.changeIsNewToFalse();
+
+        return NotificationDto
+                .builder()
+                .notification(notification)
+                .build();
+    }
+
+    public Notification findById(Long notificationId) {
+        return notificationRepository.findById(notificationId).orElseThrow(NotificationNotFoundException::new);
     }
 }

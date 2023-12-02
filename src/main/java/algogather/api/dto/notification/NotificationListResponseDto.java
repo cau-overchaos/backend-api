@@ -17,19 +17,4 @@ public class NotificationListResponseDto {
                 .map(NotificationDto::new)
                 .collect(Collectors.toList());
     }
-
-    @Getter
-    static class NotificationDto {
-        private Long id;
-        private String content;
-        private Boolean isNew;
-        private LocalDateTime createdAt;
-
-        public NotificationDto(Notification notification) {
-            this.id = notification.getId();
-            this.content = notification.getContent();
-            this.isNew = notification.getIsNew();
-            this.createdAt = notification.getCreatedAt();
-        }
-    }
 }

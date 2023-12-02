@@ -30,6 +30,10 @@ public class Notification extends BaseTimeEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     private User user;
 
+    public void changeIsNewToFalse() {
+        this.isNew = false;
+    }
+
     @Builder
     public Notification(Long id, String content, Boolean isNew, User user) {
         this.id = id;
