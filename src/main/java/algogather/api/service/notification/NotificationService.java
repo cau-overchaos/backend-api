@@ -37,7 +37,7 @@ public class NotificationService {
 
     public NotificationListResponseDto getNotificationListResponseDto(UserAdapter userAdapter) {
 
-        List<Notification> notificationList = notificationRepository.findByUserIdOrderByIdDescAndIsNewIsTrue(userAdapter.getUser().getId()); // 새로운 알림 목록만 전송
+        List<Notification> notificationList = notificationRepository.findByUserIdAndIsNewIsTrueOrderByIdDesc(userAdapter.getUser().getId()); // 새로운 알림 목록만 전송
 
         return new NotificationListResponseDto(notificationList);
     }
@@ -48,7 +48,7 @@ public class NotificationService {
 
     @Transactional
     public NotificationListResponseDto readNotification(UserAdapter userAdapter) {
-        List<Notification> notificationList = notificationRepository.findByUserIdOrderByIdDescAndIsNewIsTrue(userAdapter.getUser().getId());
+        List<Notification> notificationList = notificationRepository.findByUserIdAndIsNewIsTrueOrderByIdDesc(userAdapter.getUser().getId());
 
         for (Notification notification : notificationList) {
             notification.changeIsNewToFalse();
