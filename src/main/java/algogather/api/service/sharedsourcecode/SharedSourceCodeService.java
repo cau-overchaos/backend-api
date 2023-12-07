@@ -85,6 +85,7 @@ public class SharedSourceCodeService {
         return SharedSourceCodeResponseDto.builder()
                 .sharedSourceCodeId(sharedSourceCode.getId())
                 .sharedSourceCodeTitle(sharedSourceCode.getTitle())
+                .pid(sharedSourceCode.getProblem().getPid())
                 .problemDifficultyLevel(sharedSourceCode.getProblem().getDifficulty().getLevel())
                 .problemTitle(sharedSourceCode.getProblem().getTitle())
                 .writerUserId(sharedSourceCode.getUser().getUserId())
