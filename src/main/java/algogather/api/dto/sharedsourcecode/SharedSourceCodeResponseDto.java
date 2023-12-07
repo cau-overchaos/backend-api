@@ -10,6 +10,7 @@ public class SharedSourceCodeResponseDto {
     private Long sharedSourceCodeId;
     private String sharedSourceCodeTitle;
     private Long problemDifficultyLevel;
+    private Long pid;
     private String problemTitle;
     private String writerUserId;
     private String writerName;
@@ -20,9 +21,10 @@ public class SharedSourceCodeResponseDto {
 
 
     @Builder
-    public SharedSourceCodeResponseDto(Long sharedSourceCodeId, String sharedSourceCodeTitle, Long problemDifficultyLevel, String problemTitle, String writerUserId, String writerName, Long programmingLanguageId, String programmingLanguageName, String sourceCodeText, LocalDateTime createdAt) {
+    public SharedSourceCodeResponseDto(Long sharedSourceCodeId, String sharedSourceCodeTitle, Long pid, Long problemDifficultyLevel, String problemTitle, String writerUserId, String writerName, Long programmingLanguageId, String programmingLanguageName, String sourceCodeText, LocalDateTime createdAt) {
         this.sharedSourceCodeId = sharedSourceCodeId;
         this.sharedSourceCodeTitle = sharedSourceCodeTitle;
+        this.pid = pid;
         this.problemDifficultyLevel = problemDifficultyLevel;
         this.problemTitle = problemTitle;
         this.writerUserId = writerUserId;
