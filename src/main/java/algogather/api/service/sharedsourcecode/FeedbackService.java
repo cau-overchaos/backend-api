@@ -55,7 +55,7 @@ public class FeedbackService {
 
         Feedback savedFeedback = feedbackRepository.save(newFeedback);
 
-        if(newFeedback.getUser().getId() != sharedSourceCode.getUser().getId()) { // 다른 사람이 피드백을 달았을 때만 알림이 온다.
+        if(!Objects.equals(newFeedback.getUser().getId(), sharedSourceCode.getUser().getId())) { // 다른 사람이 피드백을 달았을 때만 알림이 온다.
             String content =  "\"" + newFeedback.getUser().getName() + "\" 님이 \"" + sharedSourceCode.getTitle() + "\" 풀이에 피드백을 달았습니다.";
             notificationService.addNotification(content, sharedSourceCode.getUser());
         }
