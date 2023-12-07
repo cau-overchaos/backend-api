@@ -37,7 +37,7 @@ public class NotificationService {
 
     public NotificationListResponseDto getNotificationListResponseDto(UserAdapter userAdapter) {
 
-        List<Notification> notificationList = notificationRepository.findByUserIdOrderByIdDesc(userAdapter.getUser().getId());
+        List<Notification> notificationList = notificationRepository.findByUserIdAndIsNewIsTrueOrderByIdDesc(userAdapter.getUser().getId()); // 새로운 알림 목록만 전송
 
         return new NotificationListResponseDto(notificationList);
     }
@@ -47,22 +47,14 @@ public class NotificationService {
     }
 
     @Transactional
-    public NotificationDto readNotification(NotificationReadRequestDto notificationReadRequestDto, UserAdapter userAdapter) {
-        Notification notification = findById(notificationReadRequestDto.getNotificationId());
+    public NotificationListResponseDto readNotification(UserAdapter userAdapter) {
+        List<Notification> notificationList = notificationRepository.findByUserIdAndIsNewIsTrueOrderByIdDesc(userAdapter.getUser().getId());
 
-        if(!Objects.equals(userAdapter.getUser().getId(), notification.getUser().getId())) { // 해당 알림의 주인만 알림을 읽을 수 있음
-            throw new NotNotificationReaderException();
+        for (Notification notification : notificationList) {
+            notification.changeIsNewToFalse();
         }
 
-        notification.changeIsNewToFalse();
 
-        return NotificationDto
-                .builder()
-                .notification(notification)
-                .build();
-    }
-
-    public Notification findById(Long notificationId) {
-        return notificationRepository.findById(notificationId).orElseThrow(NotificationNotFoundException::new);
+        return new NotificationListResponseDto(notificationList);
     }
 }
