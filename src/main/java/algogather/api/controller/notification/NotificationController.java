@@ -63,7 +63,7 @@ public class NotificationController {
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "401", description = "인증 실패", content = @Content(schema = @Schema(implementation = ApiResponse.class)))
     })
     @PostMapping("/read")
-    public ResponseEntity<ApiResponse<NotificationListResponseDto>> readNotification(@Valid @RequestBody NotificationReadRequestDto notificationReadRequestDto, @Parameter(hidden = true) @AuthenticationPrincipal UserAdapter userAdapter) {
+    public ResponseEntity<ApiResponse<NotificationListResponseDto>> readNotification(@Parameter(hidden = true) @AuthenticationPrincipal UserAdapter userAdapter) {
         NotificationListResponseDto notificationListResponseDto = notificationService.readNotification(userAdapter);
 
         return ResponseEntity.status(HttpStatus.OK).body(ApiResponse.sucessWithDataAndMessage(notificationListResponseDto, "새로운 알림들을 정상적으로 읽었습니다."));
