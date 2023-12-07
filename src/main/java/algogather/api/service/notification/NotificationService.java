@@ -37,7 +37,7 @@ public class NotificationService {
 
     public NotificationListResponseDto getNotificationListResponseDto(UserAdapter userAdapter) {
 
-        List<Notification> notificationList = notificationRepository.findByUserIdOrderByIdDesc(userAdapter.getUser().getId());
+        List<Notification> notificationList = notificationRepository.findByUserIdOrderByIdDescAndIsNewIsTrue(userAdapter.getUser().getId()); // 새로운 알림 목록만 전송
 
         return new NotificationListResponseDto(notificationList);
     }
