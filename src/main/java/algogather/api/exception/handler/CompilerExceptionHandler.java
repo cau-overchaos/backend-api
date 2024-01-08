@@ -16,7 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 @Slf4j
 @RestControllerAdvice
 public class CompilerExceptionHandler {
-    @ExceptionHandler(CompilerException.class)
+    @ExceptionHandler
     public ResponseEntity<ApiResponse<?>> handleCompilerException(CompilerException exception) {
         log.debug("CompilerException = {}", exception.getMessage());
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(ApiResponse.createError(exception.getMessage()));

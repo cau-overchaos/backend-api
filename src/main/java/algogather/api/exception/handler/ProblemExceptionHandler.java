@@ -14,25 +14,25 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @Slf4j
 @RestControllerAdvice
 public class ProblemExceptionHandler {
-    @ExceptionHandler(DifficultyNotFoundException.class)
+    @ExceptionHandler
     public ResponseEntity<ApiResponse<?>> handleDifficultyNotFoundException(DifficultyNotFoundException exception) {
         log.debug("DifficultyNotFoundException = {}", exception.getMessage());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ApiResponse.createError(exception.getMessage()));
     }
 
-    @ExceptionHandler(NotSupportedProviderException.class)
+    @ExceptionHandler
     public ResponseEntity<ApiResponse<?>> handleNotSupportedProviderException(NotSupportedProviderException exception) {
         log.debug("NotSupportedProviderException = {}", exception.getMessage());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ApiResponse.createError(exception.getMessage()));
     }
 
-    @ExceptionHandler(ProblemNotFoundException.class)
+    @ExceptionHandler
     public ResponseEntity<ApiResponse<?>> handleProblemNotFoundException(ProblemNotFoundException exception) {
         log.debug("ProblemNotFoundException = {}", exception.getMessage());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ApiResponse.createError(exception.getMessage()));
     }
 
-    @ExceptionHandler(TagNotFoundException.class)
+    @ExceptionHandler
     public ResponseEntity<ApiResponse<?>> handleTagNotFoundException(TagNotFoundException exception) {
         log.debug("TagNotFoundException = {}", exception.getMessage());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ApiResponse.createError(exception.getMessage()));

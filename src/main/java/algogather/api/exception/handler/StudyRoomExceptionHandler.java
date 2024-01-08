@@ -13,49 +13,49 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @Slf4j
 @RestControllerAdvice
 public class StudyRoomExceptionHandler {
-    @ExceptionHandler(AlreadyExistingStudyRoomMemberException.class)
+    @ExceptionHandler
     public ResponseEntity<ApiResponse<?>> handleAlreadyExistingStudyRoomMemberException(AlreadyExistingStudyRoomMemberException exception) {
         log.debug("AlreadyExistingStudyRoomMemberException = {}", exception.getMessage());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ApiResponse.createError(exception.getMessage()));
     }
 
-    @ExceptionHandler(ChangeMyStudyRoomAuthorityException.class)
+    @ExceptionHandler
     public ResponseEntity<ApiResponse<?>> handleChangeMyStudyRoomAuthorityException(ChangeMyStudyRoomAuthorityException exception) {
         log.debug("ChangeMyStudyRoomAuthorityException = {}", exception.getMessage());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ApiResponse.createError(exception.getMessage()));
     }
 
-    @ExceptionHandler(DeleteManagerFromStudyRoomException.class)
+    @ExceptionHandler
     public ResponseEntity<ApiResponse<?>> handleDeleteManagerFromStudyRoomException(DeleteManagerFromStudyRoomException exception) {
         log.debug("DeleteManagerFromStudyRoomException = {}", exception.getMessage());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ApiResponse.createError(exception.getMessage()));
     }
 
-    @ExceptionHandler(DeleteMeFromStudyRoomException.class)
+    @ExceptionHandler
     public ResponseEntity<ApiResponse<?>> handleDeleteMeFromStudyRoomException(DeleteMeFromStudyRoomException exception) {
         log.debug("DeleteMeFromStudyRoomException = {}", exception.getMessage());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ApiResponse.createError(exception.getMessage()));
     }
 
-    @ExceptionHandler(NotStudyRoomManagerException.class)
+    @ExceptionHandler
     public ResponseEntity<ApiResponse<?>> handleNotStudyRoomManagerException(NotStudyRoomManagerException exception) {
         log.debug("NotStudyRoomManagerException = {}", exception.getMessage());
         return ResponseEntity.status(HttpStatus.FORBIDDEN).body(ApiResponse.createError(exception.getMessage()));
     }
 
-    @ExceptionHandler(NotStudyRoomMemberException.class)
+    @ExceptionHandler
     public ResponseEntity<ApiResponse<?>> handleNotStudyRoomMemberException(NotStudyRoomMemberException exception) {
         log.debug("NotStudyRoomMemberException = {}", exception.getMessage());
         return ResponseEntity.status(HttpStatus.FORBIDDEN).body(ApiResponse.createError(exception.getMessage()));
     }
 
-    @ExceptionHandler(StudyRoomNotFoundException.class)
+    @ExceptionHandler
     public ResponseEntity<ApiResponse<?>> handleStudyRoomNotFoundException(StudyRoomNotFoundException exception) {
         log.debug("StudyRoomNotFoundException = {}", exception.getMessage());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ApiResponse.createError(exception.getMessage()));
     }
 
-    @ExceptionHandler(AsyncException.class)
+    @ExceptionHandler
     public ResponseEntity<ApiResponse<?>> handleAsyncException(AsyncException exception) {
         log.debug("AsyncException = {}", exception.getMessage());
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(ApiResponse.createError(exception.getMessage()));

@@ -13,19 +13,19 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @Slf4j
 @RestControllerAdvice
 public class AuthExceptionHandler {
-    @ExceptionHandler(UserNotFoundException.class)
+    @ExceptionHandler
     public ResponseEntity<ApiResponse<?>> handleUserNotFoundException(UserNotFoundException exception) {
         log.debug("UserNotFoundException = {}", exception.getMessage());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ApiResponse.createError(exception.getMessage()));
     }
 
-    @ExceptionHandler(BadCredentialsException.class)
+    @ExceptionHandler
     public ResponseEntity<ApiResponse<?>> handleBadCredentialsException(BadCredentialsException exception) {
         log.debug("BadCredentialsException = {}", exception.getMessage());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ApiResponse.createError(exception.getMessage()));
     }
 
-    @ExceptionHandler(AlreadyExistingUserException.class)
+    @ExceptionHandler
     public ResponseEntity<ApiResponse<?>> handleAlreadyExistingUserException(AlreadyExistingUserException exception) {
         log.debug("AlreadyExistingUserException = {}", exception.getMessage());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ApiResponse.createError(exception.getMessage()));

@@ -13,13 +13,13 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @Slf4j
 @RestControllerAdvice
 public class NotificationExceptionHandler {
-    @ExceptionHandler(NotificationNotFoundException.class)
+    @ExceptionHandler
     public ResponseEntity<ApiResponse<?>> handleNotificationNotFoundException(NotificationNotFoundException exception) {
         log.debug("NotificationNotFoundException = {}", exception.getMessage());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ApiResponse.createError(exception.getMessage()));
     }
 
-    @ExceptionHandler(NotNotificationReaderException.class)
+    @ExceptionHandler
     public ResponseEntity<ApiResponse<?>> handleNotNotificationReaderException(NotNotificationReaderException exception) {
         log.debug("NotNotificationReaderException = {}", exception.getMessage());
         return ResponseEntity.status(HttpStatus.FORBIDDEN).body(ApiResponse.createError(exception.getMessage()));

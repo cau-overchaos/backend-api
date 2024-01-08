@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @Slf4j
 @RestControllerAdvice
 public class RecruitExceptionHandler {
-    @ExceptionHandler(RecruitPostNotFoundException.class)
+    @ExceptionHandler
     public ResponseEntity<ApiResponse<?>> handleRecruitPostNotFoundException(RecruitPostNotFoundException exception) {
         log.debug("RecruitPostNotFoundException = {}", exception.getMessage());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ApiResponse.createError(exception.getMessage()));
