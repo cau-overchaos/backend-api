@@ -38,6 +38,7 @@ import java.time.LocalDateTime;
 import java.util.*;
 
 import static algogather.api.domain.problem.ProblemProvider.BAEKJOON;
+import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasSize;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -511,10 +512,21 @@ class StudyRoomControllerTest {
     @WithUserDetails(value = "testUser", userDetailsServiceBeanName = "customUserDetailsService", setupBefore = TestExecutionEvent.TEST_EXECUTION)
     void create_studyroom_success() throws Exception {
         //given
+        Set<Long> programmingLanguaeList = new HashSet<>(Arrays.asList(1L));
+
+        ProgrammingLanguage testProgrammingLanguage = ProgrammingLanguage.builder()
+                .id(1L)
+                .name("testLanguageName")
+                .nickname("testLanguageNickName")
+                .build();
+
+        programmingLanguageRepository.save(testProgrammingLanguage);
+
         StudyRoomCreateForm studyRoomCreateForm = StudyRoomCreateForm
                 .builder()
                 .title("testStudyRoomTitle")
                 .description("testDescription")
+                .programmingLanguageList(programmingLanguaeList)
                 .studyRoomVisibility(StudyRoomVisibility.PRIVATE)
                 .maxUserCnt(25)
                 .build();
@@ -532,7 +544,10 @@ class StudyRoomControllerTest {
                 .andExpect(jsonPath("$.data.description").value("testDescription"))
                 .andExpect(jsonPath("$.data.studyRoomVisibility").value("PRIVATE"))
                 .andExpect(jsonPath("$.data.maxUserCnt").value(25))
-                .andExpect(jsonPath("$.data.managerUserId").value("testUser"));
+                .andExpect(jsonPath("$.data.originalManagerUserId").value("testUser"))
+                .andExpect(jsonPath("$.data.programmingLanguageListResponseDto.programmingLanguageResponseDtoList.length()", equalTo(1)))
+                .andExpect(jsonPath("$.data.programmingLanguageListResponseDto.programmingLanguageResponseDtoList[0].id").value(1L))
+                .andExpect(jsonPath("$.data.programmingLanguageListResponseDto.programmingLanguageResponseDtoList[0].name").value("testLanguageName"));
     }
 
     @Test
