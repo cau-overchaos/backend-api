@@ -1,6 +1,8 @@
 package algogather.api.controller.studyroom;
 
 import algogather.api.domain.problem.*;
+import algogather.api.domain.programminglanguage.ProgrammingLanguage;
+import algogather.api.domain.programminglanguage.ProgrammingLanguageRepository;
 import algogather.api.domain.studyroom.*;
 import algogather.api.domain.user.UserAdapter;
 import algogather.api.domain.user.UserRepository;
@@ -33,8 +35,7 @@ import org.springframework.test.web.servlet.ResultActions;
 import javax.transaction.Transactional;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 import static algogather.api.domain.problem.ProblemProvider.BAEKJOON;
 import static org.hamcrest.Matchers.hasSize;
@@ -63,6 +64,8 @@ class StudyRoomControllerTest {
     private ProblemRepository problemRepository;
     @Autowired
     private DifficultyRepository difficultyRepository;
+    @Autowired
+    private ProgrammingLanguageRepository programmingLanguageRepository;
     @BeforeEach
     void setTestUser() {
         User user = User.builder()
@@ -81,10 +84,21 @@ class StudyRoomControllerTest {
     @WithUserDetails(value = "testUser", userDetailsServiceBeanName = "customUserDetailsService", setupBefore = TestExecutionEvent.TEST_EXECUTION)
     void create_assignment_success() throws Exception {
         //given
+        Set<Long> programmingLanguaeList = new HashSet<>(Arrays.asList(1L));
+
+        ProgrammingLanguage testProgrammingLanguage = ProgrammingLanguage.builder()
+                .id(1L)
+                .name("testLanguageName")
+                .nickname("testLanguageNickName")
+                .build();
+
+        programmingLanguageRepository.save(testProgrammingLanguage);
+
         StudyRoomCreateForm studyRoomCreateForm = StudyRoomCreateForm
                 .builder()
                 .title("testStudyRoomTitle")
                 .description("testDescription")
+                .programmingLanguageList(programmingLanguaeList)
                 .studyRoomVisibility(StudyRoomVisibility.PRIVATE)
                 .maxUserCnt(25)
                 .build();
