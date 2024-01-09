@@ -415,10 +415,21 @@ class StudyRoomControllerTest {
     @WithUserDetails(value = "testUser", userDetailsServiceBeanName = "customUserDetailsService", setupBefore = TestExecutionEvent.TEST_EXECUTION)
     void create_assignment_not_existing_problem_fail() throws Exception {
         //given
+        Set<Long> programmingLanguaeList = new HashSet<>(Arrays.asList(1L));
+
+        ProgrammingLanguage testProgrammingLanguage = ProgrammingLanguage.builder()
+                .id(1L)
+                .name("testLanguageName")
+                .nickname("testLanguageNickName")
+                .build();
+
+        programmingLanguageRepository.save(testProgrammingLanguage);
+
         StudyRoomCreateForm studyRoomCreateForm = StudyRoomCreateForm
                 .builder()
                 .title("testStudyRoomTitle")
                 .description("testDescription")
+                .programmingLanguageList(programmingLanguaeList)
                 .studyRoomVisibility(StudyRoomVisibility.PRIVATE)
                 .maxUserCnt(25)
                 .build();
