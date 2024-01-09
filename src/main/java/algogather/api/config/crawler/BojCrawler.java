@@ -22,8 +22,7 @@ public class BojCrawler {
     private LocalDateTime getAcceptedDatesFrom(String url, LocalDateTime assignmentStartDate, LocalDateTime assignmentDueDate) throws IOException {
         Document doc = Jsoup.connect(url).userAgent("Mozilla/5.0 (compatible; Algogather-Bot/0.1; +https://github.com/cau-overchaos)").get();
         LocalDateTime resultLocalDateTime = null;
-
-
+        
         Elements rows = doc.body().select("#status-table tbody tr");
         for (Element i: rows) {
             Element timeElement = i.selectFirst("[data-timestamp]");
