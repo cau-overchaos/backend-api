@@ -22,14 +22,14 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
 
-import static algogather.api.config.init.initConst.SOLVED_AC_URL;
+import static algogather.api.config.init.InitConst.SOLVED_AC_URL;
 import static algogather.api.domain.problem.ProblemProvider.*;
 
 @Profile("dev")
 @RequiredArgsConstructor
 @Component
 @Slf4j
-public class initData {
+public class InitData {
     public final DifficultyRepository difficultyRepository;
     public final TagRepository tagRepository;
     private final ProblemRepository problemRepository;

@@ -22,7 +22,7 @@ import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 
-import static algogather.api.config.init.initConst.COMPILER_SERVER_URL;
+import static algogather.api.config.init.InitConst.COMPILER_SERVER_URL;
 
 @Service
 @RequiredArgsConstructor

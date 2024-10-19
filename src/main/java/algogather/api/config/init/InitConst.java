@@ -5,7 +5,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 
-public class initConst {
+public class InitConst {
     public final static String SOLVED_AC_URL = "https://solved.ac";
 
     public static String COMPILER_SERVER_URL; // 컴파일러 서버 주소

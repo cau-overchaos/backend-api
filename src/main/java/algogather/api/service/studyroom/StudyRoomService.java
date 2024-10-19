@@ -30,7 +30,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import static algogather.api.config.init.initConst.SOLVED_AC_URL;
+import static algogather.api.config.init.InitConst.SOLVED_AC_URL;
 
 @Service
 @RequiredArgsConstructor
