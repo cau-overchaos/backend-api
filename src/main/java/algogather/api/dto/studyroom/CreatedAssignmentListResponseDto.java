@@ -12,29 +12,30 @@ import java.util.stream.Collectors;
 @Getter
 public class CreatedAssignmentListResponseDto {
 
-    private List<CreatedAssignment> createdAssignmentList;
+    private final List<CreatedAssignment> createdAssignmentList;
 
     public CreatedAssignmentListResponseDto(List<AssignmentProblem> createdAssignmentList) {
         this.createdAssignmentList = createdAssignmentList.stream()
-                .map(createdAssignment -> new CreatedAssignment(createdAssignment)).collect(Collectors.toList());
+                .map(createdAssignment -> new CreatedAssignment(createdAssignment))
+                .collect(Collectors.toList());
     }
 
     @Getter
     static class CreatedAssignment {
         @Schema(description = "생성된 과제 고유번호")
-        private Long id;
+        private final Long id;
 
         @Schema(description = "생성된 문제 정보 (문제 출처, 해당 출처에서 문제 번호)")
-        private ProblemResponseDto problemResponseDto;
+        private final ProblemResponseDto problemResponseDto;
 
         @Schema(description = "생성된 과제와 연관된 스터디방 고유번호")
-        private Long studyRoomId;
+        private final Long studyRoomId;
 
         @Schema(description = "과제 시작 날짜")
-        private LocalDateTime startDate;
+        private final LocalDateTime startDate;
 
         @Schema(description = "과제 종료 날짜")
-        private LocalDateTime duetDate;
+        private final LocalDateTime duetDate;
 
         public CreatedAssignment(AssignmentProblem assignmentProblem) {
             this.id = assignmentProblem.getId();
