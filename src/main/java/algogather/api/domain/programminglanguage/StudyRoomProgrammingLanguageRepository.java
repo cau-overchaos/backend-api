@@ -14,5 +14,5 @@ public interface StudyRoomProgrammingLanguageRepository extends JpaRepository<St
             "WHERE srpl.studyRoom.id = :studyRoomId")
     List<ProgrammingLanguage> findProgrammingLanguagesByStudyRoomId(Long studyRoomId);
 
-    Optional<StudyRoomProgrammingLanguage> findByStudyRoomIdAndProgrammingLanguageId(Long studyRoomId, Long programmingLanugeId);
+    Optional<StudyRoomProgrammingLanguage> findByStudyRoomIdAndProgrammingLanguageId(Long studyRoomId, Long programmingLanguageId);
 }
