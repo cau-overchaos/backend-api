@@ -25,7 +25,7 @@ import javax.validation.Valid;
 public class RecruitController {
 
     private final RecruitService recruitService;
-    @Operation(summary = "스터디방 모집글 작성", description = "문제 작성 API입니다.")
+    @Operation(summary = "스터디방 모집글 작성", description = "스터디방 모집글 작성 API입니다.")
     @ApiResponses(value = {
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "성공"),
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "400", description = "실패", content = @Content(schema = @Schema(implementation = ApiResponse.class))),
