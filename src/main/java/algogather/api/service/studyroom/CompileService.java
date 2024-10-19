@@ -43,9 +43,6 @@ public class CompileService {
 
         ProgrammingLanguage programmingLanguage = programmingLanguageService.findById(compileSourceCodeRequestForm.getProgrammingLanguageId());
 
-        List<String> inputList = new ArrayList<>();
-        inputList.add(compileSourceCodeRequestForm.getInput());
-
         CompilerRequestDto compilerRequestDto = CompilerRequestDto.builder()
                 .language(programmingLanguage.getNickname())
                 .code(compileSourceCodeRequestForm.getSourceCodeText())
