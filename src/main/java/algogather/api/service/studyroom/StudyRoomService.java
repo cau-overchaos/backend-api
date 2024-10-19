@@ -133,7 +133,9 @@ public class StudyRoomService {
         StudyRoom studyRoom = findById(studyRoomId);
 
         List<User> managers = userStudyRoomRepository.findManagerByStudyRoomId(studyRoom.getId());
-        List<String> managerUserIds = managers.stream().map(manager -> manager.getUserId()).collect(Collectors.toList());
+        List<String> managerUserIds = managers.stream()
+                .map(manager -> manager.getUserId())
+                .collect(Collectors.toList());
 
         List<User> usersListByStudyRoomId = userStudyRoomRepository.findUserByStudyRoomId(studyRoom.getId());
 
