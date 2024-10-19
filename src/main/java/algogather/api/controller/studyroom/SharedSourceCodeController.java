@@ -102,7 +102,6 @@ public class SharedSourceCodeController {
         return ResponseEntity.status(HttpStatus.OK).body(ApiResponse.sucessWithDataAndMessage(feedbackListByLineNumberResponseDto, "피드백을 성공적으로 조회하였습니다."));
     }
 
-    //TODO 라인별로 피드백 개수 몇개 달려있는지 API 만들기
     @Operation(summary = "라인별 피드백 개수 API", description = "라인별 피드백 개수 API입니다.")
     @ApiResponses(value = {
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "성공"),
