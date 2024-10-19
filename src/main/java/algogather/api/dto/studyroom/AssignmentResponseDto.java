@@ -10,9 +10,10 @@ import java.util.stream.Collectors;
 @Getter
 public class AssignmentResponseDto {
 
-    private List<AssignmentInfo> assignmentInfoList;
+    private final List<AssignmentInfo> assignmentInfoList;
 
     public AssignmentResponseDto(List<AssignmentWithSolvedUserDto> assignmentWithSolvedUserDtoList){
+        // TODO: Refactoring, Law of Demeter 위반
         this.assignmentInfoList = assignmentWithSolvedUserDtoList.stream()
                 .map((assignmentWithSolvedUserDto) ->
                             new AssignmentInfo(
