@@ -38,7 +38,7 @@ public class AuthController {
         return ResponseEntity.status(HttpStatus.OK).body(ApiResponse.sucess("성공적으로 로그인 되었습니다!"));
     }
 
-    @Operation(summary = "회원가입", description = "회원가입 메서드입니다.")
+    @Operation(summary = "회원가입", description = "회원가입 API입니다.")
     @ApiResponses(value = {
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "성공"),
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "400", description = "실패", content = @Content(schema = @Schema(implementation = ApiResponse.class)))
