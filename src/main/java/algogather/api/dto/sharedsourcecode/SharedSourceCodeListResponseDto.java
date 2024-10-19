@@ -10,24 +10,25 @@ import java.util.stream.Collectors;
 @Getter
 public class SharedSourceCodeListResponseDto {
 
-    private List<SharedSourceCodeInfoDto> sharedSourceCodeInfoDtoList;
+    private final List<SharedSourceCodeInfoDto> sharedSourceCodeInfoDtoList;
 
     public SharedSourceCodeListResponseDto(List<SharedSourceCode> sharedSourceCodeList) {
         this.sharedSourceCodeInfoDtoList = sharedSourceCodeList.stream()
-                .map(SharedSourceCodeInfoDto::new).collect(Collectors.toList());
+                .map(SharedSourceCodeInfoDto::new)
+                .collect(Collectors.toList());
     }
 
     @Getter
     static class SharedSourceCodeInfoDto {
-        private Long sharedSourceCodeId;
-        private String sharedSourceCodeTitle;
-        private Long problemDifficultyLevel;
-        private String problemTitle;
-        private String writerUserId;
-        private String writerName;
-        private Long programmingLanguageId;
-        private String programmingLanguageName;
-        private LocalDateTime createdAt;
+        private final Long sharedSourceCodeId;
+        private final String sharedSourceCodeTitle;
+        private final Long problemDifficultyLevel;
+        private final String problemTitle;
+        private final String writerUserId;
+        private final String writerName;
+        private final Long programmingLanguageId;
+        private final String programmingLanguageName;
+        private final LocalDateTime createdAt;
 
         public SharedSourceCodeInfoDto(SharedSourceCode sourceCode) {
             this.sharedSourceCodeId = sourceCode.getId();
