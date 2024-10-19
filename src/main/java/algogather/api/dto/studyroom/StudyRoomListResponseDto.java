@@ -14,7 +14,8 @@ public class StudyRoomListResponseDto {
 
     public StudyRoomListResponseDto(List<StudyRoom> studyRoomList) {
         this.studyRoomList = studyRoomList.stream()
-                .map(studyRoom -> new StudyRoomDto(studyRoom)).collect(Collectors.toList());
+                .map(studyRoom -> new StudyRoomDto(studyRoom))
+                .collect(Collectors.toList());
     }
 
     @Getter
