@@ -149,8 +149,6 @@ public class FeedbackService {
 
         SharedSourceCode sharedSourceCode = sharedSourceCodeService.findById(studyRoom.getId(), sharedSourceCodeId, userAdapter);
 
-//        throwExceptionIfRequestLineNumberExceedTotalLineCount(lineNumber, sharedSourceCode); // 소스코드의 줄 수를 확인하고 lineNumber가 코드의 줄 수보다 작거나 같은지 검증한다.
-
         long sourceCodeTotalLineCount = getSourceCodeTotalLineCount(sharedSourceCode);
 
         List<CountFeedbackByLineResponseDto> countFeedbackByLineResponseDtoList = new ArrayList<>();
